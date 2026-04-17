@@ -562,15 +562,7 @@ function showGame(name,cat,src){
   document.getElementById('game-title-bar').textContent=name;
   document.getElementById('game-cat-bar').textContent=cat;
   // Load game via blob URL so raw GitHub renders correctly
-  fetch(BASE+src+'?cb='+Date.now())
-    .then(function(r){return r.text();})
-    .then(function(html){
-      var gameBase=BASE+src.substring(0,src.lastIndexOf('/')+1);
-      var injected=html.replace('<head>','<head><base href="'+gameBase+'">');
-      var blob=new Blob([injected],{type:'text/html'});
-      var blobUrl=URL.createObjectURL(blob);
-      document.getElementById('game-frame').src=blobUrl;
-    }).catch(function(e){console.error('Game load error:',e);});
+  document.getElementById('game-frame').src = BASE + src;
 }
 function hideGame(){
   document.getElementById('section-game').classList.remove('active');
