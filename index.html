@@ -82,14 +82,7 @@ input:focus+.input-icon{stroke:var(--accent);}
 .warn-text{font-size:12px;color:var(--text-muted);font-family:var(--mono);line-height:1.6;margin-bottom:1.25rem;}
 .warn-close{padding:7px 28px;background:var(--accent);color:#000;border:none;border-radius:20px;font-family:var(--sans);font-size:12px;font-weight:700;cursor:pointer;}
 
-.remember-row{display:flex;align-items:center;gap:10px;margin-bottom:1.1rem;}
-.remember-row input[type=checkbox]{display:none;}
-.remember-toggle{width:36px;height:20px;background:var(--surface3);border:1px solid var(--border2);border-radius:20px;cursor:pointer;position:relative;transition:background .2s,border-color .2s;flex-shrink:0;}
-.remember-toggle::after{content:'';position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#666;transition:transform .2s,background .2s;}
-.remember-row input:checked+.remember-toggle{background:var(--accent);border-color:var(--accent);}
-.remember-row input:checked+.remember-toggle::after{transform:translateX(16px);background:#000;}
-.remember-label{font-size:11px;font-family:var(--mono);color:var(--text-muted);cursor:pointer;user-select:none;transition:color .2s;}
-.remember-row input:checked~.remember-label{color:var(--text);}
+
 </style>
 </head>
 <body>
@@ -131,11 +124,6 @@ input:focus+.input-icon{stroke:var(--accent);}
         <svg id="eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
       </button>
     </div>
-  </div>
-  <div class="remember-row">
-    <input type="checkbox" id="remember-me">
-    <label class="remember-toggle" for="remember-me"></label>
-    <label class="remember-label" for="remember-me">Remember me</label>
   </div>
   <button class="btn" id="login-btn" type="button"><span class="btn-text">Sign In</span><div class="spinner"></div></button>
   <div class="divider">theme</div>
@@ -341,8 +329,7 @@ window.addEventListener('DOMContentLoaded',function(){
     var username=document.getElementById('username').value.trim().toLowerCase();
     var password=pwInput.value;
     if(!username||!password){showError('Please fill in all fields.');return;}
-    var remember=document.getElementById('remember-me').checked;
-    var persistence=remember?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;
+    var persistence=firebase.auth.Auth.Persistence.LOCAL;
     btn.classList.add('loading');btn.disabled=true;errorBox.classList.remove('show');lockedBox.classList.remove('show');
     try{
       var snap=await db.collection('users').where('username','==',username).limit(1).get();
@@ -351,11 +338,12 @@ window.addEventListener('DOMContentLoaded',function(){
       if(data.locked===true){btn.classList.remove('loading');btn.disabled=false;showLocked();return;}
       await auth.setPersistence(persistence);
       await auth.signInWithEmailAndPassword(data.email,password);
-      localStorage.setItem('srv2-role',data.role);localStorage.setItem('srv2-username',data.username);localStorage.setItem('srv2-uid',doc.id);
-      // Store session in localStorage so the new tab can pick it up
-      localStorage.setItem('srv2-handoff', JSON.stringify({role:data.role,username:data.username,uid:doc.id,ts:Date.now()}));
-      var target=data.role==='owner'?'https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/owner.html':data.role==='admin'?'https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html':'https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';
-      window.location.href=target;
+      localStorage.setItem('srv2-role',data.role);
+      localStorage.setItem('srv2-username',data.username);
+      localStorage.setItem('srv2-uid',doc.id);
+      var target=data.role==='owner'?'owner.html':data.role==='admin'?'admin.html':'home.html';
+      if(window.opener&&window.opener._loadPage){window.opener._loadPage(target);}
+      else{window.location.href=target;}
     }catch(err){
       btn.classList.remove('loading');btn.disabled=false;
       if(err.code==='auth/wrong-password'||err.code==='auth/invalid-credential')showError('Incorrect username or password.');
@@ -374,9 +362,9 @@ window.addEventListener('DOMContentLoaded',function(){
       /* Check localStorage first */
       var r=localStorage.getItem('srv2-role');
       if(r){
-        if(r==='owner')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/owner.html';
-        else if(r==='admin')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html';
-        else window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';
+        if(r==='owner'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('owner.html');}else{window.location.href='owner.html';}}
+        else if(r==='admin'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('admin.html');}else{window.location.href='admin.html';}}
+        else{if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';}}
         return;
       }
       /* localStorage empty (remembered login) - fetch role from Firestore */
@@ -387,9 +375,9 @@ window.addEventListener('DOMContentLoaded',function(){
         localStorage.setItem('srv2-role',data.role);
         localStorage.setItem('srv2-username',data.username);
         localStorage.setItem('srv2-uid',user.uid);
-        if(data.role==='owner')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/owner.html';
-        else if(data.role==='admin')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html';
-        else window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';
+        if(data.role==='owner'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('owner.html');}else{window.location.href='owner.html';}}
+        else if(data.role==='admin'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('admin.html');}else{window.location.href='admin.html';}}
+        else{if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';}}
       }).catch(function(){});
     }
   });

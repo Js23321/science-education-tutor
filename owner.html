@@ -470,7 +470,7 @@ window.addEventListener('DOMContentLoaded',function(){
       var data=snap.data();
       if(data.locked===true){var ov=document.getElementById('stop-overlay');ov.classList.add('active');ov.style.pointerEvents='all';}
       else document.getElementById('stop-overlay').classList.remove('active');
-    },function(){auth.signOut().then(function(){localStorage.clear();window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/index.html';});});
+    },function(){auth.signOut().then(function(){localStorage.clear();if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};});});
   }
 
   var _announceListening=false;
@@ -493,7 +493,7 @@ window.addEventListener('DOMContentLoaded',function(){
     document.getElementById('apps-fullscreen-btn').style.display=(s==='apps')?'flex':'none';
   };
   window.toggleAppsFullscreen=function(){var el=document.getElementById('section-apps');if(document.fullscreenElement){document.exitFullscreen();}else if(el.requestFullscreen){el.requestFullscreen();}else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}};
-  window.doLogout=function(){auth.signOut().then(function(){localStorage.clear();window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/index.html';});};
+  window.doLogout=function(){auth.signOut().then(function(){localStorage.clear();if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};});};
 
   var CATEGORIES=[{id:'action',name:'Action',icon:'aim',count:2},{id:'rhythm',name:'Rhythm',icon:'zap',count:2},{id:'platformer',name:'Platformer',icon:'activity',count:1}];
   var GAMES=[{id:'gd',name:'Geometry Dash',cat:'rhythm',img:'images/gdash.png'},{id:'sd',name:'Stickman Duels',cat:'action',img:'images/stickmanduel.jpg'},{id:'fnae',name:'FNAE',cat:'action',img:'images/stickmanduel.jpg'},{id:'ld',name:'Level Devil',cat:'platformer',img:'images/leveldevil.jpg'},{id:'bs',name:'Brawl Stars 3D',cat:'action',img:'images/brawlstars.jpg'},{id:'sw',name:'Space Waves',cat:'rhythm',img:'images/spacewaves.avif'},{id:'eaglercraft',name:'Eaglercraft 1.12',cat:'action',img:'images/stickmanduel.jpg'}];
@@ -563,9 +563,9 @@ window.addEventListener('DOMContentLoaded',function(){
 
   /* AUTH */
   auth.onAuthStateChanged(function(user){
-    if(!user){window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/index.html';return;}
+    if(!user){if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};return;}
     var role=localStorage.getItem('srv2-role'),uname=localStorage.getItem('srv2-username')||'owner';
-    if(role!=='owner'){window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';return;}
+    if(role!=='owner'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';};return;}
     document.getElementById('nav-username').textContent=uname;
     document.getElementById('nav-avatar').textContent=uname[0].toUpperCase();
     document.getElementById('hero-name').textContent=uname.charAt(0).toUpperCase()+uname.slice(1);

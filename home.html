@@ -638,11 +638,11 @@ window.addEventListener('DOMContentLoaded',function(){
     db.collection('users').doc(uid).onSnapshot(function(snap){
       if(!snap.exists)return;
       var data=snap.data();
-      if(role==='user'&&data.role==='admin'){localStorage.setItem('srv2-role','admin');window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html';return;}
-      if(role==='admin'&&data.role==='user'){localStorage.setItem('srv2-role','user');window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';return;}
+      if(role==='user'&&data.role==='admin'){localStorage.setItem('srv2-role','admin');if(window.opener&&window.opener._loadPage){window.opener._loadPage('admin.html');}else{window.location.href='admin.html';};return;}
+      if(role==='admin'&&data.role==='user'){localStorage.setItem('srv2-role','user');if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';};return;}
       if(data.locked===true){var ov=document.getElementById('stop-overlay');ov.classList.add('active');ov.style.pointerEvents='all';}
       else document.getElementById('stop-overlay').classList.remove('active');
-    },function(){auth.signOut().then(function(){localStorage.clear();window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/index.html';});});
+    },function(){auth.signOut().then(function(){localStorage.clear();if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};});});
   }
     var _announceListening=false;
   function loadAnnouncement(){
@@ -670,13 +670,13 @@ window.addEventListener('DOMContentLoaded',function(){
     else if(el.requestFullscreen){el.requestFullscreen();}
     else if(el.webkitRequestFullscreen){el.webkitRequestFullscreen();}
   };
-    window.doLogout=function(){auth.signOut().then(function(){localStorage.clear();window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/index.html';});};
+    window.doLogout=function(){auth.signOut().then(function(){localStorage.clear();if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};});};
     var CATEGORIES=[{id:'action',name:'Action',icon:'aim',count:2},{id:'rhythm',name:'Rhythm',icon:'zap',count:2},{id:'platformer',name:'Platformer',icon:'activity',count:1}];
   var GAMES=[{id:'gd',name:'Geometry Dash',cat:'rhythm',img:'images/gdash.png'},{id:'sd',name:'Stickman Duels',cat:'action',img:'images/stickmanduel.jpg'},{id:'fnae',name:'FNAE',cat:'action',img:'images/stickmanduel.jpg'},{id:'ld',name:'Level Devil',cat:'platformer',img:'images/leveldevil.jpg'},{id:'bs',name:'Brawl Stars 3D',cat:'action',img:'images/brawlstars.jpg'},{id:'sw',name:'Space Waves',cat:'rhythm',img:'images/spacewaves.avif'},{id:'eaglercraft',name:'Eaglercraft 1.12',cat:'action',img:'images/stickmanduel.jpg'}];
   var SVG_PATHS={zap:'<polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',aim:'<circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>',activity:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',map:'<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>',star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',start:'<polygon points="5 3 19 12 5 21 5 3"/>'};
   function icon(n){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(SVG_PATHS[n]||SVG_PATHS.star)+'</svg>';}
   function buildGameCard(g){var thumb=g.img?'<img src="'+g.img+'" alt="'+g.name+'" style="width:100%;height:100%;object-fit:cover;display:block;">':icon('play');return'<a class="lesson-card" href="#" data-game-id="'+g.id+'"><div class="lesson-thumb">'+thumb+'<div class="lesson-start-overlay"><div class="lesson-start-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div></div><div class="lesson-info"><div class="lesson-name">'+g.name+'</div><div class="lesson-cat">'+g.cat+'</div></div></a>';}
-  function attachGameClicks(c){c.querySelectorAll('.lesson-card').forEach(function(card){card.addEventListener('click',function(e){e.preventDefault();var g=GAMES.find(function(x){return x.id===card.dataset.gameId;});window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/lesson-template.html?name='+encodeURIComponent(g.name)+'&cat='+encodeURIComponent(g.cat)+'&src='+card.dataset.gameId+'/index.html';});});}
+  function attachGameClicks(c){c.querySelectorAll('.lesson-card').forEach(function(card){card.addEventListener('click',function(e){e.preventDefault();var g=GAMES.find(function(x){return x.id===card.dataset.gameId;});var p='lesson-template.html?name='+encodeURIComponent(g.name)+'&cat='+encodeURIComponent(g.cat)+'&src='+card.dataset.gameId+'/index.html';if(window.opener&&window.opener._loadPage){window.opener._loadPage(p);}else{window.location.href=p;}});});}
   function renderCategories(){var grid=document.getElementById('categories-grid'),html='';CATEGORIES.forEach(function(c){html+='<a class="cat-card" href="#" data-cat-id="'+c.id+'" data-cat-name="'+c.name+'"><div class="cat-icon">'+icon(c.icon)+'</div><div class="cat-name">'+c.name+'</div><div class="cat-count">'+c.count+' lessons</div></a>';});grid.innerHTML=html;grid.querySelectorAll('.cat-card').forEach(function(card){card.addEventListener('click',function(e){e.preventDefault();openCategory(card.dataset.catId,card.dataset.catName);});});}
   function renderQuickPlay(){var grid=document.getElementById('popular-lessons-grid'),html='';GAMES.slice(0,4).forEach(function(g){html+=buildGameCard(g);});grid.innerHTML=html;attachGameClicks(grid);}
   var _currentCatGames=[];
@@ -761,7 +761,7 @@ window.addEventListener('DOMContentLoaded',function(){
   
   
   auth.onAuthStateChanged(function(user){
-    if(!user){window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/index.html';return;}
+    if(!user){if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};return;}
     var role=localStorage.getItem('srv2-role'),uname=localStorage.getItem('srv2-username')||'home';
     
     document.getElementById('nav-username').textContent=uname;
