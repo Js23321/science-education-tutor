@@ -278,8 +278,22 @@ window.addEventListener('DOMContentLoaded',function(){
 
   /* Load game — src is relative to root, so prefix with ../../ workaround:
      lesson-template.html is at root, so gameSrc like "lessons/geometrydash/index.html" is correct */
-  var base = window._BASE || '';
-  document.getElementById('game-frame').src = (base + gameSrc) || 'index.html';
+var base = window._BASE || '';
+if(base && gameSrc) {
+    fetch(base + gameSrc + '?cb=' + Date.now())
+        .then(function(r){return r.text();})
+        .then(function(html){
+            var gameBase = base + gameSrc.substring(0, gameSrc.lastIndexOf('/') + 1);
+            var injected = html.replace('<head>', '<head><base href="' + gameBase + '">');
+            var frame = document.getElementById('game-frame');
+            frame.removeAttribute('src');
+            frame.contentDocument.open();
+            frame.contentDocument.write(injected);
+            frame.contentDocument.close();
+        });
+} else {
+    document.getElementById('game-frame').src = gameSrc || 'index.html';
+}
 
   /* AUTH */
   var _authResolved=false;
