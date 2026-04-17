@@ -259,7 +259,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);cursor:defau
 <script>
 window.addEventListener('DOMContentLoaded',function(){
   // Restore session from login handoff
-  (function(){var h=localStorage.getItem('srv2-handoff');if(h){try{var d=JSON.parse(h);if(Date.now()-d.ts<30000){sessionStorage.setItem('srv2-role',d.role);sessionStorage.setItem('srv2-username',d.username);sessionStorage.setItem('srv2-uid',d.uid);}localStorage.removeItem('srv2-handoff');}catch(e){localStorage.removeItem('srv2-handoff');}}})();
+  (function(){var h=localStorage.getItem('srv2-handoff');if(h){try{var d=JSON.parse(h);if(Date.now()-d.ts<30000){localStorage.setItem('srv2-role',d.role);localStorage.setItem('srv2-username',d.username);localStorage.setItem('srv2-uid',d.uid);}localStorage.removeItem('srv2-handoff');}catch(e){localStorage.removeItem('srv2-handoff');}}})();
   var cfg={apiKey:"AIzaSyAa-fN7WNj46UznXEOO0CsyKX8j8kCokhQ",authDomain:"science-revisions-v2.firebaseapp.com",projectId:"science-revisions-v2",storageBucket:"science-revisions-v2.firebasestorage.app",messagingSenderId:"950664248443",appId:"1:950664248443:web:8e57782d5b0ba7ff6cf6de",databaseURL:"https://science-revisions-v2-default-rtdb.asia-southeast1.firebasedatabase.app"};firebase.initializeApp(cfg);var auth=firebase.auth(),db=firebase.firestore();
   /* Apply saved theme */
   var savedTheme=localStorage.getItem('srv2-theme')||'bw';
@@ -286,7 +286,7 @@ window.addEventListener('DOMContentLoaded',function(){
     if(_authResolved)return;
     if(!user){
       // Firebase may briefly report null while restoring the session — wait before redirecting
-      setTimeout(function(){if(!firebase.auth().currentUser){window.location.href='login.html';}},2000);
+      setTimeout(function(){if(!firebase.auth().currentUser){if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};}},2000);
       return;
     }
     _authResolved=true;
@@ -295,7 +295,7 @@ window.addEventListener('DOMContentLoaded',function(){
   });
 
   function listenForLock(){
-    var uid=sessionStorage.getItem('srv2-uid');
+    var uid=localStorage.getItem('srv2-uid');
     if(!uid)return; // no Firestore doc ID means session wasn't set up via login — silently skip
     db.collection('users').doc(uid).onSnapshot(function(snap){
       if(!snap.exists)return; // doc missing — don't sign out, could be a transient read
@@ -306,10 +306,10 @@ window.addEventListener('DOMContentLoaded',function(){
 
   /* BACK - navigate to correct page based on role */
   document.getElementById('back-btn').addEventListener('click',function(){
-    var role=sessionStorage.getItem('srv2-role')||'user';
-    if(role==='owner')window.location.href='owner.html';
-    else if(role==='admin')window.location.href='admin.html';
-    else window.location.href='home.html';
+    var role=localStorage.getItem('srv2-role')||'user';
+    if(role==='owner'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('owner.html');}else{window.location.href='owner.html';}}
+    else if(role==='admin'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('admin.html');}else{window.location.href='admin.html';}}
+    else{if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';}}
   });
 
   /* FULLSCREEN - opens game fullscreen in new about:blank tab */
@@ -367,9 +367,9 @@ window.addEventListener('DOMContentLoaded',function(){
   /* LIVE CHAT */
   var _rtdb=firebase.database?firebase.database():null;
   var _chatOpen=false,_chatUnread=0,_chatRef=null;
-  var _chatRole=sessionStorage.getItem('srv2-role')||'user';
-  var _chatUser=sessionStorage.getItem('srv2-username')||'user';
-  var _chatUid=sessionStorage.getItem('srv2-uid')||'';
+  var _chatRole=localStorage.getItem('srv2-role')||'user';
+  var _chatUser=localStorage.getItem('srv2-username')||'user';
+  var _chatUid=localStorage.getItem('srv2-uid')||'';
   var _pendingDelKey=null;
 
   /* Show owner panel btn if owner */
