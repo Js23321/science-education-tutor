@@ -278,7 +278,8 @@ window.addEventListener('DOMContentLoaded',function(){
 
   /* Load game — src is relative to root, so prefix with ../../ workaround:
      lesson-template.html is at root, so gameSrc like "lessons/geometrydash/index.html" is correct */
-  document.getElementById('game-frame').src=gameSrc||'index.html';
+  var base = window._BASE || '';
+  document.getElementById('game-frame').src = (base + gameSrc) || 'index.html';
 
   /* AUTH */
   var _authResolved=false;
