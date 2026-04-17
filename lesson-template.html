@@ -268,7 +268,7 @@ window.addEventListener('DOMContentLoaded',function(){
   function toast(msg,dur){dur=dur||2200;var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},dur);}
 
   /* Read game info from URL params */
-  var params=new URLSearchParams(window.location.search);
+  var params=new URLSearchParams(window._QUERY||window.location.search);
   var gameName=params.get('name')||'Game';
   var gameCat=params.get('cat')||'arcade';
   var gameSrc=params.get('src')||'';
