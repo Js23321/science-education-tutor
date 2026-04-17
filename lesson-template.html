@@ -276,24 +276,23 @@ window.addEventListener('DOMContentLoaded',function(){
   document.getElementById('game-cat').textContent=gameCat;
   document.title=gameName+' — Science Revisions';
 
-  /* Load game — src is relative to root, so prefix with ../../ workaround:
-     lesson-template.html is at root, so gameSrc like "lessons/geometrydash/index.html" is correct */
-var base = window._BASE || '';
-if(base && gameSrc) {
+  /* Load game via fetch so raw GitHub renders properly */
+  var base = window._BASE || '';
+  if(base && gameSrc) {
     fetch(base + gameSrc + '?cb=' + Date.now())
-        .then(function(r){return r.text();})
-        .then(function(html){
-            var gameBase = base + gameSrc.substring(0, gameSrc.lastIndexOf('/') + 1);
-            var injected = html.replace('<head>', '<head><base href="' + gameBase + '">');
-            var frame = document.getElementById('game-frame');
-            frame.removeAttribute('src');
-            frame.contentDocument.open();
-            frame.contentDocument.write(injected);
-            frame.contentDocument.close();
-        });
-} else {
+      .then(function(r){return r.text();})
+      .then(function(html){
+        var gameBase = base + gameSrc.substring(0, gameSrc.lastIndexOf('/') + 1);
+        var injected = html.replace('<head>', '<head><base href="' + gameBase + '">');
+        var frame = document.getElementById('game-frame');
+        frame.removeAttribute('src');
+        frame.contentDocument.open();
+        frame.contentDocument.write(injected);
+        frame.contentDocument.close();
+      });
+  } else {
     document.getElementById('game-frame').src = gameSrc || 'index.html';
-}
+  }
 
   /* AUTH */
   var _authResolved=false;
@@ -301,7 +300,7 @@ if(base && gameSrc) {
     if(_authResolved)return;
     if(!user){
       // Firebase may briefly report null while restoring the session — wait before redirecting
-      setTimeout(function(){if(!firebase.auth().currentUser){if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};}},2000);
+      setTimeout(function(){if(!firebase.auth().currentUser){window.location.href='login.html';}},2000);
       return;
     }
     _authResolved=true;
@@ -322,9 +321,9 @@ if(base && gameSrc) {
   /* BACK - navigate to correct page based on role */
   document.getElementById('back-btn').addEventListener('click',function(){
     var role=localStorage.getItem('srv2-role')||'user';
-    if(role==='owner'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('owner.html');}else{window.location.href='owner.html';}}
-    else if(role==='admin'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('admin.html');}else{window.location.href='admin.html';}}
-    else{if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';}}
+    if(role==='owner')if(window.opener&&window.opener._loadPage){window.opener._loadPage('owner.html');}else{window.location.href='owner.html';};
+    else if(role==='admin')if(window.opener&&window.opener._loadPage){window.opener._loadPage('admin.html');}else{window.location.href='admin.html';};
+    else if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';};
   });
 
   /* FULLSCREEN - opens game fullscreen in new about:blank tab */
