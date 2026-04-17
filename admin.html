@@ -771,7 +771,15 @@ window.addEventListener('DOMContentLoaded',function(){
   function loadAdminUserList(){var list=document.getElementById('admin-user-list');list.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);">Loading...</div>';db.collection('users').where('role','==','user').orderBy('username').get().then(function(snap){if(snap.empty){list.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);">No users.</div>';return;}var html='';snap.docs.forEach(function(doc){var u=doc.data(),isLocked=u.locked===true;var sd=isLocked?'<span class="status-dot status-locked"></span>':'<span class="status-dot status-active"></span>';html+='<div class="user-row"><div class="user-row-avatar">'+(u.username||'?')[0].toUpperCase()+'</div><div class="user-row-info"><div class="user-row-name">'+sd+(u.username||'unknown')+' <span class="role-badge role-user">user</span></div><div class="user-row-status">'+(isLocked?'🔒 Stopped':'✅ Active')+'</div></div><div class="user-row-actions">';if(isLocked)html+='<button class="pill pill-success" data-uid="'+doc.id+'" data-action="unlock">Unlock</button>';else html+='<button class="pill pill-warn" data-uid="'+doc.id+'" data-uname="'+(u.username||'')+'" data-action="stop">Stop</button>';html+='<button class="pill pill-danger" data-uid="'+doc.id+'" data-uname="'+(u.username||'')+'" data-action="delete">Delete</button>';html+='</div></div>';});list.innerHTML=html;list.querySelectorAll('.pill[data-action]').forEach(function(btn){btn.addEventListener('click',function(){var uid=btn.dataset.uid,uname=btn.dataset.uname||'',action=btn.dataset.action;if(action==='unlock')db.collection('users').doc(uid).update({locked:false}).then(function(){toast('✅ '+uname+' unlocked.');loadAdminUserList();});if(action==='stop')db.collection('users').doc(uid).update({locked:true}).then(function(){toast('🛑 '+uname+' stopped.');loadAdminUserList();});if(action==='delete'){if(!confirm('Delete "'+uname+'"?'))return;db.collection('users').doc(uid).delete().then(function(){toast('🗑️ '+uname+' deleted.');loadAdminUserList();})}});});});}
   window.openPanel=function(id){document.getElementById(id).classList.add('open');if(id==='admin-panel')loadAdminUserList();};
   auth.onAuthStateChanged(function(user){
-    if(!user){if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};return;}
+    if(!user){
+      setTimeout(function(){
+        if(!firebase.auth().currentUser){
+          if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}
+          else{window.location.href='index.html';}
+        }
+      },2000);
+      return;
+    }
     var role=localStorage.getItem('srv2-role'),uname=localStorage.getItem('srv2-username')||'admin';
     if(role==='owner'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('owner.html');}else{window.location.href='owner.html';};return;}if(role==='user'){if(window.opener&&window.opener._loadPage){window.opener._loadPage('home.html');}else{window.location.href='home.html';};return;}
     document.getElementById('nav-username').textContent=uname;

@@ -761,7 +761,15 @@ window.addEventListener('DOMContentLoaded',function(){
   
   
   auth.onAuthStateChanged(function(user){
-    if(!user){if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}else{window.location.href='index.html';};return;}
+    if(!user){
+      setTimeout(function(){
+        if(!firebase.auth().currentUser){
+          if(window.opener&&window.opener._loadPage){window.opener._loadPage('index.html');}
+          else{window.location.href='index.html';}
+        }
+      },2000);
+      return;
+    }
     var role=localStorage.getItem('srv2-role'),uname=localStorage.getItem('srv2-username')||'home';
     
     document.getElementById('nav-username').textContent=uname;
