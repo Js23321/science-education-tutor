@@ -352,13 +352,10 @@ window.addEventListener('DOMContentLoaded',function(){
       await auth.setPersistence(persistence);
       await auth.signInWithEmailAndPassword(data.email,password);
       localStorage.setItem('srv2-role',data.role);localStorage.setItem('srv2-username',data.username);localStorage.setItem('srv2-uid',doc.id);
+      // Store session in localStorage so the new tab can pick it up
       localStorage.setItem('srv2-handoff', JSON.stringify({role:data.role,username:data.username,uid:doc.id,ts:Date.now()}));
-      var target=data.role==='owner'?'owner.html':data.role==='admin'?'admin.html':'home.html';
-      if(window.opener&&window.opener._loadPage){
-        window.opener._loadPage(target);
-      } else {
-        window.location.href=target;
-      }
+      var target=data.role==='owner'?'https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/owner.html':data.role==='admin'?'https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html':'https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';
+      window.location.href=target;
     }catch(err){
       btn.classList.remove('loading');btn.disabled=false;
       if(err.code==='auth/wrong-password'||err.code==='auth/invalid-credential')showError('Incorrect username or password.');
@@ -376,11 +373,10 @@ window.addEventListener('DOMContentLoaded',function(){
     if(user){
       /* Check localStorage first */
       var r=localStorage.getItem('srv2-role');
-      function _go(page){if(window.opener&&window.opener._loadPage){window.opener._loadPage(page);}else{window.location.href=page;}}
       if(r){
-        if(r==='owner')_go('owner.html');
-        else if(r==='admin')_go('admin.html');
-        else _go('home.html');
+        if(r==='owner')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/owner.html';
+        else if(r==='admin')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html';
+        else window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';
         return;
       }
       /* localStorage empty (remembered login) - fetch role from Firestore */
@@ -391,9 +387,9 @@ window.addEventListener('DOMContentLoaded',function(){
         localStorage.setItem('srv2-role',data.role);
         localStorage.setItem('srv2-username',data.username);
         localStorage.setItem('srv2-uid',user.uid);
-        if(data.role==='owner')_go('owner.html');
-        else if(data.role==='admin')_go('admin.html');
-        else _go('home.html');
+        if(data.role==='owner')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/owner.html';
+        else if(data.role==='admin')window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/admin.html';
+        else window.location.href='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/home.html';
       }).catch(function(){});
     }
   });
