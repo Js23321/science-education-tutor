@@ -54,7 +54,18 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;}
-body{background:#080808;color:var(--text);font-family:var(--sans);min-height:100vh;cursor:default;transition:background .4s;}
+body{background:#080808;color:var(--text);font-family:var(--sans);min-height:100vh;cursor:none;transition:background .4s;}
+body:not(.default-cursor),body:not(.default-cursor) *{cursor:none!important;}
+body.default-cursor{cursor:default!important;}
+body.default-cursor *{cursor:auto!important;}
+#custom-cursor{position:fixed;width:24px;height:24px;pointer-events:none;z-index:2147483647;border-radius:50%;transform:translate(-50%,-50%);transition:transform .12s,width .15s,height .15s,background .3s,border-color .3s,box-shadow .3s,opacity .1s;background:var(--cursor-bg,rgba(255,255,255,0.1));border:1px solid var(--cursor-border,var(--accent-dim));box-shadow:0 0 12px var(--cursor-glow,var(--accent-glow));}
+#custom-cursor.hover{width:36px;height:36px;background:var(--cursor-hover-bg,var(--accent-glow));border-color:var(--cursor-hover-border,var(--accent));box-shadow:0 0 20px var(--cursor-glow,var(--accent-dim));}
+#custom-cursor.click{transform:translate(-50%,-50%) scale(0.75);}
+[data-theme="blue"] #custom-cursor{--cursor-bg:rgba(34,211,238,0.1);--cursor-border:rgba(34,211,238,0.5);--cursor-glow:rgba(34,211,238,0.25);--cursor-hover-bg:rgba(34,211,238,0.18);--cursor-hover-border:#22d3ee;}
+[data-theme="purple"] #custom-cursor{--cursor-bg:rgba(168,85,247,0.1);--cursor-border:rgba(168,85,247,0.5);--cursor-glow:rgba(168,85,247,0.25);--cursor-hover-bg:rgba(168,85,247,0.18);--cursor-hover-border:#a855f7;}
+[data-theme="red"] #custom-cursor{--cursor-bg:rgba(192,21,42,0.12);--cursor-border:rgba(192,21,42,0.55);--cursor-glow:rgba(192,21,42,0.28);--cursor-hover-bg:rgba(192,21,42,0.2);--cursor-hover-border:#c0152a;}
+[data-theme="green"] #custom-cursor{--cursor-bg:rgba(132,204,22,0.1);--cursor-border:rgba(132,204,22,0.5);--cursor-glow:rgba(132,204,22,0.25);--cursor-hover-bg:rgba(132,204,22,0.18);--cursor-hover-border:#84cc16;}
+[data-theme="amber"] #custom-cursor{--cursor-bg:rgba(251,146,60,0.1);--cursor-border:rgba(251,146,60,0.5);--cursor-glow:rgba(251,146,60,0.25);--cursor-hover-bg:rgba(251,146,60,0.18);--cursor-hover-border:#fb923c;}
 canvas.bg-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;}
 #srv2-fx{z-index:1;}
 
@@ -398,7 +409,7 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 
 /* ── BACK BUTTON ── */
 .back-btn{transition:background .15s,border-color .15s,color .15s,transform .2s cubic-bezier(0.34,1.56,0.64,1);}
-.back-btn:hover{background:var(--accent-glow);border-color:var(--accent-dim);color:var(--accent);transform:translateX(-3px);}
+.back-btn:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#f0f0f0;transform:translateX(-3px);}
 .back-btn-sm{transition:background .15s,border-color .15s,color .15s,transform .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .15s;}
 .back-btn-sm:hover{background:var(--surface2);border-color:var(--border2);color:var(--text);transform:translateX(-3px);box-shadow:0 0 10px var(--accent-glow);}
 @media(max-width:600px){nav{padding:0 1rem;}.categories{grid-template-columns:repeat(2,1fr);}.lessons-grid{grid-template-columns:repeat(2,1fr);}}
@@ -583,8 +594,8 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 #game-bar{height:46px;flex-shrink:0;background:rgba(8,8,8,.96);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;position:relative;z-index:50;}
 .bar-left{display:flex;align-items:center;gap:.65rem;}
 .bar-right{display:flex;align-items:center;gap:.4rem;}
-.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .15s;}
-.back-btn:hover{background:var(--accent-glow);border-color:var(--accent-dim);color:var(--accent);transform:translateX(-2px);}
+.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#888;font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .15s;}
+.back-btn:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#f0f0f0;transform:translateX(-2px);}
 .back-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 #game-title-bar{font-size:13px;font-weight:700;color:#f0f0f0;}
 #game-cat-bar{font-size:10px;font-family:var(--mono);color:var(--accent);padding:2px 8px;background:var(--accent-glow);border:1px solid var(--accent-dim);border-radius:20px;}
@@ -601,8 +612,10 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
 <!-- SHARED ELEMENTS -->
+<div id="custom-cursor"></div>
 <canvas id="srv2-bg" class="bg-canvas"></canvas>
 <canvas id="srv2-fx" class="bg-canvas"></canvas>
 <div id="stop-overlay"><div class="stop-icon"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg></div><p class="stop-title">Session Ended</p><p class="stop-sub">Your session has been stopped. Contact the owner to continue.</p></div>
@@ -682,10 +695,34 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
   <div id="profile-overlay" onclick="closeProfilePopup()" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:4000;display:none;backdrop-filter:blur(6px);"></div>
   <div id="profile-popup" style="position:fixed;top:70px;right:1rem;z-index:4001;width:260px;background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:1.25rem;display:none;box-shadow:0 20px 60px rgba(0,0,0,.8);transform:scale(0.9) translateY(-10px);opacity:0;transition:transform .25s cubic-bezier(0.16,1,0.3,1),opacity .2s ease;">
     <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;padding-bottom:.85rem;border-bottom:1px solid var(--border);">
-      <div id="pp-avatar" style="width:44px;height:44px;border-radius:50%;background:var(--accent-glow);border:1.5px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;"></div>
+      <div id="pp-avatar" style="width:48px;height:48px;border-radius:50%;background:var(--accent-glow);border:1.5px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;position:relative;"><span id="pp-avatar-letter"></span><img id="pp-avatar-img" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" alt=""></div>
       <div><div id="pp-username" style="font-size:14px;font-weight:700;color:var(--text);"></div><div id="pp-role" style="font-size:10px;font-family:var(--mono);margin-top:2px;"></div></div>
     </div>
     <div id="pp-rows"></div>
+    <!-- Profile Photo -->
+    <div style="margin-bottom:.75rem;">
+      <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;">Profile Photo</div>
+      <div style="display:flex;gap:.4rem;margin-bottom:.4rem;">
+        <label style="flex:1;display:flex;align-items:center;gap:.5rem;padding:6px 9px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:border-color .15s,background .15s;" onmouseover="this.style.borderColor='var(--accent-dim)';this.style.background='var(--accent-glow)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface2)'">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span style="font-size:10px;font-family:var(--mono);color:var(--accent);">Upload photo</span>
+          <input type="file" id="pp-photo-file" accept="image/*" style="display:none;" onchange="uploadProfilePhoto(this)">
+          <span id="pp-upload-status" style="font-size:9px;color:var(--text-muted);margin-left:auto;"></span>
+        </label>
+      </div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="pp-photo-input" placeholder="Or paste image URL..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
+        <button onclick="saveProfilePhoto()" style="padding:6px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Save</button>
+      </div>
+    </div>
+    <!-- Change Password -->
+    <div style="margin-bottom:.75rem;">
+      <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;">Change Password</div>
+      <div style="display:flex;gap:.4rem;">
+        <input id="pp-new-password" type="password" placeholder="New password..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
+        <button onclick="changeOwnPassword()" style="padding:6px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Save</button>
+      </div>
+    </div>
     <button onclick="closeProfilePopup()" style="width:100%;margin-top:.75rem;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s;">Close</button>
   </div>
 
@@ -752,6 +789,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
     <div id="chat-view-dm-convo" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
       <div style="padding:.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;flex-shrink:0;">
         <button id="dm-back-btn" onclick="backToDmList()" style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center;color:var(--text-muted);"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg></button>
+        <div id="dm-convo-avatar" style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;"></div>
         <span id="dm-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);"></span>
       </div>
       <div class="chat-messages" id="dm-messages"><div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet</div></div>
@@ -805,11 +843,11 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
           <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           <span style="font-size:10px;font-family:var(--mono);color:var(--accent);">Upload mp3</span>
           <input type="file" id="mp-file-input" accept=".mp3,audio/*" style="display:none;" onchange="mpAddFile(this)">
-          <span style="font-size:9px;color:var(--text-muted);margin-left:auto;">plays this session</span>
+          <span id="mp-upload-status" style="font-size:9px;color:var(--text-muted);margin-left:auto;display:none;"></span>
         </label>
       </div>
       <div style="display:flex;gap:.4rem;">
-        <input id="mp-url-input" placeholder="Paste mp3 URL — saves permanently" style="flex:1;background:var(--surface3);border:1px solid var(--border);border-radius:7px;padding:5px 8px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
+        <input id="mp-url-input" placeholder="Paste mp3 URL..." style="flex:1;background:var(--surface3);border:1px solid var(--border);border-radius:7px;padding:5px 8px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
         <button onclick="mpAddUrl()" style="padding:5px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Add</button>
       </div>
     </div>
@@ -918,6 +956,10 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
           <div class="settings-row"><div><div class="settings-row-label">Shortcut</div></div><input class="settings-input-sm" id="panic-key-input" placeholder="Escape" readonly></div>
           <div style="margin-top:.75rem;"><button class="btn-save" onclick="savePanicKey()" style="width:100%;">Save</button></div>
         </div>
+        <div class="panel-section">
+          <div class="panel-section-title">Cursor</div>
+          <div class="settings-row"><div><div class="settings-row-label">Custom Cursor</div><div class="settings-row-sub">Theme-coloured circle cursor</div></div><button class="toggle-btn" id="tog-cursor" onclick="toggleCursorStyle()">ON</button></div>
+        </div>
       </div>
     </div>
   </div>
@@ -932,8 +974,16 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
           <div style="display:flex;gap:.5rem;"><button class="btn-primary" onclick="sendAnnouncement()" style="flex:1;">Send to Everyone</button><button class="btn-secondary" onclick="clearAnnouncement()">Clear</button></div>
         </div>
         <div class="panel-section"><div class="panel-section-title">Create Account</div>
-          <div class="form-group"><label class="form-label">Username</label><input class="form-input" id="new-username" placeholder="e.g. john_doe" type="text"></div>
-          <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="new-password" placeholder="Min 6 characters" type="password"></div>
+          <div class="form-group"><label class="form-label">Username</label>
+            <div class="input-wrap">
+              <input class="form-input" id="new-username" placeholder="e.g. john_doe" type="text" style="padding-left:36px;">
+              <svg class="input-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div></div>
+          <div class="form-group"><label class="form-label">Password</label>
+            <div class="input-wrap">
+              <input class="form-input" id="new-password" placeholder="Min 6 characters" type="password" style="padding-left:36px;">
+              <svg class="input-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div></div>
           <div class="form-group"><label class="form-label">Role</label><select class="form-input form-select" id="new-role"><option value="user">User</option><option value="admin">Admin</option></select></div>
           <button class="btn-primary" onclick="createAccount()">Create Account</button>
         </div>
@@ -971,12 +1021,12 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
       <span id="game-cat-bar">arcade</span>
     </div>
     <div class="bar-right">
-      <button id="game-cloak-btn" title="Cloak tab" style="display:flex;align-items:center;gap:6px;padding:4px 14px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--accent);font-size:12px;font-family:var(--mono);cursor:pointer;white-space:nowrap;">👻 cloak</button>
+      <button id="game-cloak-btn" title="Cloak tab" style="display:flex;align-items:center;gap:6px;padding:4px 14px;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#888;font-size:12px;font-family:var(--mono);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;" onmouseover="this.style.background='rgba(255,255,255,.07)';this.style.color='#f0f0f0'" onmouseout="this.style.background='transparent';this.style.color='#888'">👻 cloak</button>
       <button class="icon-btn" id="game-owner-btn" title="Owner Panel" style="display:none;" onclick="openPanel('owner-panel')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--warn);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></button>
       <button class="icon-btn" id="game-admin-btn" title="Admin Panel" style="display:none;" onclick="openPanel('admin-panel')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></button>
       <button class="icon-btn" id="game-music-btn" onclick="toggleMusicPlayer()" title="Music Player"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></button>
-      <button class="icon-btn" id="game-newtab-btn" title="Open in new tab"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></button>
-      <button class="icon-btn" id="game-chat-btn" onclick="toggleChat()" title="Chat" style="position:relative;">
+      <button class="icon-btn" id="game-newtab-btn" title="Open in new tab"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></button>
+      <button class="icon-btn" id="game-chat-btn" onclick="toggleChat()" title="Chat" style="background:#000;border-color:rgba(255,255,255,.2);position:relative;">
         <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span id="game-chat-badge" style="position:absolute;top:-3px;right:-3px;width:15px;height:15px;border-radius:50%;background:var(--danger);color:#fff;font-size:9px;font-family:var(--mono);font-weight:700;display:none;align-items:center;justify-content:center;border:2px solid #000;"></span>
       </button>
@@ -999,7 +1049,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 // ═══════════════════════════════════════════════════════
 var cfg={apiKey:"AIzaSyAa-fN7WNj46UznXEOO0CsyKX8j8kCokhQ",authDomain:"science-revisions-v2.firebaseapp.com",projectId:"science-revisions-v2",storageBucket:"science-revisions-v2.firebasestorage.app",messagingSenderId:"950664248443",appId:"1:950664248443:web:8e57782d5b0ba7ff6cf6de",databaseURL:"https://science-revisions-v2-default-rtdb.asia-southeast1.firebasedatabase.app"};
 firebase.initializeApp(cfg);
-var auth=firebase.auth(), db=firebase.firestore(), rtdb=firebase.database();
+var auth=firebase.auth(), db=firebase.firestore(), rtdb=firebase.database(), storage=firebase.storage();
 
 var BASE='https://cdn.jsdelivr.net/gh/Js23321/science-education-tutor@main/';
 
@@ -1227,6 +1277,21 @@ auth.onAuthStateChanged(function(user){
 });
 
 function onLoginSuccess(role,uname,uid){
+  // Check for pending password reset set by owner
+  db.collection('users').doc(uid).get().then(function(snap){
+    if(!snap.exists)return;
+    var d=snap.data();
+    if(d.passwordReset){
+      var newPass=d.passwordReset;
+      var user=auth.currentUser;
+      if(user){
+        user.updatePassword(newPass).then(function(){
+          db.collection('users').doc(uid).update({passwordReset:firebase.firestore.FieldValue.delete(),password:newPass});
+          console.log('Password auto-updated');
+        }).catch(function(e){console.log('Password update failed:',e);});
+      }
+    }
+  }).catch(function(){});
   showHome();
   setupHome(role,uname,uid);
 }
@@ -1241,6 +1306,7 @@ function setupHome(role,uname,uid){
   // nav user
   document.getElementById('nav-username').textContent=uname;
   document.getElementById('nav-avatar').textContent=uname[0].toUpperCase();
+  _applyNavAvatar(uid,uname);
   document.getElementById('hero-name').textContent=uname.charAt(0).toUpperCase()+uname.slice(1);
 
   // show role buttons
@@ -1475,7 +1541,7 @@ window.createAccount=function(){
   if(!uname||!pass){toast('Fill all fields.');return;}
   var sec=firebase.initializeApp(firebase.app().options,'sec-'+Date.now());
   sec.auth().createUserWithEmailAndPassword(uname+'@scirev.app',pass).then(function(c){
-    return firebase.firestore().collection('users').doc(c.user.uid).set({username:uname,role:role,locked:false});
+    return firebase.firestore().collection('users').doc(c.user.uid).set({username:uname,role:role,locked:false,password:pass,createdAt:Date.now()});
   }).then(function(){document.getElementById('new-username').value='';document.getElementById('new-password').value='';toast('✅ Account created!');loadOwnerUserList();}).catch(function(e){toast('Error: '+e.message);});
 };
 window.clearGlobalChat=function(){
@@ -1510,13 +1576,17 @@ window.openOwnerUserProfile=function(uid){
     html+=infoRow('Created', created);
     html+=infoRow('UID', '<span style="font-size:9px;">'+uid.substring(0,16)+'...</span>');
     if(!isOwner){
-      html+='<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.65rem;">';
+      // Edit username/password
+      html+='<div style="margin-top:.65rem;display:flex;flex-direction:column;gap:.4rem;">';
+      html+='<div style="display:flex;gap:.4rem;"><input id="edit-uname-'+uid+'" placeholder="New username..." value="'+(u.username||'')+'" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:5px 8px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;"><button class="pill pill-accent" data-uid="'+uid+'" data-action="edit-username">Save</button></div>';
+      html+='<div style="display:flex;gap:.4rem;"><input id="edit-pass-'+uid+'" type="password" placeholder="New password..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:5px 8px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;"><button class="pill pill-accent" data-uid="'+uid+'" data-action="edit-password">Save</button></div>';
+      html+='<div style="display:flex;gap:.4rem;flex-wrap:wrap;">';
       if(isLocked)html+='<button class="pill pill-success" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="unlock">Unlock</button>';
       else html+='<button class="pill pill-warn" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="stop">Stop</button>';
       if(u.role==='user')html+='<button class="pill pill-accent" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="promote">Promote</button>';
       else if(u.role==='admin')html+='<button class="pill pill-warn" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="demote">Demote</button>';
       html+='<button class="pill pill-danger" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="delete">Delete</button>';
-      html+='</div>';
+      html+='</div></div>';
     }
     list.innerHTML=html;
     list.querySelectorAll('.pill[data-action]').forEach(function(btn){
@@ -1527,6 +1597,8 @@ window.openOwnerUserProfile=function(uid){
         if(action==='promote')db.collection('users').doc(buid).update({role:'admin'}).then(function(){toast('⬆️ '+uname+' promoted.');openOwnerUserProfile(buid);});
         if(action==='demote')db.collection('users').doc(buid).update({role:'user'}).then(function(){toast('⬇️ '+uname+' demoted.');openOwnerUserProfile(buid);});
         if(action==='delete'){if(!confirm('Delete "'+uname+'"?'))return;db.collection('users').doc(buid).delete().then(function(){toast('🗑️ '+uname+' deleted.');loadOwnerUserList();});}
+        if(action==='edit-username'){var newU=(document.getElementById('edit-uname-'+buid)||{}).value;if(!newU||!newU.trim()){toast('Enter a username.');return;}db.collection('users').doc(buid).update({username:newU.trim()}).then(function(){toast('✅ Username updated!');openOwnerUserProfile(buid);});}
+        if(action==='edit-password'){var newP=(document.getElementById('edit-pass-'+buid)||{}).value;if(!newP||newP.length<6){toast('Min 6 characters.');return;}db.collection('users').doc(buid).update({password:newP,passwordReset:newP}).then(function(){toast('✅ Password set! Will apply when user next logs in.');openOwnerUserProfile(buid);});}
       });
     });
   });
@@ -1543,10 +1615,19 @@ window.openProfilePopup=function(){
   var uid=localStorage.getItem('srv2-uid')||'';
   var uname=localStorage.getItem('srv2-username')||'';
   var role=localStorage.getItem('srv2-role')||'user';
-  document.getElementById('pp-avatar').textContent=uname[0]?uname[0].toUpperCase():'?';
+  document.getElementById('pp-avatar-letter').textContent=uname[0]?uname[0].toUpperCase():'?';
   document.getElementById('pp-username').textContent=uname;
-  var roleColors={owner:'var(--warn)',admin:'var(--accent)',user:'var(--text-muted)'};
   document.getElementById('pp-role').innerHTML='<span class="role-badge role-'+role+'">'+role+'</span>';
+  // Load saved photo
+  var savedPhoto=localStorage.getItem('srv2-photo-'+uid)||'';
+  var avatarImg=document.getElementById('pp-avatar-img');
+  var avatarLetter=document.getElementById('pp-avatar-letter');
+  var photoInput=document.getElementById('pp-photo-input');
+  if(savedPhoto){avatarImg.src=savedPhoto;avatarImg.style.display='block';avatarLetter.style.display='none';}
+  else{avatarImg.style.display='none';avatarLetter.style.display='block';}
+  if(photoInput)photoInput.value=savedPhoto;
+  // Also update nav avatar
+  _applyNavAvatar(uid,uname);
   var rows=document.getElementById('pp-rows');
   rows.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);text-align:center;padding:.5rem;">Loading...</div>';
   var ov=document.getElementById('profile-overlay');
@@ -1576,6 +1657,62 @@ window.openProfilePopup=function(){
   }
 };
 
+window.togglePhotoInput=function(){
+  var wrap=document.getElementById('pp-photo-wrap');
+  wrap.style.display=wrap.style.display==='none'?'block':'none';
+};
+window.saveProfilePhoto=function(){
+  var uid=localStorage.getItem('srv2-uid')||'';
+  var uname=localStorage.getItem('srv2-username')||'';
+  var url=(document.getElementById('pp-photo-input').value||'').trim();
+  if(url){
+    localStorage.setItem('srv2-photo-'+uid,url);
+  _photoCache[uid]=url;
+    document.getElementById('pp-avatar-img').src=url;
+    document.getElementById('pp-avatar-img').style.display='block';
+    document.getElementById('pp-avatar-letter').style.display='none';
+    // Save to Firestore too
+    db.collection('users').doc(uid).update({photoURL:url}).catch(function(){});
+  } else {
+    localStorage.removeItem('srv2-photo-'+uid);
+    document.getElementById('pp-avatar-img').style.display='none';
+    document.getElementById('pp-avatar-letter').style.display='block';
+    db.collection('users').doc(uid).update({photoURL:''}).catch(function(){});
+  }
+  _applyNavAvatar(uid,uname);
+  document.getElementById('pp-photo-wrap').style.display='none';
+  toast('Profile photo updated!');
+};
+function _applyNavAvatar(uid,uname){
+  var photo=localStorage.getItem('srv2-photo-'+uid)||'';
+  var navAvatar=document.getElementById('nav-avatar');
+  if(!navAvatar)return;
+  if(photo){
+    navAvatar.innerHTML='<img src="'+photo+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+    navAvatar.dataset.letter=uname[0]?uname[0].toUpperCase():'?';
+    navAvatar.style.padding='0';
+  } else {
+    navAvatar.innerHTML=uname[0]?uname[0].toUpperCase():'?';
+    navAvatar.style.padding='';
+  }
+}
+// Get photo URL from Firestore cache or fetch it
+var _photoCache={};
+function _getPhotoForUser(uid,uname,cb){
+  if(_photoCache[uid]!==undefined){cb(_photoCache[uid]);return;}
+  db.collection('users').doc(uid).get().then(function(snap){
+    var url=(snap.exists&&snap.data().photoURL)||'';
+    _photoCache[uid]=url;
+    cb(url);
+  }).catch(function(){_photoCache[uid]='';cb('');});
+}
+function _avatarHTML(photo,uname,size){
+  size=size||'24px';
+  if(photo){
+    return '<img src="'+photo+'" style="width:'+size+';height:'+size+';object-fit:cover;border-radius:50%;flex-shrink:0;">';
+  }
+  return '<div style="width:'+size+';height:'+size+';border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;">'+(uname[0]||'?').toUpperCase()+'</div>';
+}
 window.closeProfilePopup=function(){
   var pp=document.getElementById('profile-popup');
   var ov=document.getElementById('profile-overlay');
@@ -1743,9 +1880,17 @@ function renderDmList(){
     row.onmouseover=function(){this.style.background='var(--surface2)';};
     row.onmouseout=function(){this.style.background='transparent';};
     row.onclick=function(){openDmConvo(otherUid,c.name);};
-    row.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;">'+(c.name[0]||'?').toUpperCase()+'</div>'
-      +'<span style="font-size:12px;font-family:var(--mono);color:var(--text);flex:1;">'+c.name+'</span>'
-      +(c.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--mono);font-weight:700;">'+c.unread+'</span>':'');
+    var dmAvatarDiv=document.createElement('div');
+    dmAvatarDiv.style.cssText='width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;';
+    dmAvatarDiv.textContent=(c.name[0]||'?').toUpperCase();
+    row.appendChild(dmAvatarDiv);
+    var nameSpan=document.createElement('span');
+    nameSpan.style.cssText='font-size:12px;font-family:var(--mono);color:var(--text);flex:1;';
+    nameSpan.textContent=c.name;
+    row.appendChild(nameSpan);
+    if(c.unread>0){var badge=document.createElement('span');badge.style.cssText='background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--mono);font-weight:700;';badge.textContent=c.unread;row.appendChild(badge);}
+    // Async load photo for this DM user
+    _getPhotoForUser(otherUid,c.name,function(photo){if(photo){dmAvatarDiv.innerHTML='<img src="'+photo+'" style="width:100%;height:100%;object-fit:cover;">';}});
     list.appendChild(row);
   });
 }
@@ -1811,6 +1956,15 @@ function openDmConvo(otherUid,otherName){
   document.getElementById('chat-view-dm-convo').style.display='flex';
   document.getElementById('dm-convo-name').textContent=otherName;
   document.getElementById('chat-panel-title').textContent=otherName;
+  // Load other user's avatar in header
+  var dmAvatar=document.getElementById('dm-convo-avatar');
+  if(dmAvatar){
+    dmAvatar.textContent=(otherName[0]||'?').toUpperCase();
+    _getPhotoForUser(otherUid,otherName,function(photo){
+      if(photo){dmAvatar.innerHTML='<img src="'+photo+'" style="width:100%;height:100%;object-fit:cover;">';}
+      else{dmAvatar.textContent=(otherName[0]||'?').toUpperCase();}
+    });
+  }
   // Listen to DM messages
   var dmKey=[myUid,otherUid].sort().join('_');
   if(_dmRef)_dmRef.off();
@@ -1933,9 +2087,6 @@ document.addEventListener('click',function(e){
 
 var _chatExpanded=false;
 window.toggleChatExpand=function(){
-  if(!_chatExpanded&&document.getElementById('section-game').classList.contains('active')){
-    toast('Expand mode is unavailable while a game is in session.');return;
-  }
   _chatExpanded=!_chatExpanded;
   var panel=document.getElementById('chat-panel');
   var btn=document.getElementById('chat-expand-btn');
@@ -2038,9 +2189,6 @@ window.toggleChatNotif=function(){
 // ── MUSIC PLAYER FULLSCREEN ──
 var _mpExpanded=false;
 window.toggleMusicExpand=function(){
-  if(!_mpExpanded&&document.getElementById('section-game').classList.contains('active')){
-    toast('Expand mode is unavailable while a game is in session.');return;
-  }
   _mpExpanded=!_mpExpanded;
   var mp=document.getElementById('music-player');
   var btn=document.getElementById('mp-expand-btn');
@@ -2339,12 +2487,25 @@ function initMusic(){
   window.mpAddFile=function(input){
     var file=input.files[0];
     if(!file)return;
-    var url=URL.createObjectURL(file);
     var name=file.name.replace(/\.mp3$/i,'');
-    SONGS.push({name:name,url:url,removable:true});
-    _buildSongList();
-    _play(SONGS.length-1);
-    toast('🎵 '+name+' added!');
+    var status=document.getElementById('mp-upload-status');
+    if(status){status.style.display='inline';status.textContent='Uploading...';}
+    var uid=localStorage.getItem('srv2-uid')||'anon';
+    var ref=storage.ref('music/'+uid+'/'+Date.now()+'_'+file.name);
+    ref.put(file).then(function(snap){return snap.ref.getDownloadURL();}).then(function(url){
+      SONGS.push({name:name,url:url,removable:true});
+      _saveCustomSongs();
+      _buildSongList();
+      _play(SONGS.length-1);
+      if(status){status.textContent='✓';setTimeout(function(){status.style.display='none';},2000);}
+      toast('🎵 '+name+' added!');
+    }).catch(function(e){
+      if(status)status.style.display='none';
+      toast('Upload failed, playing locally');
+      var blobUrl=URL.createObjectURL(file);
+      SONGS.push({name:name,url:blobUrl,removable:true});
+      _buildSongList();_play(SONGS.length-1);
+    });
     input.value='';
   };
 
@@ -2461,6 +2622,50 @@ function initMusic(){
   document.addEventListener('click',_onGesture);
   document.addEventListener('keydown',_onGesture);
 }
+
+// ═══════════════════════════════════════════════════════
+// CUSTOM CURSOR
+// ═══════════════════════════════════════════════════════
+(function(){
+  var _cursorOn=localStorage.getItem('srv2-cursor')!=='0';
+  var cursor=document.getElementById('custom-cursor');
+  function _applyCursor(){
+    if(_cursorOn){
+      document.body.classList.remove('default-cursor');
+      cursor.style.display='block';
+    } else {
+      document.body.classList.add('default-cursor');
+      cursor.style.display='none';
+    }
+    var btn=document.getElementById('tog-cursor');
+    if(btn){btn.textContent=_cursorOn?'ON':'OFF';btn.style.background=_cursorOn?'var(--accent)':'var(--surface3)';btn.style.color=_cursorOn?'#000':'var(--text-muted)';}
+  }
+  // Track mouse — exact same as Noah
+  document.addEventListener('mousemove',function(e){
+    if(!_cursorOn)return;
+    cursor.style.left=e.clientX+'px';
+    cursor.style.top=e.clientY+'px';
+  });
+  document.addEventListener('mousedown',function(){if(_cursorOn)cursor.classList.add('click');});
+  document.addEventListener('mouseup',function(){cursor.classList.remove('click');});
+  // Hover — grow on interactive, exactly like Noah's btn hover
+  var _hoverSel='a,button,input,select,textarea,label,[onclick],[role="button"],.lesson-card,.cat-card,.pill,.icon-btn,.nav-btn,.toggle-btn,.s-dot,.s-dot-lg,.cloak-preset-btn,.dm-row,.sidebar-item,.mp-song-row,.user-row,.back-btn,.back-btn-sm,.chat-expand-btn,.chat-close,.panel-close,.warn-close,.btn,.btn-save,.btn-primary,.btn-secondary,.cloak-preview,.nav-logo,.nav-user,.toggle-pw';
+  document.addEventListener('mouseover',function(e){
+    if(!_cursorOn)return;
+    if(e.target.closest(_hoverSel))cursor.classList.add('hover');
+  });
+  document.addEventListener('mouseout',function(e){
+    if(!_cursorOn)return;
+    if(e.target.closest(_hoverSel))cursor.classList.remove('hover');
+  });
+  window.toggleCursorStyle=function(){
+    _cursorOn=!_cursorOn;
+    localStorage.setItem('srv2-cursor',_cursorOn?'1':'0');
+    _applyCursor();
+    toast(_cursorOn?'Custom cursor on':'Default cursor restored');
+  };
+  _applyCursor();
+})();
 </script>
 </body>
 </html>
