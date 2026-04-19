@@ -591,6 +591,16 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 .del-btn-cancel{flex:1;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:11px;cursor:pointer;font-family:var(--mono);}
 .del-btn-confirm{flex:1;padding:7px;background:var(--danger);border:none;border-radius:7px;color:#fff;font-size:11px;cursor:pointer;font-family:var(--mono);font-weight:700;}
 /* ── GAME BAR ── */
+/* ── HOME LOADING OVERLAY ── */
+#home-loader{position:fixed;inset:0;z-index:9990;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;transition:opacity .5s ease,visibility .5s ease;}
+#home-loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.home-loader-spinner{width:40px;height:40px;border-radius:50%;border:2px solid var(--border2);border-top-color:var(--accent);animation:spin .7s linear infinite;}
+.home-loader-text{font-size:11px;font-family:var(--mono);color:var(--text-muted);letter-spacing:.08em;}
+.home-loader-logo{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:.25rem;}
+/* Skeleton shimmer for cards while loading */
+.lesson-card.skeleton .lesson-thumb{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;}
+.lesson-card.skeleton .lesson-name,.lesson-card.skeleton .lesson-cat{background:var(--surface3);border-radius:4px;color:transparent;animation:shimmer 1.4s infinite;background-size:200% 100%;background-image:linear-gradient(90deg,var(--surface2) 25%,var(--surface3) 50%,var(--surface2) 75%);}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 #game-bar{height:46px;flex-shrink:0;background:rgba(8,8,8,.96);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;position:relative;z-index:50;}
 .bar-left{display:flex;align-items:center;gap:.65rem;}
 .bar-right{display:flex;align-items:center;gap:.4rem;}
@@ -671,6 +681,12 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 
 <!-- ═══ HOME SECTION ═══ -->
 <div id="section-home">
+  <!-- HOME LOADING OVERLAY -->
+  <div id="home-loader">
+    <div class="home-loader-logo">Science Revisions</div>
+    <div class="home-loader-spinner"></div>
+    <div class="home-loader-text" id="home-loader-text">Loading...</div>
+  </div>
   <nav>
     <a class="nav-logo" href="#" onclick="return false;"><div class="nav-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div><span class="nav-logo-text">Science Revisions</span></a>
     <div class="nav-links">
@@ -1066,7 +1082,17 @@ function showHome(){
   document.getElementById('section-login').style.display='none';
   document.getElementById('section-home').style.display='block';
   document.getElementById('section-game').classList.remove('active');
+  // Show loader
+  var loader=document.getElementById('home-loader');
+  if(loader){loader.classList.remove('hidden');}
   initBgEngine();
+}
+function hideHomeLoader(){
+  var loader=document.getElementById('home-loader');
+  if(!loader)return;
+  var txt=document.getElementById('home-loader-text');
+  if(txt)txt.textContent='Ready!';
+  setTimeout(function(){loader.classList.add('hidden');},300);
 }
 var _currentGameUrl='';
 function showGame(name,cat,src,url){
@@ -1158,6 +1184,7 @@ function applyTheme(t){
   if(t==='bw')document.body.removeAttribute('data-theme');else document.body.dataset.theme=t;
   document.body.style.background=BG_C[t]||BG_C.bw;
   localStorage.setItem('srv2-theme',t);
+  saveSettingsToFirestore();
 }
 document.querySelectorAll('.s-dot').forEach(function(d){d.addEventListener('click',function(e){e.stopPropagation();applyTheme(d.dataset.t);});});
 document.querySelectorAll('.s-dot-lg').forEach(function(d){d.addEventListener('click',function(e){e.stopPropagation();applyTheme(d.dataset.t);});});
@@ -1189,9 +1216,9 @@ function initBgEngine(){
   _resize();_bgLoop();
   window.setBgShapes=function(v){_shapesOn=v;localStorage.setItem('srv2-shapes',v?'1':'0');};
   window.setBgDots=function(v){_dotsOn=v;localStorage.setItem('srv2-dots',v?'1':'0');};
-  window.setBgRepel=function(v){_repelDist=parseInt(v);localStorage.setItem('srv2-repel',v);};
+  window.setBgRepel=function(v){_repelDist=parseInt(v);localStorage.setItem('srv2-repel',v);saveSettingsToFirestore();};
   var _bgToggles={shapes:_shapesOn,dots:_dotsOn};
-  window.toggleBgSetting=function(k){_bgToggles[k]=!_bgToggles[k];if(k==='shapes')setBgShapes(_bgToggles[k]);else setBgDots(_bgToggles[k]);var b=document.getElementById('tog-'+k);if(b){b.textContent=_bgToggles[k]?'ON':'OFF';b.style.background=_bgToggles[k]?'var(--accent)':'var(--surface3)';b.style.color=_bgToggles[k]?'#000':'var(--text-muted)';}toast(_bgToggles[k]?k+' on':k+' off');};
+  window.toggleBgSetting=function(k){_bgToggles[k]=!_bgToggles[k];if(k==='shapes')setBgShapes(_bgToggles[k]);else setBgDots(_bgToggles[k]);var b=document.getElementById('tog-'+k);if(b){b.textContent=_bgToggles[k]?'ON':'OFF';b.style.background=_bgToggles[k]?'var(--accent)':'var(--surface3)';b.style.color=_bgToggles[k]?'#000':'var(--text-muted)';}saveSettingsToFirestore();toast(_bgToggles[k]?k+' on':k+' off');};
   var rs=document.getElementById('repel-slider');if(rs)rs.value=_repelDist;
   var rv=document.getElementById('repel-val');if(rv)rv.textContent=_repelDist;
 }
@@ -1301,9 +1328,101 @@ function onLoginSuccess(role,uname,uid){
 // HOME SETUP
 // ═══════════════════════════════════════════════════════
 var _homeSetup=false;
+
+// ═══════════════════════════════════════════════════════
+// SETTINGS SYNC (Firestore ↔ localStorage)
+// ═══════════════════════════════════════════════════════
+var _settingsSaveTimer=null;
+var _settingsUid=null;
+
+var SETTINGS_DEFAULTS={
+  theme:'bw',
+  textFont:'geist',
+  textColor:'white',
+  shapes:true,
+  dots:true,
+  repel:110,
+  cloakTitle:'',
+  cloakUrl:'',
+  cloakIcon:'',
+  panicKey:'Escape',
+  cursor:true,
+  notifMuted:false
+};
+
+function _settingsToLocal(s){
+  if(s.theme)localStorage.setItem('srv2-theme',s.theme);
+  if(s.textFont)localStorage.setItem('srv2-text-font',s.textFont);
+  if(s.textColor)localStorage.setItem('srv2-text-color',s.textColor);
+  localStorage.setItem('srv2-shapes',s.shapes===false?'0':'1');
+  localStorage.setItem('srv2-dots',s.dots===false?'0':'1');
+  if(s.repel!=null)localStorage.setItem('srv2-repel',s.repel);
+  if(s.cloakTitle)localStorage.setItem('srv2-cloak-title',s.cloakTitle);
+  if(s.cloakUrl)localStorage.setItem('srv2-cloak-url',s.cloakUrl);
+  if(s.cloakIcon)localStorage.setItem('srv2-cloak-icon',s.cloakIcon);
+  if(s.panicKey)localStorage.setItem('srv2-panic-key',s.panicKey);
+  localStorage.setItem('srv2-cursor',s.cursor===false?'0':'1');
+  localStorage.setItem('srv2-notif-muted',s.notifMuted?'1':'0');
+}
+
+function _localToSettings(){
+  return {
+    theme:localStorage.getItem('srv2-theme')||'bw',
+    textFont:localStorage.getItem('srv2-text-font')||'geist',
+    textColor:localStorage.getItem('srv2-text-color')||'white',
+    shapes:localStorage.getItem('srv2-shapes')!=='0',
+    dots:localStorage.getItem('srv2-dots')!=='0',
+    repel:parseInt(localStorage.getItem('srv2-repel')||'110'),
+    cloakTitle:localStorage.getItem('srv2-cloak-title')||'',
+    cloakUrl:localStorage.getItem('srv2-cloak-url')||'',
+    cloakIcon:localStorage.getItem('srv2-cloak-icon')||'',
+    panicKey:localStorage.getItem('srv2-panic-key')||'Escape',
+    cursor:localStorage.getItem('srv2-cursor')!=='0',
+    notifMuted:localStorage.getItem('srv2-notif-muted')==='1'
+  };
+}
+
+/* Load settings from Firestore on login, apply them, then init home */
+function loadAndApplySettings(uid, cb){
+  _settingsUid=uid;
+  db.collection('users').doc(uid).get().then(function(snap){
+    if(snap.exists&&snap.data().settings){
+      var s=snap.data().settings;
+      _settingsToLocal(s);
+    }
+    cb();
+  }).catch(function(){
+    // Firestore failed - use localStorage defaults
+    cb();
+  });
+}
+
+/* Debounced save - waits 600ms after last change before writing */
+function saveSettingsToFirestore(){
+  if(!_settingsUid)return;
+  if(_settingsSaveTimer)clearTimeout(_settingsSaveTimer);
+  _settingsSaveTimer=setTimeout(function(){
+    var s=_localToSettings();
+    db.collection('users').doc(_settingsUid).update({settings:s}).catch(function(){
+      // silently fail - localStorage still has it
+    });
+  },600);
+}
+
 function setupHome(role,uname,uid){
   if(_homeSetup)return; _homeSetup=true;
   _mpOpen=false;
+  _settingsUid=uid;
+
+  // Load settings from Firestore first, then init everything
+  var _lt=document.getElementById('home-loader-text');
+  if(_lt)_lt.textContent='Loading settings...';
+  loadAndApplySettings(uid, function(){
+    if(_lt)_lt.textContent='Setting up...';
+    _setupHomeInner(role,uname,uid);
+  });
+}
+function _setupHomeInner(role,uname,uid){
 
   // nav user
   document.getElementById('nav-username').textContent=uname;
@@ -1319,7 +1438,7 @@ function setupHome(role,uname,uid){
   db.collection('users').get().then(function(snap){document.getElementById('stat-users').textContent=snap.size;});
 
   // listen for lock
-  db.collection('users').doc(uid).onSnapshot(function(snap){
+  _unsubLock=db.collection('users').doc(uid).onSnapshot(function(snap){
     if(!snap.exists)return;
     var d=snap.data();
     if(d.locked===true){var ov=document.getElementById('stop-overlay');ov.classList.add('active');ov.style.pointerEvents='all';}
@@ -1327,7 +1446,7 @@ function setupHome(role,uname,uid){
   });
 
   // announcement
-  db.collection('settings').doc('announcement').onSnapshot(function(snap){
+  _unsubAnnounce=db.collection('settings').doc('announcement').onSnapshot(function(snap){
     var bar=document.getElementById('announcement-bar'),txt=document.getElementById('announcement-text');
     if(snap.exists&&snap.data().text&&snap.data().text.trim()!==''){txt.textContent=snap.data().text;bar.classList.add('show');}
     else bar.classList.remove('show');
@@ -1354,6 +1473,29 @@ function setupHome(role,uname,uid){
 
   // music
   initMusic();
+
+  // Hide loader once everything is ready
+  // Wait for images to load or max 1.5s
+  var _loaderImages=document.querySelectorAll('.lesson-thumb img');
+  var _loaderText=document.getElementById('home-loader-text');
+  if(_loaderText)_loaderText.textContent='Loading games...';
+  if(_loaderImages.length===0){
+    hideHomeLoader();
+  } else {
+    var _loaded=0;var _total=_loaderImages.length;
+    var _loaderDone=false;
+    function _checkLoaded(){
+      if(_loaderDone)return;
+      _loaded++;
+      if(_loaded>=_total){_loaderDone=true;hideHomeLoader();}
+    }
+    _loaderImages.forEach(function(img){
+      if(img.complete){_checkLoaded();}
+      else{img.addEventListener('load',_checkLoaded);img.addEventListener('error',_checkLoaded);}
+    });
+    // Fallback — hide after 1.5s regardless
+    setTimeout(function(){if(!_loaderDone){_loaderDone=true;hideHomeLoader();}},1500);
+  }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1361,16 +1503,39 @@ function setupHome(role,uname,uid){
 // ═══════════════════════════════════════════════════════
 window.doLogout=function(){
   auth.signOut().then(function(){
+    // Stop music + typewriter before anything
+    stopMusicAndTypewriter();
+    // Reset loader state for next login
+    var loader=document.getElementById('home-loader');
+    if(loader)loader.classList.remove('hidden');
+    // Unsubscribe all Firestore listeners
+    if(_unsubLock){_unsubLock();_unsubLock=null;}
+    if(_unsubAnnounce){_unsubAnnounce();_unsubAnnounce=null;}
+    // Turn off RTDB chat listener
+    if(_chatRef){_chatRef.off();_chatRef=null;}
+    if(_dmRef){_dmRef.off();_dmRef=null;}
+    // Turn off DM list listener
+    var myUid=localStorage.getItem('srv2-uid');
+    if(myUid){try{rtdb.ref('dms/'+myUid).off();}catch(e){}}
+    _settingsUid=null;
+    if(_settingsSaveTimer){clearTimeout(_settingsSaveTimer);_settingsSaveTimer=null;}
     localStorage.clear();
     _homeSetup=false;
+    _mpOpen=false;
+    _chatOpen=false;
+    _chatUnread=0;
+    _dmConvos={};
+    _currentDmUid=null;
     var btn=document.getElementById('login-btn');
     if(btn){btn.classList.remove('loading');btn.disabled=false;}
-    // Stop music
     var mp=document.getElementById('music-player');
-    if(mp)mp.style.display='none';
-    _mpOpen=false;
-    _homeSetup=false;
-    try{var allAudio=document.querySelectorAll('audio');allAudio.forEach(function(a){a.pause();a.src='';a.load();});}catch(e){}
+    if(mp){mp.style.display='none';}
+    // Reset chat panel
+    var cp=document.getElementById('chat-panel');
+    if(cp){cp.classList.remove('open');cp.style.display='none';}
+    // Reset song list UI
+    var sl=document.getElementById('mp-song-list');
+    if(sl)sl.innerHTML='';
     showLogin();
   });
 };
@@ -1550,9 +1715,16 @@ window.createAccount=function(){
   var uname=document.getElementById('new-username').value.trim(),pass=document.getElementById('new-password').value,role=document.getElementById('new-role').value;
   if(!uname||!pass){toast('Fill all fields.');return;}
   var sec=firebase.initializeApp(firebase.app().options,'sec-'+Date.now());
-  sec.auth().createUserWithEmailAndPassword(uname+'@scirev.app',pass).then(function(c){
-    return firebase.firestore().collection('users').doc(c.user.uid).set({username:uname,role:role,locked:false,password:pass,createdAt:Date.now()});
-  }).then(function(){document.getElementById('new-username').value='';document.getElementById('new-password').value='';toast('✅ Account created!');loadOwnerUserList();}).catch(function(e){toast('Error: '+e.message);});
+  sec.auth().createUserWithEmailAndPassword(uname+'@scirev.app',pass).then(function(cred){
+    return firebase.firestore().collection('users').doc(cred.user.uid).set({username:uname,role:role,locked:false,password:pass,createdAt:Date.now()});
+  }).then(function(){
+    sec.delete();
+    document.getElementById('new-username').value='';document.getElementById('new-password').value='';
+    toast('✅ Account created!');loadOwnerUserList();
+  }).catch(function(e){
+    sec.delete().catch(function(){});
+    toast('Error: '+e.message);
+  });
 };
 window.clearGlobalChat=function(){
   if(!confirm('Clear all global chat messages? This cannot be undone.'))return;
@@ -1802,6 +1974,7 @@ function loadAdminUserList(){
 // CHAT + DMs
 // ═══════════════════════════════════════════════════════
 var _chatOpen=false,_chatUnread=0,_chatRef=null,_pendingDelKey=null,_pendingDelIsDm=false;
+var _unsubLock=null,_unsubAnnounce=null;
 var _currentTab='global';
 var _currentDmUid=null,_currentDmName=null,_dmRef=null,_dmUnsubscribe=null;
 var _dmConvos={}; // uid -> {name, unread}
@@ -2185,6 +2358,7 @@ function _playNotifSound(){
 window.toggleChatNotif=function(){
   _notifMuted=!_notifMuted;
   localStorage.setItem('srv2-notif-muted',_notifMuted?'1':'0');
+  saveSettingsToFirestore();
   ['chat-notif-btn','chat-notif-btn-fs'].forEach(function(id){
     var btn=document.getElementById(id);
     if(btn){
@@ -2309,6 +2483,7 @@ function initCloak(){
     localStorage.setItem('srv2-cloak-title',t);
     localStorage.setItem('srv2-cloak-url',u);
     localStorage.setItem('srv2-cloak-icon',ic);
+    saveSettingsToFirestore();
     document.title=t;
     var lnk=document.getElementById('favicon');
     if(!lnk){lnk=document.createElement('link');lnk.id='favicon';lnk.rel='icon';document.head.appendChild(lnk);}
@@ -2333,13 +2508,14 @@ function initCloak(){
     var lnk=document.getElementById('favicon');
     if(!lnk){lnk=document.createElement('link');lnk.id='favicon';lnk.rel='icon';document.head.appendChild(lnk);}
     lnk.href=p.icon||'about:blank';
+    saveSettingsToFirestore();
     toast('Preset applied!');
   };
   document.getElementById('home-cloak-btn').addEventListener('click',doCloak);
   var panicInput=document.getElementById('panic-key-input');
   panicInput.value=localStorage.getItem('srv2-panic-key')||'Escape';
   panicInput.addEventListener('keydown',function(e){e.preventDefault();this.value=e.key;});
-  window.savePanicKey=function(){localStorage.setItem('srv2-panic-key',panicInput.value);toast('Panic key: "'+panicInput.value+'"');};
+  window.savePanicKey=function(){localStorage.setItem('srv2-panic-key',panicInput.value);saveSettingsToFirestore();toast('Panic key: "'+panicInput.value+'"');};
   document.addEventListener('keydown',function(e){var pk=localStorage.getItem('srv2-panic-key')||'Escape';if(e.key===pk)doCloak();});
 }
 
@@ -2349,8 +2525,8 @@ function initCloak(){
 function initTextCustom(){
   var TEXT_COLORS={white:'#f0f0f0',soft:'#cccccc',muted:'#aaaaaa',warm:'#f0ece0',cool:'#d0e8f0'};
   var TEXT_FONTS={geist:"'Geist Sans','Geist',sans-serif",grotesk:"'Space Grotesk',sans-serif",syne:"'Syne',sans-serif",mono:"'Space Mono',monospace",sans:"'Inter',sans-serif",serif:"Georgia,serif"};
-  function applyTextColor(c){document.documentElement.style.setProperty('--text',TEXT_COLORS[c]||TEXT_COLORS.white);localStorage.setItem('srv2-text-color',c);document.querySelectorAll('.tc-dot').forEach(function(d){d.classList.toggle('active',d.dataset.c===c);});}
-  function applyTextFont(f){document.documentElement.style.setProperty('--sans',TEXT_FONTS[f]||TEXT_FONTS.syne);localStorage.setItem('srv2-text-font',f);document.querySelectorAll('.tf-btn').forEach(function(b){b.style.background=b.dataset.f===f?'var(--accent)':'var(--surface2)';b.style.color=b.dataset.f===f?'#000':'var(--text-muted)';b.style.borderColor=b.dataset.f===f?'var(--accent)':'var(--border)';});}
+  function applyTextColor(c){document.documentElement.style.setProperty('--text',TEXT_COLORS[c]||TEXT_COLORS.white);localStorage.setItem('srv2-text-color',c);saveSettingsToFirestore();document.querySelectorAll('.tc-dot').forEach(function(d){d.classList.toggle('active',d.dataset.c===c);});}
+  function applyTextFont(f){document.documentElement.style.setProperty('--sans',TEXT_FONTS[f]||TEXT_FONTS.syne);localStorage.setItem('srv2-text-font',f);saveSettingsToFirestore();document.querySelectorAll('.tf-btn').forEach(function(b){b.style.background=b.dataset.f===f?'var(--accent)':'var(--surface2)';b.style.color=b.dataset.f===f?'#000':'var(--text-muted)';b.style.borderColor=b.dataset.f===f?'var(--accent)':'var(--border)';});}
   document.querySelectorAll('.tc-dot').forEach(function(d){d.addEventListener('click',function(){applyTextColor(d.dataset.c);});});
   document.querySelectorAll('.tf-btn').forEach(function(b){b.addEventListener('click',function(){applyTextFont(b.dataset.f);});});
   applyTextColor(localStorage.getItem('srv2-text-color')||'white');
@@ -2361,6 +2537,8 @@ function initTextCustom(){
 // TYPEWRITER
 // ═══════════════════════════════════════════════════════
 function startTypewriter(){
+  // Clear any existing typewriter
+  if(_twTimeout){clearTimeout(_twTimeout);_twTimeout=null;}
   var QUOTES=["I just hit the jackpot!","Dont give up just focus and make it to friday","Start learning now!","No risk, no reward.","Luck or skill? Let's find out.","Don't quit now—you're this close!","You miss 100% of the shots you don't take.","Hey Alexa, how do you say purple in english?","W speed","BOMBOCLATTTTTTTTTTTT","RAHHHHHHHHHHHHHHHHHH!","Are you done.","That was not tuff","postive+positive=SUPER POSITIVE"];
   var el=document.getElementById('typewriter-quote');
   if(!el)return;
@@ -2370,10 +2548,11 @@ function startTypewriter(){
   style.textContent='#typewriter-quote::after{content:"|";animation:blink .7s step-end infinite;margin-left:1px;}@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}';
   document.head.appendChild(style);
   function tick(){
+    if(!document.getElementById('typewriter-quote')||!document.getElementById('section-home')||document.getElementById('section-home').style.display==='none')return;
     var q=QUOTES[qi];
-    if(pause>0){pause--;setTimeout(tick,50);return;}
-    if(!deleting){ci++;el.textContent=q.slice(0,ci);if(ci===q.length){pause=40;setTimeout(function(){deleting=true;tick();},50);return;}setTimeout(tick,55);}
-    else{ci--;el.textContent=q.slice(0,ci);if(ci===0){deleting=false;qi=(qi+1)%QUOTES.length;pause=12;setTimeout(tick,50);return;}setTimeout(tick,28);}
+    if(pause>0){pause--;_twTimeout=setTimeout(tick,50);return;}
+    if(!deleting){ci++;el.textContent=q.slice(0,ci);if(ci===q.length){pause=40;_twTimeout=setTimeout(function(){deleting=true;tick();},50);return;}_twTimeout=setTimeout(tick,55);}
+    else{ci--;el.textContent=q.slice(0,ci);if(ci===0){deleting=false;qi=(qi+1)%QUOTES.length;pause=12;_twTimeout=setTimeout(tick,50);return;}_twTimeout=setTimeout(tick,28);}
   }
   setTimeout(tick,600);
 }
@@ -2382,6 +2561,23 @@ function startTypewriter(){
 // MUSIC
 // ═══════════════════════════════════════════════════════
 var _mpOpen=false;
+var _globalAudio=null;
+var _globalMusicStarted=false;
+var _twInterval=null;
+var _twTimeout=null;
+function stopMusicAndTypewriter(){
+  // Stop audio
+  if(_globalAudio){
+    try{_globalAudio.pause();_globalAudio.src='';_globalAudio.load();}catch(e){}
+    _globalAudio=null;
+  }
+  _globalMusicStarted=false;
+  // Stop typewriter
+  if(_twInterval){clearInterval(_twInterval);_twInterval=null;}
+  if(_twTimeout){clearTimeout(_twTimeout);_twTimeout=null;}
+  var el=document.getElementById('typewriter-quote');
+  if(el)el.textContent='';
+}
 function initMusic(){
   var BASE_SONGS=[
     'Alone, Pt. II','Am i wrong remix','Beauty And A Beat - Slowed + Reverb',
@@ -2396,6 +2592,9 @@ function initMusic(){
   var MUSIC_URL='https://tutor.realwealthwithgrayson.com/music/';
   var SONGS=BASE_SONGS.map(function(n){return{name:n,url:MUSIC_URL+encodeURIComponent(n)+'.mp3'};});
   var _idx=0,_audio=null,_started=false,_playing=false,_seeking=false;
+  _globalAudio=null;_globalMusicStarted=false;
+  var _savedVol=parseInt(localStorage.getItem('srv2-vol')||'35');
+  setTimeout(function(){var vs=document.getElementById('mp-vol');if(vs)vs.value=_savedVol;},100);
   var _muted=localStorage.getItem('srv2-muted')==='1';
 
   function _fmt(s){if(isNaN(s))return'0:00';var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
@@ -2424,7 +2623,9 @@ function initMusic(){
     if(idx!==undefined)_idx=idx;
     if(!_audio){
       _audio=new Audio();
-      _audio.volume=0.35;
+      _globalAudio=_audio;
+      _globalMusicStarted=true;
+      _audio.volume=_savedVol/100;
       _audio.addEventListener('ended',function(){_idx=(_idx+1)%SONGS.length;_play();});
       _audio.addEventListener('timeupdate',function(){
         if(_seeking)return;
@@ -2565,7 +2766,7 @@ function initMusic(){
     });
   }
 
-  function _start(){if(_started)return;_started=true;_play();}
+  function _start(){if(_started)return;_started=true;_globalMusicStarted=true;_play();}
 
   window.toggleMusicPlayer=function(){
     _mpOpen=!_mpOpen;
@@ -2608,7 +2809,7 @@ function initMusic(){
   // Seek bar - attach after player is built via event delegation
   document.addEventListener('input',function(e){
     if(e.target.id==='mp-seek'){if(_audio&&_audio.duration){_audio.currentTime=(_audio.duration*e.target.value/100);}}
-    if(e.target.id==='mp-vol'){if(_audio){_audio.volume=e.target.value/100;}}
+    if(e.target.id==='mp-vol'){if(_audio){_audio.volume=e.target.value/100;}localStorage.setItem('srv2-vol',e.target.value);}
   });
   // Prevent timeupdate from snapping seek bar while user is dragging
   document.addEventListener('mousedown',function(e){if(e.target.id==='mp-seek')_seeking=true;});
@@ -2672,6 +2873,7 @@ function initMusic(){
     _cursorOn=!_cursorOn;
     localStorage.setItem('srv2-cursor',_cursorOn?'1':'0');
     _applyCursor();
+    saveSettingsToFirestore();
     toast(_cursorOn?'Custom cursor on':'Default cursor restored');
   };
   _applyCursor();
