@@ -1362,6 +1362,8 @@ window.doLogout=function(){
   auth.signOut().then(function(){
     localStorage.clear();
     _homeSetup=false;
+    var btn=document.getElementById('login-btn');
+    if(btn){btn.classList.remove('loading');btn.disabled=false;}
     showLogin();
   });
 };
