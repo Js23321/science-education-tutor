@@ -1715,8 +1715,9 @@ window.createAccount=function(){
   var uname=document.getElementById('new-username').value.trim(),pass=document.getElementById('new-password').value,role=document.getElementById('new-role').value;
   if(!uname||!pass){toast('Fill all fields.');return;}
   var sec=firebase.initializeApp(firebase.app().options,'sec-'+Date.now());
-  sec.auth().createUserWithEmailAndPassword(uname+'@scirev.app',pass).then(function(cred){
-    return firebase.firestore().collection('users').doc(cred.user.uid).set({username:uname,role:role,locked:false,password:pass,createdAt:Date.now()});
+  var email=uname+'@scirev.app';
+  sec.auth().createUserWithEmailAndPassword(email,pass).then(function(cred){
+    return firebase.firestore().collection('users').doc(cred.user.uid).set({username:uname,email:email,role:role,locked:false,password:pass,createdAt:Date.now()});
   }).then(function(){
     sec.delete();
     document.getElementById('new-username').value='';document.getElementById('new-password').value='';
