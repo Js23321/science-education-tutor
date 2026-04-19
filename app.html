@@ -58,7 +58,7 @@ body{background:#080808;color:var(--text);font-family:var(--sans);min-height:100
 body:not(.default-cursor),body:not(.default-cursor) *{cursor:none!important;}
 body.default-cursor{cursor:default!important;}
 body.default-cursor *{cursor:auto!important;}
-#custom-cursor{position:fixed;width:24px;height:24px;pointer-events:none;z-index:2147483647;border-radius:50%;transform:translate(-50%,-50%);transition:transform .12s,width .15s,height .15s,background .3s,border-color .3s,box-shadow .3s,opacity .1s;background:var(--cursor-bg,rgba(255,255,255,0.1));border:1px solid var(--cursor-border,var(--accent-dim));box-shadow:0 0 12px var(--cursor-glow,var(--accent-glow));}
+#custom-cursor{position:fixed;width:24px;height:24px;pointer-events:none;z-index:2147483647;border-radius:50%;transform:translate(-50%,-50%);transition:transform .12s,width .15s,height .15s,background .3s,border-color .3s,box-shadow .3s,opacity .15s;background:var(--cursor-bg,rgba(255,255,255,0.1));border:1px solid var(--cursor-border,var(--accent-dim));box-shadow:0 0 12px var(--cursor-glow,var(--accent-glow));}
 #custom-cursor.hover{width:36px;height:36px;background:var(--cursor-hover-bg,var(--accent-glow));border-color:var(--cursor-hover-border,var(--accent));box-shadow:0 0 20px var(--cursor-glow,var(--accent-dim));}
 #custom-cursor.click{transform:translate(-50%,-50%) scale(0.75);}
 [data-theme="blue"] #custom-cursor{--cursor-bg:rgba(34,211,238,0.1);--cursor-border:rgba(34,211,238,0.5);--cursor-glow:rgba(34,211,238,0.25);--cursor-hover-bg:rgba(34,211,238,0.18);--cursor-hover-border:#22d3ee;}
@@ -163,7 +163,7 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 @keyframes announcePulse{0%,100%{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.2);}50%{background:rgba(30,30,30,0.65);border-color:rgba(255,255,255,0.35);}}
 #announcement-bar.show{display:flex;align-items:flex-start;gap:10px;animation:announceIn .5s cubic-bezier(0.16,1,0.3,1) both;}
 @keyframes announceIn{0%{opacity:0;transform:scaleX(0.6) scaleY(0.3) translateY(-10px);}100%{opacity:1;transform:scaleX(1) scaleY(1) translateY(0);}}
-.announce-icon{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;flex-shrink:0;margin-top:1px;}
+.announce-icon{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;margin-top:1px;}
 #announcement-text{font-size:13px;font-weight:700;color:#fff;font-family:var(--mono);line-height:1.5;flex:1;}
 .hero{margin-bottom:2rem;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;position:relative;overflow:hidden;animation:fadeUpEl .5s cubic-bezier(0.16,1,0.3,1) both;}
 .hero::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:var(--accent-glow);filter:blur(30px);pointer-events:none;}
@@ -184,13 +184,16 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 .cat-name{font-size:13px;font-weight:700;color:var(--text);}
 .cat-count{font-size:10px;font-family:var(--mono);color:var(--text-muted);}
 .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.75rem;}
-.lesson-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;}
+.lesson-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;text-decoration:none;display:flex;flex-direction:column;position:relative;}
 .lesson-thumb{width:100%;aspect-ratio:16/9;background:var(--surface2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .lesson-thumb svg{width:28px;height:28px;stroke:var(--text-dim);fill:none;stroke-width:1.5;}
 .lesson-start-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .18s;}
 .lesson-card:hover .lesson-start-overlay{opacity:1;}
+/* Full card blur overlay - covers thumb + info */
+.lesson-thumb::after{content:'';position:absolute;inset:0;backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);transition:backdrop-filter .25s ease;pointer-events:none;}
+.lesson-card:hover .lesson-thumb::after{backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
 .lesson-start-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;}
-.lesson-start-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;margin-left:2px;}
+.lesson-start-btn svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;margin-left:2px;}
 .lesson-info{padding:.7rem .85rem;}
 .lesson-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
 .lesson-cat{font-size:10px;font-family:var(--mono);color:var(--text-muted);}
@@ -304,7 +307,7 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 .lesson-thumb img,.game-thumb-img{transition:transform .4s cubic-bezier(0.34,1.56,0.64,1)!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;}
 .lesson-card:hover .lesson-thumb img{transform:scale(1.08);}
 .lesson-start-overlay{transition:opacity .2s ease,backdrop-filter .25s ease;}
-.lesson-card:hover .lesson-start-overlay{opacity:1;backdrop-filter:blur(3px);}
+.lesson-card:hover .lesson-start-overlay{opacity:1;}
 .lesson-start-btn{transition:transform .25s cubic-bezier(0.34,1.56,0.64,1),background .2s,box-shadow .2s;}
 .lesson-card:hover .lesson-start-btn{transform:scale(1.2);box-shadow:0 0 16px var(--accent-dim);}
 .lesson-name{transition:color .2s;}
@@ -371,6 +374,10 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 .section:nth-child(2){animation-delay:.12s;}
 .section:nth-child(3){animation-delay:.19s;}
 /* card stagger removed - was fighting hover transitions */
+/* ── LESSON CARD STAGGER ── */
+@keyframes cardFadeUp{from{opacity:0;transform:translateY(16px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.lesson-card.anim-card{animation:cardFadeUp .4s cubic-bezier(0.16,1,0.3,1) both;}
+.cat-card.anim-card{animation:cardFadeUp .4s cubic-bezier(0.16,1,0.3,1) both;}
 
 /* ── ANNOUNCEMENT BAR ── */
 #announcement-bar{transition:background .3s,border-color .3s;}
@@ -604,7 +611,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 #game-bar{height:46px;flex-shrink:0;background:rgba(8,8,8,.96);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;position:relative;z-index:50;}
 .bar-left{display:flex;align-items:center;gap:.65rem;}
 .bar-right{display:flex;align-items:center;gap:.4rem;}
-.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#888;font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .15s;}
+.back-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;background:transparent;border:1px solid var(--border2);border-radius:7px;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .15s;}
 .back-btn:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#f0f0f0;transform:translateX(-2px);}
 .back-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 #game-title-bar{font-size:13px;font-weight:700;color:#f0f0f0;}
@@ -1038,13 +1045,14 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
       <span id="game-cat-bar">arcade</span>
     </div>
     <div class="bar-right">
-      <button id="game-cloak-btn" title="Cloak tab" style="display:flex;align-items:center;gap:6px;padding:4px 14px;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#888;font-size:12px;font-family:var(--mono);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;" onmouseover="this.style.background='rgba(255,255,255,.07)';this.style.color='#f0f0f0'" onmouseout="this.style.background='transparent';this.style.color='#888'">👻 cloak</button>
+      <button id="game-cloak-btn" title="Cloak tab" style="display:flex;align-items:center;gap:6px;padding:4px 14px;background:transparent;border:1px solid var(--border2);border-radius:7px;color:var(--text-muted);font-size:12px;font-family:var(--mono);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;" onmouseover="this.style.background='rgba(255,255,255,.07)';this.style.color='#f0f0f0'" onmouseout="this.style.background='transparent';this.style.color='#888'">👻 cloak</button>
       <button class="icon-btn" id="game-owner-btn" title="Owner Panel" style="display:none;" onclick="openPanel('owner-panel')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--warn);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></button>
       <button class="icon-btn" id="game-admin-btn" title="Admin Panel" style="display:none;" onclick="openPanel('admin-panel')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></button>
       <button class="icon-btn" id="game-music-btn" onclick="toggleMusicPlayer()" title="Music Player"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></button>
-      <button class="icon-btn" id="game-newtab-btn" title="Open in new tab"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></button>
-      <button class="icon-btn" id="game-chat-btn" onclick="toggleChat()" title="Chat" style="background:#000;border-color:rgba(255,255,255,.2);position:relative;">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      <button class="icon-btn" id="game-refresh-btn" title="Restart game" onclick="restartGame()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg></button>
+      <button class="icon-btn" id="game-newtab-btn" title="Open in new tab"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></button>
+      <button class="icon-btn" id="game-chat-btn" onclick="toggleChat()" title="Chat" style="background:var(--surface2);border-color:var(--border2);position:relative;">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span id="game-chat-badge" style="position:absolute;top:-3px;right:-3px;width:15px;height:15px;border-radius:50%;background:var(--danger);color:#fff;font-size:9px;font-family:var(--mono);font-weight:700;display:none;align-items:center;justify-content:center;border:2px solid #000;"></span>
       </button>
       <button class="icon-btn" title="Settings" onclick="openPanel('settings-panel')"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
@@ -1092,7 +1100,11 @@ function hideHomeLoader(){
   if(!loader)return;
   var txt=document.getElementById('home-loader-text');
   if(txt)txt.textContent='Ready!';
-  setTimeout(function(){loader.classList.add('hidden');},300);
+  setTimeout(function(){
+    loader.classList.add('hidden');
+    /* Trigger popular game card animations now that loader is gone */
+    setTimeout(animateHomeCards, 200);
+  },300);
 }
 var _currentGameUrl='';
 function showGame(name,cat,src,url){
@@ -1119,14 +1131,13 @@ function showGame(name,cat,src,url){
   var frame=document.getElementById('game-frame');
   frame.src=url;
   _currentGameUrl=url;
-  // Hide loading screen after load or max 8s
-  var _loadTimeout=setTimeout(function(){if(loadingScreen)_hideLoadingScreen();},8000);
-  frame.onload=function(){clearTimeout(_loadTimeout);_hideLoadingScreen();};
   // Start quote rotation
   var _loadQuotes=["I just hit the jackpot!","Dont give up just focus and make it to friday","No risk, no reward.","Luck or skill? Let's find out.","Don't quit now—you're this close!","W speed","BOMBOCLATTTTTTTTTTTT","RAHHHHHHHHHHHHHHHHHH!","Are you done.","That was not tuff","postive+positive=SUPER POSITIVE"];
   var _lqi=Math.floor(Math.random()*_loadQuotes.length);
   var _lqEl=document.getElementById('game-loading-quote');
   var _lqInterval=null;
+  var _loadDone=false;
+
   function _showLoadQuote(){
     if(!_lqEl)return;
     _lqEl.style.opacity='0';
@@ -1136,13 +1147,58 @@ function showGame(name,cat,src,url){
       _lqi=(_lqi+1)%_loadQuotes.length;
     },600);
   }
+
   function _hideLoadingScreen(){
+    if(_loadDone)return;
+    _loadDone=true;
     clearInterval(_lqInterval);
+    clearTimeout(_slowTimeout);
+    clearTimeout(_forceTimeout);
     if(loadingScreen){
       loadingScreen.style.animation='fadeOut .4s ease both';
-      setTimeout(function(){loadingScreen.style.display='none';loadingScreen.style.animation='';if(_lqEl)_lqEl.style.opacity='0';},400);
+      setTimeout(function(){
+        loadingScreen.style.display='none';
+        loadingScreen.style.animation='';
+        if(_lqEl)_lqEl.style.opacity='0';
+      },400);
     }
   }
+
+  // After 8s — stop quotes, show warning message
+  var _slowTimeout=setTimeout(function(){
+    if(_loadDone)return;
+    clearInterval(_lqInterval);
+    if(_lqEl){
+      _lqEl.style.opacity='0';
+      setTimeout(function(){
+        if(_loadDone)return;
+        _lqEl.style.fontSize='11px';
+        _lqEl.style.lineHeight='1.6';
+        _lqEl.style.color='var(--warn)';
+        _lqEl.innerHTML='⚠️ Taking a while...<br><span style="color:var(--text-muted);font-size:10px;">If it stays like this, try pressing the restart button above.</span>';
+        _lqEl.style.opacity='1';
+      },600);
+    }
+  },8000);
+
+  // After 18s — force hide loading screen and show game anyway
+  var _forceTimeout=setTimeout(function(){
+    if(_loadDone)return;
+    if(_lqEl){
+      _lqEl.style.opacity='0';
+      setTimeout(function(){
+        if(_loadDone)return;
+        _lqEl.style.color='var(--danger)';
+        _lqEl.innerHTML='Game loaded — enjoy! 🎮';
+        _lqEl.style.opacity='1';
+      },300);
+    }
+    setTimeout(function(){_hideLoadingScreen();},1200);
+  },18000);
+
+  // Hide on frame load
+  frame.onload=function(){_hideLoadingScreen();};
+
   _showLoadQuote();
   _lqInterval=setInterval(_showLoadQuote,2500);
   var role=localStorage.getItem('srv2-role')||'user';
@@ -1150,6 +1206,37 @@ function showGame(name,cat,src,url){
   var ab=document.getElementById('game-admin-btn');
   if(ob)ob.style.display=role==='owner'?'flex':'none';
   if(ab)ab.style.display=role==='admin'?'flex':'none';
+}
+function restartGame(){
+  var frame=document.getElementById('game-frame');
+  if(!frame||!frame.src)return;
+  // Show loading screen again
+  var loadingScreen=document.getElementById('game-loading-screen');
+  var loadingName=document.getElementById('game-loading-name');
+  if(loadingScreen){
+    loadingScreen.style.animation='';
+    loadingScreen.style.display='flex';
+  }
+  // Spin the refresh button
+  var btn=document.getElementById('game-refresh-btn');
+  if(btn){
+    btn.style.transform='rotate(360deg)';
+    btn.style.transition='transform .5s ease';
+    setTimeout(function(){btn.style.transform='';btn.style.transition='';},500);
+  }
+  // Hide loading after load or 8s
+  var _done=false;
+  var _t=setTimeout(function(){if(!_done){_done=true;if(loadingScreen)_hideLoadingScreen();}},8000);
+  frame.onload=function(){if(!_done){_done=true;clearTimeout(_t);_hideLoadingScreen();}};
+  frame.src=frame.src;
+  toast('Game restarted!');
+}
+function _hideLoadingScreen(){
+  var loadingScreen=document.getElementById('game-loading-screen');
+  if(loadingScreen){
+    loadingScreen.style.animation='fadeOut .4s ease both';
+    setTimeout(function(){loadingScreen.style.display='none';loadingScreen.style.animation='';},400);
+  }
 }
 function hideGame(){
   document.getElementById('section-game').classList.remove('active');
@@ -1409,6 +1496,49 @@ function saveSettingsToFirestore(){
   },600);
 }
 
+
+// ═══════════════════════════════════════════════════════
+// PRELOAD
+// ═══════════════════════════════════════════════════════
+var _preloadedFrames={};
+function _preloadGames(){
+  /* 1. Preload all game thumbnail images instantly */
+  GAMES.forEach(function(g){
+    if(g.img){var img=new Image();img.src=g.img;}
+  });
+
+  /* 2. Preload popular game iframes in hidden divs */
+  var popular=['ec','sd','ld','gd'];
+  popular.forEach(function(id,i){
+    var g=GAMES.find(function(x){return x.id===id;});
+    if(!g||_preloadedFrames[id])return;
+    setTimeout(function(){
+      var f=document.createElement('iframe');
+      f.src=g.url;
+      f.style.cssText='position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;pointer-events:none;';
+      f.setAttribute('tabindex','-1');
+      document.body.appendChild(f);
+      _preloadedFrames[id]=f;
+    },i*2000); /* stagger by 2s each so they don't all load at once */
+  });
+
+  /* 3. Hover preload for non-popular games */
+  document.addEventListener('mouseover',function(e){
+    var card=e.target.closest('.lesson-card[data-game-id]');
+    if(!card)return;
+    var id=card.dataset.gameId;
+    if(_preloadedFrames[id])return;
+    var g=GAMES.find(function(x){return x.id===id;});
+    if(!g)return;
+    var f=document.createElement('iframe');
+    f.src=g.url;
+    f.style.cssText='position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;pointer-events:none;';
+    f.setAttribute('tabindex','-1');
+    document.body.appendChild(f);
+    _preloadedFrames[id]=f;
+  });
+}
+
 function setupHome(role,uname,uid){
   if(_homeSetup)return; _homeSetup=true;
   _mpOpen=false;
@@ -1473,6 +1603,9 @@ function _setupHomeInner(role,uname,uid){
 
   // music
   initMusic();
+
+  // Preload game images and popular game iframes
+  _preloadGames();
 
   // Hide loader once everything is ready
   // Wait for images to load or max 1.5s
@@ -1589,9 +1722,14 @@ var GAMES=[
 ];
 var SVG_PATHS={zap:'<polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',aim:'<circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>',activity:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'};
 function icon(n){return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(SVG_PATHS[n]||SVG_PATHS.star)+'</svg>';}
-function buildGameCard(g){
+var _cardAnimIdx=0;
+function buildGameCard(g,idx){
+  idx=idx!==undefined?idx:_cardAnimIdx++;
+  var animClass=idx>=0?'anim-card':''; /* idx=-1 means no animation (added later) */
+  var delay=idx>0?(idx*0.06).toFixed(2)+'s':'';
+  var delayStyle=delay?'animation-delay:'+delay+';':'';
   var thumb=g.img?'<img src="'+g.img+'" alt="'+g.name+'" class="game-thumb-img" onerror="this.style.display=\'none\'">':icon('play');
-  return'<a class="lesson-card" href="#" data-game-id="'+g.id+'"><div class="lesson-thumb" style="overflow:hidden;">'+thumb+'<div class="lesson-start-overlay"><div class="lesson-start-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div></div><div class="lesson-info"><div class="lesson-name">'+g.name+'</div><div class="lesson-cat">'+g.cat+'</div></div></a>';
+  return'<a class="lesson-card '+animClass+'" href="#" data-game-id="'+g.id+'" style="'+delayStyle+'"><div class="lesson-thumb" style="overflow:hidden;">'+thumb+'<div class="lesson-start-overlay"><div class="lesson-start-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div></div><div class="lesson-info"><div class="lesson-name">'+g.name+'</div><div class="lesson-cat">'+g.cat+'</div></div></a>';
 }
 function attachGameClicks(container){
   container.querySelectorAll('.lesson-card').forEach(function(card){
@@ -1601,22 +1739,47 @@ function attachGameClicks(container){
       if(!g)return;
       showGame(g.name,g.cat,g.id+'/index.html',g.url);
     });
+    /* Remove anim class after it plays so hover transform works freely */
+    card.addEventListener('animationend',function(){
+      card.classList.remove('anim-card');
+    });
   });
 }
 function renderCategories(){
+  _cardAnimIdx=0;
   var grid=document.getElementById('categories-grid'),html='';
-  CATEGORIES.forEach(function(c){html+='<a class="cat-card" href="#" data-cat-id="'+c.id+'" data-cat-name="'+c.name+'"><div class="cat-icon">'+icon(c.icon)+'</div><div class="cat-name">'+c.name+'</div><div class="cat-count">'+c.count+' lessons</div></a>';});
+  /* Base delay .25s so cards animate after section 1 (.05s delay + .5s anim) */
+  CATEGORIES.forEach(function(cat,i){html+='<a class="cat-card anim-card" href="#" data-cat-id="'+cat.id+'" data-cat-name="'+cat.name+'" style="animation-delay:'+(0.25+i*0.07).toFixed(2)+'s"><div class="cat-icon">'+icon(cat.icon)+'</div><div class="cat-name">'+cat.name+'</div><div class="cat-count">'+cat.count+' lessons</div></a>';});
   grid.innerHTML=html;
-  grid.querySelectorAll('.cat-card').forEach(function(card){card.addEventListener('click',function(e){e.preventDefault();openCategory(card.dataset.catId,card.dataset.catName);});});
+  grid.querySelectorAll('.cat-card').forEach(function(card){
+    card.addEventListener('click',function(e){e.preventDefault();openCategory(card.dataset.catId,card.dataset.catName);});
+    card.addEventListener('animationend',function(){card.classList.remove('anim-card');card.style.animationDelay='';});
+  });
 }
 function renderQuickPlay(){
+  _cardAnimIdx=0;
   var grid=document.getElementById('popular-lessons-grid'),html='';
   var popular=['ec','sd','ld','gd'];
   popular.forEach(function(id){
     var g=GAMES.find(function(x){return x.id===id;});
-    if(g)html+=buildGameCard(g);
+    /* Build without anim-card - we add it after loader hides */
+    if(g)html+=buildGameCard(g,-1);
   });
-  grid.innerHTML=html;attachGameClicks(grid);
+  grid.innerHTML=html;
+  attachGameClicks(grid);
+}
+function animateHomeCards(){
+  /* Called after home loader hides - animate cards into view */
+  var grid=document.getElementById('popular-lessons-grid');
+  if(!grid)return;
+  grid.querySelectorAll('.lesson-card').forEach(function(card){
+    card.classList.add('anim-card');
+    card.style.animationDelay='0s';
+    card.addEventListener('animationend',function(){
+      card.classList.remove('anim-card');
+      card.style.animationDelay='';
+    },{once:true});
+  });
 }
 var _currentCatGames=[];
 function openCategory(id,name){
@@ -1628,9 +1791,10 @@ function openCategory(id,name){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function renderCategoryGames(list){
+  _cardAnimIdx=0;
   var sg=document.getElementById('lessons-section-grid'),html='';
   if(list.length===0)html='<div style="font-size:12px;font-family:var(--mono);color:var(--text-muted);padding:1rem 0;">No lessons found.</div>';
-  else list.forEach(function(g){html+=buildGameCard(g);});
+  else list.forEach(function(g,i){html+=buildGameCard(g,i);});
   sg.innerHTML=html;attachGameClicks(sg);
 }
 document.getElementById('lesson-search').addEventListener('input',function(){
@@ -2857,7 +3021,32 @@ function initMusic(){
     if(!_cursorOn)return;
     cursor.style.left=e.clientX+'px';
     cursor.style.top=e.clientY+'px';
+    cursor.style.opacity='1';
   });
+  /* Hide cursor when mouse leaves window or enters iframe */
+  document.addEventListener('mouseleave',function(){
+    cursor.style.opacity='0';
+  });
+  document.addEventListener('mouseenter',function(){
+    if(_cursorOn)cursor.style.opacity='1';
+  });
+  /* Hide cursor when mouse moves over any iframe using position check */
+  document.addEventListener('mousemove',function(e){
+    if(!_cursorOn)return;
+    var iframes=document.querySelectorAll('iframe');
+    var overIframe=false;
+    iframes.forEach(function(f){
+      if(f.style.display==='none'||f.offsetParent===null)return;
+      var r=f.getBoundingClientRect();
+      if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
+        overIframe=true;
+      }
+    });
+    cursor.style.opacity=overIframe?'0':'1';
+  });
+  /* Also catch when focus moves to iframe (tab into game) */
+  window.addEventListener('blur',function(){cursor.style.opacity='0';});
+  window.addEventListener('focus',function(){if(_cursorOn)cursor.style.opacity='1';});
   document.addEventListener('mousedown',function(){if(_cursorOn)cursor.classList.add('click');});
   document.addEventListener('mouseup',function(){cursor.classList.remove('click');});
   // Hover — grow on interactive, exactly like Noah's btn hover
