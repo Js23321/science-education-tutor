@@ -1364,6 +1364,11 @@ window.doLogout=function(){
     _homeSetup=false;
     var btn=document.getElementById('login-btn');
     if(btn){btn.classList.remove('loading');btn.disabled=false;}
+    // Stop music
+    var mp=document.getElementById('music-player');
+    if(mp)mp.style.display='none';
+    _mpOpen=false;
+    try{var allAudio=document.querySelectorAll('audio');allAudio.forEach(function(a){a.pause();a.src='';});}catch(e){}
     showLogin();
   });
 };
