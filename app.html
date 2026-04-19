@@ -1303,6 +1303,7 @@ function onLoginSuccess(role,uname,uid){
 var _homeSetup=false;
 function setupHome(role,uname,uid){
   if(_homeSetup)return; _homeSetup=true;
+  _mpOpen=false;
 
   // nav user
   document.getElementById('nav-username').textContent=uname;
@@ -1368,7 +1369,8 @@ window.doLogout=function(){
     var mp=document.getElementById('music-player');
     if(mp)mp.style.display='none';
     _mpOpen=false;
-    try{var allAudio=document.querySelectorAll('audio');allAudio.forEach(function(a){a.pause();a.src='';});}catch(e){}
+    _homeSetup=false;
+    try{var allAudio=document.querySelectorAll('audio');allAudio.forEach(function(a){a.pause();a.src='';a.load();});}catch(e){}
     showLogin();
   });
 };
