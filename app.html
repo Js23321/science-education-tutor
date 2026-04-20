@@ -12,7 +12,7 @@
 <style>
 /* ── RESET & VARS ── */
 :root{--bg:#080808;--surface:#111;--surface2:#1a1a1a;--surface3:#222;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.18);--accent:#ffffff;--accent-glow:rgba(255,255,255,0.06);--accent-dim:rgba(255,255,255,0.28);--text:#f0f0f0;--text-muted:#888;--text-dim:#444;--danger:#f7634f;--success:#4ff79a;--warn:#f7c34f;--mono:'Space Mono',monospace;--sans:'Geist Sans','Geist',sans-serif;--r:12px;--r-sm:8px;}
-[data-theme="blue"]{
+[data-theme="blue"]{--send-icon:#000;
   /* Ocean depth — deep teal-blue, cyan shimmer */
   --accent:#22d3ee;--accent-glow:rgba(34,211,238,0.14);--accent-dim:rgba(34,211,238,0.48);
   --surface:#030d12;--surface2:#071820;--surface3:#0d2530;
@@ -20,7 +20,7 @@
   --text:#e0f8ff;--text-muted:#4a9ab0;
   --success:#22d3ee;--warn:#f0b429;
 }
-[data-theme="purple"]{
+[data-theme="purple"]{--send-icon:#fff;
   /* Void — deep space violet, electric purple */
   --accent:#a855f7;--accent-glow:rgba(168,85,247,0.16);--accent-dim:rgba(168,85,247,0.52);
   --surface:#08030f;--surface2:#110618;--surface3:#1a0a26;
@@ -28,7 +28,7 @@
   --text:#f5eeff;--text-muted:#7c4aaa;
   --success:#86efac;--warn:#fde68a;
 }
-[data-theme="red"]{
+[data-theme="red"]{--send-icon:#fff;
   /* Crimson — deep blood red, dark ember */
   --accent:#c0152a;--accent-glow:rgba(192,21,42,0.18);--accent-dim:rgba(192,21,42,0.55);
   --surface:#0d0203;--surface2:#1c0508;--surface3:#2a080d;
@@ -36,7 +36,7 @@
   --text:#fde8ea;--text-muted:#a04050;
   --success:#4ade80;--danger:#e81c35;
 }
-[data-theme="green"]{
+[data-theme="green"]{--send-icon:#000;
   /* Toxic — neon lime on near-black, matrix feel */
   --accent:#84cc16;--accent-glow:rgba(132,204,22,0.14);--accent-dim:rgba(132,204,22,0.48);
   --surface:#050801;--surface2:#0c1203;--surface3:#131c05;
@@ -44,7 +44,7 @@
   --text:#f0fee8;--text-muted:#6a8a20;
   --success:#84cc16;--warn:#facc15;
 }
-[data-theme="amber"]{
+[data-theme="amber"]{--send-icon:#000;
   /* Forge — molten orange-gold, warm industrial */
   --accent:#fb923c;--accent-glow:rgba(251,146,60,0.15);--accent-dim:rgba(251,146,60,0.5);
   --surface:#0f0700;--surface2:#1e1002;--surface3:#2d1a05;
@@ -164,7 +164,7 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 #announcement-bar.show{display:flex;align-items:flex-start;gap:10px;animation:announceIn .5s cubic-bezier(0.16,1,0.3,1) both;}
 @keyframes announceIn{0%{opacity:0;transform:scaleX(0.6) scaleY(0.3) translateY(-10px);}100%{opacity:1;transform:scaleX(1) scaleY(1) translateY(0);}}
 .announce-icon{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;margin-top:1px;}
-#announcement-text{font-size:13px;font-weight:700;color:#fff;font-family:var(--mono);line-height:1.5;flex:1;}
+#announcement-text{font-size:13px;font-weight:700;color:var(--text);font-family:var(--mono);line-height:1.5;flex:1;}
 .hero{margin-bottom:2rem;padding:1.75rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;position:relative;overflow:hidden;animation:fadeUpEl .5s cubic-bezier(0.16,1,0.3,1) both;}
 .hero::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:var(--accent-glow);filter:blur(30px);pointer-events:none;}
 .hero-tag{font-size:9px;font-family:var(--mono);color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem;opacity:.8;}
@@ -192,10 +192,13 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 /* Full card blur overlay - covers thumb + info */
 .lesson-thumb::after{content:'';position:absolute;inset:0;backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);transition:backdrop-filter .25s ease;pointer-events:none;}
 .lesson-card:hover .lesson-thumb::after{backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+/* ── GROUP LIST ROW HOVER ── */
+#group-list div,#sb-group-list div{transition:background .2s cubic-bezier(0.16,1,0.3,1),transform .25s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;}
 .lesson-start-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;}
 .lesson-start-btn svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;margin-left:2px;}
 .lesson-info{padding:.7rem .85rem;}
-.lesson-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.lesson-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px;transition:color .2s,text-shadow .2s;}
+.lesson-cat{transition:color .2s;}
 .lesson-cat{font-size:10px;font-family:var(--mono);color:var(--text-muted);}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:600;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(8px);}
 .overlay.open{display:flex;animation:overlayIn .2s ease both;}
@@ -310,8 +313,9 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 .lesson-card:hover .lesson-start-overlay{opacity:1;}
 .lesson-start-btn{transition:transform .25s cubic-bezier(0.34,1.56,0.64,1),background .2s,box-shadow .2s;}
 .lesson-card:hover .lesson-start-btn{transform:scale(1.2);box-shadow:0 0 16px var(--accent-dim);}
-.lesson-name{transition:color .2s;}
-.lesson-card:hover .lesson-name{color:var(--accent);}
+.lesson-name{transition:color .2s,text-shadow .2s;}
+.lesson-card:hover .lesson-name{color:var(--accent);text-shadow:0 0 12px var(--accent-glow),0 0 24px var(--accent-dim);}
+.lesson-card:hover .lesson-cat{color:var(--accent-dim);}
 
 /* ── CATEGORY CARDS ── */
 .cat-card{transition:border-color .25s,transform .3s cubic-bezier(0.25,0.1,0.25,1),background .2s,box-shadow .3s;}
@@ -327,6 +331,8 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 .nav-btn.active{color:var(--text);background:rgba(255,255,255,.07);box-shadow:0 0 12px var(--accent-glow);}
 .nav-logo-mark{transition:box-shadow .2s,border-color .2s,transform .2s;}
 .nav-logo:hover .nav-logo-mark{box-shadow:0 0 16px var(--accent-dim);border-color:var(--accent);transform:rotate(-8deg) scale(1.05);}
+.nav-logo:hover .nav-logo-text{color:var(--accent);}
+.nav-logo .nav-logo-text{transition:color .2s;}
 
 /* ── ICON BUTTONS ── */
 .icon-btn{transition:background .2s,border-color .2s,box-shadow .2s,transform .2s cubic-bezier(0.34,1.56,0.64,1);}
@@ -374,6 +380,15 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 .section:nth-child(2){animation-delay:.12s;}
 .section:nth-child(3){animation-delay:.19s;}
 /* card stagger removed - was fighting hover transitions */
+/* ── OWNER PANEL SECTION TRANSITIONS ── */
+.panel-section{transition:opacity .25s ease,transform .3s cubic-bezier(0.16,1,0.3,1),max-height .35s cubic-bezier(0.16,1,0.3,1);}
+@keyframes userProfileIn{from{opacity:0;transform:translateX(20px) scale(.97);}to{opacity:1;transform:translateX(0) scale(1);}}
+@keyframes userProfileOut{from{opacity:1;transform:translateX(0) scale(1);}to{opacity:0;transform:translateX(20px) scale(.97);}}
+@keyframes sectionHide{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(-16px);}}
+@keyframes sectionShow{from{opacity:0;transform:translateX(-16px);}to{opacity:1;transform:translateX(0);}}
+/* ── LESSONS HEADER ANIMATION ── */
+@keyframes titleFadeUp{from{opacity:0;transform:translateY(14px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.lessons-title-anim{animation:titleFadeUp .4s cubic-bezier(0.16,1,0.3,1) both;}
 /* ── LESSON CARD STAGGER ── */
 @keyframes cardFadeUp{from{opacity:0;transform:translateY(16px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
 .lesson-card.anim-card{animation:cardFadeUp .4s cubic-bezier(0.16,1,0.3,1) both;}
@@ -384,7 +399,7 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 
 /* ── TOAST ── */
 #toast{transition:transform .3s cubic-bezier(0.16,1,0.3,1),opacity .25s ease;border-radius:10px;}
-#toast.show{transform:translateY(0) scale(1);animation:popIn .3s cubic-bezier(0.16,1,0.3,1);}
+#toast.show{transform:translateY(0) scale(1);animation:bounceIn .35s cubic-bezier(0.34,1.56,0.64,1);}
 
 /* ── CHAT PANEL ── */
 @keyframes chatIn{from{opacity:0;transform:scale(.95) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
@@ -425,8 +440,8 @@ main{padding-top:72px;padding-bottom:3rem;max-width:1100px;margin:0 auto;padding
 /* Smooth tab indicator slide */
 #tab-global,#tab-dms{transition:background .2s,color .2s,border-color .2s;}
 /* DM rows hover */
-.dm-row{transition:background .15s,transform .15s cubic-bezier(0.34,1.56,0.64,1)!important;}
-.dm-row:hover{background:var(--surface2)!important;transform:translateX(3px)!important;}
+.dm-row{transition:background .2s cubic-bezier(0.16,1,0.3,1),transform .25s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s!important;}
+.dm-row:hover{background:var(--surface2)!important;transform:translateX(4px)!important;box-shadow:2px 0 8px var(--accent-glow)!important;}
 /* Sidebar items */
 .sidebar-item{transition:background .15s,transform .15s,border-left-color .15s;}
 .sidebar-item:hover{background:var(--surface2);transform:translateX(3px);}
@@ -507,6 +522,21 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 .chat-close:hover{background:rgba(247,99,79,.12);border-color:rgba(247,99,79,.4);transform:rotate(90deg) scale(1.15);box-shadow:0 0 10px rgba(247,99,79,.2);}
 .chat-close svg{transition:stroke .2s;}
 .chat-close:hover svg{stroke:var(--danger);}
+/* ── CHAT HEADER ICON BUTTONS ── */
+#chat-notif-btn,#chat-notif-btn-fs{transition:background .2s,border-color .2s,transform .2s cubic-bezier(0.34,1.56,0.64,1)!important;}
+#chat-notif-btn:hover,#chat-notif-btn-fs:hover{background:var(--accent-glow)!important;border-color:var(--accent-dim)!important;transform:scale(1.12)!important;}
+.chat-expand-btn{transition:background .2s,border-color .2s,transform .2s cubic-bezier(0.34,1.56,0.64,1)!important;}
+.chat-expand-btn:hover{background:var(--accent-glow)!important;border-color:var(--accent-dim)!important;transform:scale(1.12)!important;}
+/* ── GROUP SPECIFIC HOVER ── */
+.chat-send{transition:opacity .15s,transform .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .15s!important;}
+.chat-send:hover{opacity:.88!important;transform:scale(1.1)!important;box-shadow:0 0 12px var(--accent-dim)!important;}
+.chat-send:active{transform:scale(.92)!important;}
+/* Back buttons in chat */
+#dm-back-btn,button[onclick="backToGroupList()"]{transition:color .15s,transform .2s cubic-bezier(0.34,1.56,0.64,1)!important;}
+#dm-back-btn:hover,button[onclick="backToGroupList()"]:hover{color:var(--accent)!important;transform:translateX(-3px)!important;}
+/* Group info gear button */
+button[onclick="openGroupInfo()"]{transition:color .15s,transform .2s cubic-bezier(0.34,1.56,0.64,1),background .15s!important;}
+button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:rotate(45deg) scale(1.1)!important;}
 .warn-close{transition:opacity .15s,transform .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s!important;}
 .warn-close:hover{opacity:.88;transform:scale(1.06);box-shadow:0 0 16px var(--accent-dim)!important;}
 .del-btn-cancel{transition:background .15s,transform .15s cubic-bezier(0.34,1.56,0.64,1);}
@@ -544,6 +574,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 .chat-msg-role.owner{background:rgba(247,195,79,.15);color:var(--warn);}
 .chat-msg-role.admin{background:var(--accent-glow);color:var(--accent);}
 .chat-msg-role.user{background:var(--surface3);color:var(--text-muted);}
+.chat-msg-role.system{background:transparent;color:var(--text-dim);font-style:italic;}
 .chat-msg-time{font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-left:auto;}
 .chat-msg-del{background:none;border:none;cursor:pointer;padding:0 2px;opacity:0;transition:opacity .15s;color:var(--danger);font-size:10px;}
 .chat-msg:hover .chat-msg-del{opacity:1;}
@@ -564,15 +595,14 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 #chat-panel.expanded #dm-back-btn{display:none!important;}
 #music-player.expanded{top:54px!important;right:0!important;left:0!important;bottom:0!important;width:100%!important;height:calc(100vh - 54px)!important;max-height:calc(100vh - 54px)!important;border-radius:0!important;z-index:200!important;transition:top .35s cubic-bezier(0.16,1,0.3,1),left .35s,width .35s,height .35s,border-radius .35s;}
 #chat-panel.expanded #chat-tabs{display:none!important;}
-#chat-panel.expanded #chat-view-dms{display:none!important;}
 #chat-panel.expanded .chat-messages{flex:1!important;overflow-y:auto!important;}
 #chat-panel.expanded .chat-footer{flex-shrink:0;}
 #chat-panel.expanded #chat-sidebar{display:flex!important;}
 #chat-sidebar{display:none;width:220px;border-right:1px solid var(--border);flex-direction:column;flex-shrink:0;background:var(--surface);}
 .sidebar-title{font-size:10px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;padding:.75rem 1rem .4rem;}
-.sidebar-item{display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;cursor:pointer;transition:background .15s;border-radius:0;}
-.sidebar-item:hover{background:var(--surface2);}
-.sidebar-item.active{background:var(--accent-glow);border-left:2px solid var(--accent);}
+.sidebar-item{display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;cursor:pointer;transition:background .2s cubic-bezier(0.16,1,0.3,1),padding-left .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;border-radius:0;}
+.sidebar-item:hover{background:var(--surface2);padding-left:1.3rem;}
+.sidebar-item.active{background:var(--accent-glow);border-left:2px solid var(--accent);padding-left:1.3rem;box-shadow:inset 0 0 12px var(--accent-glow);}
 .sidebar-item-name{font-size:12px;font-family:var(--mono);color:var(--text);}
 .sidebar-dot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;}
 #chat-panel.expanded .chat-views-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
@@ -580,7 +610,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 @keyframes chatCollapse{from{clip-path:inset(0 0 0 0%);opacity:1;}to{clip-path:inset(0 0 0 100%);opacity:0;}}
 .chat-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;height:32px;}
 .chat-input:focus{border-color:var(--accent-dim);}
-.chat-send{width:32px;height:32px;background:var(--accent);border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.chat-send{width:32px;height:32px;background:var(--accent);border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--send-icon,#000);}
 .chat-send:hover{opacity:.85;}
 #chat-panel{display:none;}#chat-panel.open{display:flex!important;animation:chatIn .25s cubic-bezier(0.16,1,0.3,1);}
 @keyframes dmAddIn{from{opacity:0;transform:scaleY(0);transform-origin:top;}to{opacity:1;transform:scaleY(1);transform-origin:top;}}
@@ -598,6 +628,15 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
 .del-btn-cancel{flex:1;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:11px;cursor:pointer;font-family:var(--mono);}
 .del-btn-confirm{flex:1;padding:7px;background:var(--danger);border:none;border-radius:7px;color:#fff;font-size:11px;cursor:pointer;font-family:var(--mono);font-weight:700;}
 /* ── GAME BAR ── */
+/* ── GROUP CREATE ANIMATION ── */
+@keyframes groupCreateIn{from{opacity:0;transform:scaleY(0) translateY(-8px);transform-origin:top;}to{opacity:1;transform:scaleY(1) translateY(0);transform-origin:top;}}
+@keyframes groupCreateOut{from{opacity:1;transform:scaleY(1) translateY(0);transform-origin:top;}to{opacity:0;transform:scaleY(0) translateY(-8px);transform-origin:top;}}
+/* ── GENERAL APPEAR/DISAPPEAR ── */
+@keyframes slideDownIn{from{opacity:0;transform:translateY(-12px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes slideDownOut{from{opacity:1;transform:translateY(0) scale(1);}to{opacity:0;transform:translateY(-12px) scale(.97);}}
+@keyframes slideUpIn{from{opacity:0;transform:translateY(12px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes slideUpOut{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(8px);}}
+@keyframes bounceIn{0%{opacity:0;transform:scale(.8);}60%{transform:scale(1.05);}100%{opacity:1;transform:scale(1);}}
 /* ── HOME LOADING OVERLAY ── */
 #home-loader{position:fixed;inset:0;z-index:9990;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.25rem;transition:opacity .5s ease,visibility .5s ease;}
 #home-loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
@@ -770,12 +809,14 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
         </div>
       </div>
       <div class="sidebar-title" style="margin-top:.5rem;">Channels</div>
-      <div class="sidebar-item active" id="sb-global" onclick="if(_chatExpanded){document.getElementById('chat-view-dm-convo').style.display='none';document.getElementById('chat-view-dms').style.display='none';document.getElementById('chat-view-global').style.display='flex';}else{switchChatTab('global');}updateSidebar('global');">
+      <div class="sidebar-item active" id="sb-global" onclick="if(_chatExpanded){['chat-view-dm-convo','chat-view-dms','chat-view-groups','chat-view-group-convo'].forEach(function(id){document.getElementById(id).style.display='none';});document.getElementById('chat-view-global').style.display='flex';}else{switchChatTab('global');}updateSidebar('global');">
         <div class="sidebar-dot"></div>
         <span class="sidebar-item-name"># global</span>
       </div>
       <div class="sidebar-title" style="margin-top:.5rem;">Direct Messages</div>
-      <div id="sb-dm-list" style="flex:1;overflow-y:auto;"></div>
+      <div id="sb-dm-list" style="max-height:160px;overflow-y:auto;overflow-x:hidden;"></div>
+      <div class="sidebar-title" style="margin-top:.5rem;">Groups</div>
+      <div id="sb-group-list" style="flex:1;overflow-y:auto;overflow-x:hidden;"></div>
     </div>
 
     <!-- Chat Views Wrap -->
@@ -784,19 +825,20 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
     <div id="chat-tabs" style="display:flex;border-bottom:1px solid var(--border);flex-shrink:0;">
       <button id="tab-global" onclick="switchChatTab('global')" style="flex:1;padding:7px;background:var(--accent-glow);border:none;border-bottom:2px solid var(--accent);color:var(--accent);font-size:11px;font-family:var(--mono);font-weight:700;cursor:pointer;">Global</button>
       <button id="tab-dms" onclick="switchChatTab('dms')" style="flex:1;padding:7px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;">DMs <span id="dm-badge" style="display:none;background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:3px;"></span></button>
+      <button id="tab-groups" onclick="switchChatTab('groups')" style="flex:1;padding:7px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;">Groups <span id="group-badge" style="display:none;background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:3px;"></span></button>
     </div>
 
     <!-- Global Chat View -->
     <div id="chat-view-global" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
       <div class="chat-messages" id="chat-messages"><div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet 👋</div></div>
-      <div class="chat-footer" style="position:relative;"><div id="emoji-picker"></div><button class="emoji-btn" onclick="toggleEmojiPicker()" title="Emoji">😊</button><input class="chat-input" id="chat-input" placeholder="Message..." maxlength="200"><button class="chat-send" onclick="sendMsg()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#000;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></div>
+      <div class="chat-footer" style="position:relative;"><div id="emoji-picker"></div><button class="emoji-btn" onclick="toggleEmojiPicker()" title="Emoji">😊</button><input class="chat-input" id="chat-input" placeholder="Message..." maxlength="200"><button class="chat-send" onclick="sendMsg()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--send-icon,#000);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></div>
     </div>
 
     <!-- DMs List View -->
     <div id="chat-view-dms" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
       <div style="padding:.5rem;border-bottom:1px solid var(--border);display:flex;gap:.4rem;flex-shrink:0;">
         <input id="dm-search" class="chat-input" placeholder="Search chats..." maxlength="30" style="flex:1;" oninput="dmSearchInput(this.value)">
-        <button onclick="toggleDmAdd()" class="chat-send" title="New DM" style="flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#000;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+        <button onclick="toggleDmAdd()" class="chat-send" title="New DM" style="flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--send-icon,#000);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
       </div>
       <!-- New DM input (hidden by default) -->
       <div id="dm-add-row" style="display:none;padding:.4rem .5rem;border-bottom:1px solid var(--border);gap:.4rem;align-items:center;">
@@ -814,10 +856,82 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
       <div style="padding:.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;flex-shrink:0;">
         <button id="dm-back-btn" onclick="backToDmList()" style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center;color:var(--text-muted);"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg></button>
         <div id="dm-convo-avatar" style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;"></div>
-        <span id="dm-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);"></span>
+        <span id="dm-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);flex:1;"></span>
+        <button onclick="toggleDmSettings()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:13px;transition:color .15s,transform .2s;" onmouseover="this.style.color='var(--accent)';this.style.transform='rotate(45deg)'" onmouseout="this.style.color='var(--text-muted)';this.style.transform=''">⚙️</button>
+      </div>
+      <!-- DM Settings Panel -->
+      <div id="dm-settings-panel" style="display:none;padding:.5rem;border-bottom:1px solid var(--border);background:var(--surface2);flex-direction:column;gap:.35rem;animation:groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both;">
+        <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;">DM Settings</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Mute notifications</span>
+          <button class="toggle-btn" id="tog-dm-mute" onclick="toggleDmMute()" style="font-size:9px;padding:3px 10px;">OFF</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Block user</span>
+          <button id="tog-dm-block" onclick="toggleDmBlock()" style="padding:3px 10px;background:rgba(247,99,79,.1);color:var(--danger);border:1px solid rgba(247,99,79,.25);border-radius:20px;font-size:9px;font-family:var(--mono);cursor:pointer;">Block</button>
+        </div>
       </div>
       <div class="chat-messages" id="dm-messages"><div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet</div></div>
-      <div class="chat-footer" style="position:relative;"><div id="dm-emoji-picker"></div><button class="emoji-btn" onclick="toggleEmojiPicker('dm')" title="Emoji">😊</button><input class="chat-input" id="dm-input" placeholder="Message..." maxlength="200"><button class="chat-send" onclick="sendDm()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#000;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></div>
+      <div class="chat-footer" style="position:relative;"><div id="dm-emoji-picker"></div><button class="emoji-btn" onclick="toggleEmojiPicker('dm')" title="Emoji">😊</button><input class="chat-input" id="dm-input" placeholder="Message..." maxlength="200"><button class="chat-send" onclick="sendDm()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--send-icon,#000);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button></div>
+    </div>
+    <!-- GROUPS VIEW -->
+    <div id="chat-view-groups" style="display:none;flex-direction:column;flex:1;overflow:hidden;min-height:0;">
+      <div style="padding:.5rem;border-bottom:1px solid var(--border);display:flex;gap:.4rem;flex-shrink:0;">
+        <button onclick="toggleGroupCreate()" class="chat-send" title="New Group" style="flex-shrink:0;width:28px;height:28px;">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--send-icon,#000);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+        <span style="font-size:11px;font-family:var(--mono);color:var(--text-muted);display:flex;align-items:center;">Your Groups</span>
+      </div>
+      <!-- Create group panel -->
+      <div id="group-create-row" style="max-height:0;overflow:hidden;padding:0 .5rem;border-bottom:0px solid var(--border);flex-direction:column;gap:.4rem;transition:max-height .35s cubic-bezier(0.16,1,0.3,1),padding .3s cubic-bezier(0.16,1,0.3,1),border-bottom-width .3s;">
+        <input id="group-name-input" class="chat-input" placeholder="Group name..." maxlength="30" style="width:100%;height:28px;">
+        <div id="group-member-list" style="display:flex;flex-wrap:wrap;gap:.3rem;min-height:24px;padding:.2rem 0;"></div>
+        <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);">Add members (tap to select from contacts):</div>
+        <div id="group-contacts-list" style="max-height:80px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;"></div>
+        <div style="display:flex;gap:.4rem;">
+          <input id="group-username-input" class="chat-input" placeholder="Or type username..." maxlength="30" style="flex:1;height:28px;">
+          <button onclick="groupAddUsername()" class="chat-send" style="flex-shrink:0;width:28px;height:28px;font-size:9px;font-family:var(--mono);">+</button>
+        </div>
+        <div id="group-create-error" style="display:none;font-size:10px;font-family:var(--mono);color:var(--danger);"></div>
+        <div style="display:flex;gap:.4rem;">
+          <button onclick="createGroup()" style="flex:1;padding:5px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Create</button>
+          <button onclick="toggleGroupCreate()" style="padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:10px;font-family:var(--mono);cursor:pointer;">Cancel</button>
+        </div>
+      </div>
+      <div id="group-list" style="flex:1;overflow-y:auto;padding:.4rem;min-height:0;">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;padding:1rem;">No groups yet. Press + to create one!</div>
+      </div>
+    </div>
+    <!-- GROUP CONVO VIEW -->
+    <div id="chat-view-group-convo" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
+      <div style="padding:.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;flex-shrink:0;">
+        <button onclick="backToGroupList()" style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center;color:var(--text-muted);"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg></button>
+        <div id="group-convo-avatar" style="width:24px;height:24px;border-radius:6px;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>
+        <span id="group-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);flex:1;"></span>
+        <button onclick="openGroupInfo()" style="background:none;border:none;cursor:pointer;padding:2px;color:var(--text-muted);font-size:10px;font-family:var(--mono);" title="Group info">⚙️</button>
+      </div>
+      <!-- Group info panel (hidden) -->
+      <div id="group-info-panel" style="display:none;padding:.5rem;border-bottom:1px solid var(--border);background:var(--surface2);flex-direction:column;gap:.4rem;">
+        <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;">Settings</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+          <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Mute notifications</span>
+          <button class="toggle-btn" id="tog-group-mute" onclick="toggleGroupMute()" style="font-size:9px;padding:3px 10px;">OFF</button>
+        </div>
+        <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.35rem;">Members</div>
+        <div id="group-members-display" style="display:flex;flex-wrap:wrap;gap:.3rem;"></div>
+        <div style="display:flex;gap:.4rem;">
+          <input id="group-add-member-input" class="chat-input" placeholder="Add username..." maxlength="30" style="flex:1;height:26px;font-size:10px;">
+          <button onclick="addMemberToGroup()" style="padding:4px 8px;background:var(--accent);color:#000;border:none;border-radius:6px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Add</button>
+        </div>
+        <button id="group-leave-btn" onclick="leaveGroup()" style="padding:5px;background:rgba(247,99,79,.1);color:var(--danger);border:1px solid rgba(247,99,79,.25);border-radius:7px;font-family:var(--mono);font-size:10px;cursor:pointer;">Leave Group</button>
+      </div>
+      <div class="chat-messages" id="group-messages"><div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet</div></div>
+      <div class="chat-footer" style="position:relative;">
+        <button class="emoji-btn" onclick="toggleEmojiPicker('group')" title="Emoji">😊</button>
+        <div id="group-emoji-picker"></div>
+        <input class="chat-input" id="group-input" placeholder="Message..." maxlength="200">
+        <button class="chat-send" onclick="sendGroupMsg()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--send-icon,#000);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
+      </div>
     </div>
     </div><!-- end chat-views-wrap -->
   </div>
@@ -908,7 +1022,7 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
     <div id="hs-lessons" style="display:none;">
       <div style="display:flex;align-items:center;gap:.85rem;margin-bottom:1rem;">
         <button class="back-btn-sm" onclick="showHomeSection('home')"><svg viewBox="0 0 24 24"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg>Back</button>
-        <h2 id="lessons-section-title" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em;flex:1;"></h2>
+        <h2 id="lessons-section-title" style="font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em;flex:1;transition:color .2s,text-shadow .25s;cursor:default;" onmouseover="this.style.color='var(--accent)';this.style.textShadow='0 0 18px var(--accent-glow),0 0 40px var(--accent-dim)'" onmouseout="this.style.color='';this.style.textShadow=''"></h2>
       </div>
       <div style="position:relative;margin-bottom:1rem;">
         <input id="lesson-search" type="text" placeholder="Search lessons..." style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:9px 12px 9px 36px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s;" onmouseover="if(document.activeElement!==this)this.style.boxShadow='0 0 12px var(--accent-glow)'" onmouseout="if(document.activeElement!==this)this.style.boxShadow=''" onfocus="this.style.borderColor='var(--accent-dim)';this.style.boxShadow='0 0 0 3px var(--accent-glow),0 0 18px var(--accent-glow)'" onblur="this.style.borderColor='';this.style.boxShadow=''">
@@ -981,6 +1095,13 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
           <div style="margin-top:.75rem;"><button class="btn-save" onclick="savePanicKey()" style="width:100%;">Save</button></div>
         </div>
         <div class="panel-section">
+          <div class="panel-section-title">Notifications</div>
+          <div class="settings-row"><div><div class="settings-row-label">Global Chat</div><div class="settings-row-sub">Sound when new global message</div></div><button class="toggle-btn" id="tog-notif-global" onclick="toggleNotifSetting('global')">ON</button></div>
+          <div class="settings-row"><div><div class="settings-row-label">Direct Messages</div><div class="settings-row-sub">Sound when new DM received</div></div><button class="toggle-btn" id="tog-notif-dm" onclick="toggleNotifSetting('dm')">ON</button></div>
+          <div class="settings-row"><div><div class="settings-row-label">Group Chats</div><div class="settings-row-sub">Sound when new group message</div></div><button class="toggle-btn" id="tog-notif-group" onclick="toggleNotifSetting('group')">ON</button></div>
+          <div class="settings-row"><div><div class="settings-row-label">Browser Notifications</div><div class="settings-row-sub">Pop-up when tab not focused</div></div><button class="toggle-btn" id="tog-notif-browser" onclick="toggleBrowserNotif()">OFF</button></div>
+        </div>
+        <div class="panel-section">
           <div class="panel-section-title">Cursor</div>
           <div class="settings-row"><div><div class="settings-row-label">Custom Cursor</div><div class="settings-row-sub">Theme-coloured circle cursor</div></div><button class="toggle-btn" id="tog-cursor" onclick="toggleCursorStyle()">ON</button></div>
         </div>
@@ -993,11 +1114,11 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
     <div class="panel panel-wide">
       <div class="panel-header"><div class="panel-title"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--warn);fill:none;stroke-width:2;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>Owner Panel</div><button class="panel-close" onclick="closePanel('owner-panel')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
       <div class="panel-body">
-        <div class="panel-section"><div class="panel-section-title">Announcement</div>
+        <div class="panel-section" id="op-section-announce"><div class="panel-section-title">Announcement</div>
           <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" id="announce-input" placeholder="Type an announcement..."></textarea></div>
           <div style="display:flex;gap:.5rem;"><button class="btn-primary" onclick="sendAnnouncement()" style="flex:1;">Send to Everyone</button><button class="btn-secondary" onclick="clearAnnouncement()">Clear</button></div>
         </div>
-        <div class="panel-section"><div class="panel-section-title">Create Account</div>
+        <div class="panel-section" id="op-section-create"><div class="panel-section-title">Create Account</div>
           <div class="form-group"><label class="form-label">Username</label>
             <div class="input-wrap">
               <input class="form-input" id="new-username" placeholder="e.g. john_doe" type="text" style="padding-left:36px;">
@@ -1011,11 +1132,14 @@ input[type=range]{accent-color:var(--accent);cursor:pointer;}
           <div class="form-group"><label class="form-label">Role</label><select class="form-input form-select" id="new-role"><option value="user">User</option><option value="admin">Admin</option></select></div>
           <button class="btn-primary" onclick="createAccount()">Create Account</button>
         </div>
-        <div class="panel-section"><div class="panel-section-title">Global Controls</div>
+        <div class="panel-section" id="op-section-controls"><div class="panel-section-title">Global Controls</div>
           <button class="btn-danger-full" onclick="stopAllUsers()"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg>Stop All Users</button>
           <button class="btn-danger-full" onclick="clearGlobalChat()" style="margin-top:.4rem;"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>Clear Global Chat</button>
+          <div class="settings-row" style="margin-top:.4rem;"><div><div class="settings-row-label">Global Chat</div><div class="settings-row-sub">Enable or disable chat for all users</div></div><button class="toggle-btn" id="tog-global-chat" onclick="toggleGlobalChat()">ON</button></div>
+          <div class="settings-row" style="margin-top:.4rem;" id="chat-lock-list-row"><div><div class="settings-row-label">Locked Users</div><div class="settings-row-sub">Users locked from chat</div></div><button class="toggle-btn" onclick="loadChatLockedUsers()" style="font-size:9px;">View</button></div>
+          <div id="chat-locked-list" style="display:none;margin-top:.4rem;"></div>
         </div>
-        <div class="panel-section"><div class="panel-section-title">All Users</div>
+        <div class="panel-section" id="op-section-users"><div class="panel-section-title">All Users</div>
           <div id="owner-user-list"><div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);">Loading...</div></div>
         </div>
       </div>
@@ -1539,6 +1663,48 @@ function _preloadGames(){
   });
 }
 
+
+// ═══════════════════════════════════════════════════════
+// PRESENCE SYSTEM
+// ═══════════════════════════════════════════════════════
+var _onlineUsers={}; // uid -> true
+
+function initPresence(uid,username){
+  var presenceRef=rtdb.ref('presence/'+uid);
+  var connectedRef=rtdb.ref('.info/connected');
+  connectedRef.on('value',function(snap){
+    if(snap.val()===false)return;
+    // When disconnected, remove presence
+    presenceRef.onDisconnect().remove();
+    presenceRef.set({username:username,online:true,ts:Date.now()});
+  });
+  // Listen to all presence
+  rtdb.ref('presence').on('value',function(snap){
+    _onlineUsers={};
+    var val=snap.val()||{};
+    Object.keys(val).forEach(function(k){if(val[k]&&val[k].online)_onlineUsers[k]=true;});
+    updateOnlineDots();
+  });
+}
+
+function updateOnlineDots(){
+  // Update DM list dots
+  document.querySelectorAll('.dm-online-dot').forEach(function(dot){
+    var uid=dot.dataset.uid;
+    dot.style.background=_onlineUsers[uid]?'var(--success)':'var(--surface3)';
+    dot.title=_onlineUsers[uid]?'Online':'Offline';
+  });
+  // Update chat online dot
+  var chatDot=document.querySelector('.chat-online');
+  if(chatDot)chatDot.style.background='var(--success)';
+}
+
+function cleanupPresence(uid){
+  rtdb.ref('presence/'+uid).remove();
+  rtdb.ref('.info/connected').off();
+  rtdb.ref('presence').off();
+}
+
 function setupHome(role,uname,uid){
   if(_homeSetup)return; _homeSetup=true;
   _mpOpen=false;
@@ -1556,6 +1722,7 @@ function _setupHomeInner(role,uname,uid){
 
   // nav user
   document.getElementById('nav-username').textContent=uname;
+  initPresence(uid,uname);
   document.getElementById('nav-avatar').textContent=uname[0].toUpperCase();
   _applyNavAvatar(uid,uname);
   document.getElementById('hero-name').textContent=uname.charAt(0).toUpperCase()+uname.slice(1);
@@ -1584,6 +1751,7 @@ function _setupHomeInner(role,uname,uid){
 
   // chat
   initChat(role,uname,uid);
+  initGroups(role,uname,uid);
 
   // render games
   renderCategories();
@@ -1594,6 +1762,10 @@ function _setupHomeInner(role,uname,uid){
 
   // cloak
   initCloak();
+  // notification settings
+  initNotifSettings();
+  _browserNotifEnabled=localStorage.getItem('srv2-browser-notif')==='1';
+  if('Notification' in window&&Notification.permission==='granted'&&_browserNotifEnabled)_updateBrowserNotifBtn();
 
   // text customisation
   initTextCustom();
@@ -1645,8 +1817,12 @@ window.doLogout=function(){
     if(_unsubLock){_unsubLock();_unsubLock=null;}
     if(_unsubAnnounce){_unsubAnnounce();_unsubAnnounce=null;}
     // Turn off RTDB chat listener
+    var _presUid=localStorage.getItem('srv2-uid');
+    if(_presUid)cleanupPresence(_presUid);
     if(_chatRef){_chatRef.off();_chatRef=null;}
     if(_dmRef){_dmRef.off();_dmRef=null;}
+    if(_groupRef){_groupRef.off();_groupRef=null;}
+    _groupConvos={};_currentGroupId=null;
     // Turn off DM list listener
     var myUid=localStorage.getItem('srv2-uid');
     if(myUid){try{rtdb.ref('dms/'+myUid).off();}catch(e){}}
@@ -1784,7 +1960,11 @@ function animateHomeCards(){
 var _currentCatGames=[];
 function openCategory(id,name){
   _currentCatGames=GAMES.filter(function(g){return g.cat===id;});
-  document.getElementById('lessons-section-title').textContent=name;
+  var t=document.getElementById('lessons-section-title');
+  t.textContent=name;
+  t.classList.remove('lessons-title-anim');
+  void t.offsetWidth;
+  t.classList.add('lessons-title-anim');
   document.getElementById('lesson-search').value='';
   renderCategoryGames(_currentCatGames);
   showHomeSection('lessons');
@@ -1803,7 +1983,11 @@ document.getElementById('lesson-search').addEventListener('input',function(){
 });
 window.showAllLessons=function(){
   _currentCatGames=GAMES;
-  document.getElementById('lessons-section-title').textContent='All Games';
+  var t=document.getElementById('lessons-section-title');
+  t.textContent='All Games';
+  t.classList.remove('lessons-title-anim');
+  void t.offsetWidth;
+  t.classList.add('lessons-title-anim');
   document.getElementById('lesson-search').value='';
   renderCategoryGames(GAMES);
   showHomeSection('lessons');
@@ -1891,6 +2075,44 @@ window.createAccount=function(){
     toast('Error: '+e.message);
   });
 };
+window.toggleGlobalChat=function(){
+  var btn=document.getElementById('tog-global-chat');
+  var newState=btn.textContent==='OFF'; // toggle
+  db.collection('settings').doc('chat').set({enabled:newState}).then(function(){
+    btn.textContent=newState?'ON':'OFF';
+    btn.style.background=newState?'var(--accent)':'var(--surface3)';
+    btn.style.color=newState?'#000':'var(--text-muted)';
+    toast(newState?'✅ Chat enabled':'🔇 Chat disabled for all users');
+  });
+};
+
+window.loadChatLockedUsers=function(){
+  var list=document.getElementById('chat-locked-list');
+  list.style.display=list.style.display==='none'?'block':'none';
+  if(list.style.display==='none')return;
+  list.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);padding:.3rem;">Loading...</div>';
+  db.collection('users').where('chatLockedUntil','>',Date.now()).get().then(function(snap){
+    if(snap.empty){list.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);padding:.3rem;">No locked users</div>';return;}
+    var html='';
+    snap.docs.forEach(function(doc){
+      var d=doc.data();
+      var until=new Date(d.chatLockedUntil).toLocaleTimeString();
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:.35rem .5rem;background:var(--surface2);border-radius:6px;margin-bottom:.3rem;">'
+        +'<span style="font-size:10px;font-family:var(--mono);color:var(--text);">'+d.username+' — until '+until+'</span>'
+        +'<button onclick="unlockChatUser(\"'+doc.id+'\",\"'+d.username+'\")" style="padding:2px 8px;background:var(--success);color:#000;border:none;border-radius:5px;font-size:9px;font-family:var(--mono);cursor:pointer;font-weight:700;">Unlock</button>'
+        +'</div>';
+    });
+    list.innerHTML=html;
+  });
+};
+
+window.unlockChatUser=function(uid,uname){
+  db.collection('users').doc(uid).update({chatLockedUntil:firebase.firestore.FieldValue.delete()}).then(function(){
+    toast('✅ '+uname+' unlocked from chat');
+    loadChatLockedUsers();
+  });
+};
+
 window.clearGlobalChat=function(){
   if(!confirm('Clear all global chat messages? This cannot be undone.'))return;
   rtdb.ref('chat/messages').remove().then(function(){toast('🗑️ Chat cleared.');});
@@ -1898,7 +2120,20 @@ window.clearGlobalChat=function(){
 
 window.openOwnerUserProfile=function(uid){
   var list=document.getElementById('owner-user-list');
-  list.style.animation='slideInFromRight .28s cubic-bezier(0.16,1,0.3,1)';
+  // Hide other sections with animation
+  var hideSections=['op-section-announce','op-section-create','op-section-controls'];
+  hideSections.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.style.animation='sectionHide .2s cubic-bezier(0.4,0,1,1) '+(i*0.04)+'s both';
+    setTimeout(function(){el.style.display='none';el.style.animation='';},200+(i*40));
+  });
+  // Also hide users title momentarily
+  var usersSection=document.getElementById('op-section-users');
+  if(usersSection){
+    var title=usersSection.querySelector('.panel-section-title');
+    if(title){title.style.animation='sectionHide .2s ease both';setTimeout(function(){title.style.display='none';title.style.animation='';},200);}
+  }
   list.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);padding:.5rem;">Loading...</div>';
   db.collection('users').doc(uid).get().then(function(doc){
     if(!doc.exists){list.innerHTML='User not found.';return;}
@@ -1911,7 +2146,7 @@ window.openOwnerUserProfile=function(uid){
         +'<span style="font-size:10px;font-family:var(--mono);color:var(--text-muted);">'+label+'</span>'
         +'<span style="font-size:11px;font-family:var(--mono);color:var(--text);">'+val+'</span></div>';
     }
-    var html='<button onclick="loadOwnerUserList()" style="display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-family:var(--mono);font-size:11px;padding:.25rem 0;margin-bottom:.75rem;">'
+    var html='<button onclick="restoreOwnerSections()" style="display:flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-family:var(--mono);font-size:11px;padding:.25rem 0;margin-bottom:.75rem;">'
       +'<svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg> Back</button>';
     html+='<div style="display:flex;align-items:center;gap:.75rem;padding:.85rem;background:var(--surface2);border:1px solid var(--border);border-radius:10px;margin-bottom:.75rem;">'
       +'<div style="width:40px;height:40px;border-radius:50%;background:var(--accent-glow);border:1.5px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--accent);">'+(u.username||'?')[0].toUpperCase()+'</div>'
@@ -1935,6 +2170,7 @@ window.openOwnerUserProfile=function(uid){
       html+='<button class="pill pill-danger" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="delete">Delete</button>';
       html+='</div></div>';
     }
+    list.style.animation='userProfileIn .32s cubic-bezier(0.16,1,0.3,1) both';
     list.innerHTML=html;
     list.querySelectorAll('.pill[data-action]').forEach(function(btn){
       btn.addEventListener('click',function(){
@@ -1981,10 +2217,14 @@ window.openProfilePopup=function(){
   var pp=document.getElementById('profile-popup');
   ov.style.display='block';
   pp.style.display='block';
-  // Animate in
+  pp.style.transform='scale(0.92) translateY(-8px)';
+  pp.style.opacity='0';
   requestAnimationFrame(function(){
-    pp.style.transform='scale(1) translateY(0)';
-    pp.style.opacity='1';
+    requestAnimationFrame(function(){
+      pp.style.transition='transform .3s cubic-bezier(0.34,1.56,0.64,1),opacity .2s ease';
+      pp.style.transform='scale(1) translateY(0)';
+      pp.style.opacity='1';
+    });
   });
   if(uid){
     db.collection('users').doc(uid).get().then(function(snap){
@@ -2063,15 +2303,50 @@ function _avatarHTML(photo,uname,size){
 window.closeProfilePopup=function(){
   var pp=document.getElementById('profile-popup');
   var ov=document.getElementById('profile-overlay');
-  pp.style.transform='scale(0.9) translateY(-10px)';
+  pp.style.transition='transform .2s cubic-bezier(0.4,0,1,1),opacity .18s ease';
+  pp.style.transform='scale(0.92) translateY(-8px)';
   pp.style.opacity='0';
-  setTimeout(function(){pp.style.display='none';ov.style.display='none';},200);
+  setTimeout(function(){pp.style.display='none';ov.style.display='none';pp.style.transition='';},200);
 };
 
 window.stopAllUsers=function(){
   if(!confirm('Stop ALL users?'))return;
   db.collection('users').where('role','==','user').get().then(function(snap){var batch=db.batch();snap.docs.forEach(function(d){batch.update(d.ref,{locked:true});});return batch.commit();}).then(function(){toast('🛑 All users stopped.');loadOwnerUserList();});
 };
+function restoreOwnerSections(){
+  // Animate out user profile
+  var list=document.getElementById('owner-user-list');
+  if(list){
+    list.style.animation='userProfileOut .2s cubic-bezier(0.4,0,1,1) both';
+    setTimeout(function(){
+      list.style.animation='';
+      loadOwnerUserList();
+    },200);
+  }
+  // Restore hidden sections
+  var showSections=['op-section-announce','op-section-create','op-section-controls'];
+  showSections.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(!el)return;
+    setTimeout(function(){
+      el.style.display='block';
+      el.style.animation='sectionShow .28s cubic-bezier(0.16,1,0.3,1) both';
+      setTimeout(function(){el.style.animation='';},300);
+    },i*60);
+  });
+  // Restore users title
+  var usersSection=document.getElementById('op-section-users');
+  if(usersSection){
+    var title=usersSection.querySelector('.panel-section-title');
+    if(title){
+      setTimeout(function(){
+        title.style.display='';
+        title.style.animation='sectionShow .28s cubic-bezier(0.16,1,0.3,1) both';
+        setTimeout(function(){title.style.animation='';},300);
+      },180);
+    }
+  }
+}
 function loadOwnerUserList(){
   var list=document.getElementById('owner-user-list');
   list.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);">Loading...</div>';
@@ -2146,6 +2421,23 @@ var _dmConvos={}; // uid -> {name, unread}
 
 function initChat(role,username,uid){
   _chatRef=rtdb.ref('chat/messages');
+  initChatLock();
+  // Listen for spam notifications (owner only)
+  if(role==='owner'){
+    rtdb.ref('notifications/spam').on('value',function(snap){
+      var val=snap.val();
+      if(!val)return;
+      var keys=Object.keys(val);
+      var recent=keys.filter(function(k){return Date.now()-val[k].ts<5000;});
+      if(recent.length>0){
+        var n=val[recent[0]];
+        _playNotifSound();
+        toast('🚨 '+n.username+' was auto-locked for spamming!',5000);
+        // Clear notification
+        rtdb.ref('notifications/spam/'+recent[0]).remove();
+      }
+    });
+  }
   _chatRef.limitToLast(50).on('value',function(snap){
     var msgs=document.getElementById('chat-messages');msgs.innerHTML='';
     var val=snap.val();
@@ -2160,7 +2452,10 @@ function initChat(role,username,uid){
       msgs.appendChild(div);
     });
     msgs.scrollTop=msgs.scrollHeight;
-    if(!_chatOpen||_currentTab!=='global'){_chatUnread++;var b=document.getElementById('chat-badge');if(b){b.textContent=_chatUnread>9?'9+':_chatUnread;b.style.display='flex';}_playNotifSound();}
+    if(!_chatOpen||_currentTab!=='global'){_chatUnread++;var b=document.getElementById('chat-badge');if(b){b.textContent=_chatUnread>9?'9+':_chatUnread;b.style.display='flex';}
+      _playNotifIfEnabled('global');
+      if(Object.keys(val||{}).length>0){var lastKey=Object.keys(val).pop();var lastMsg=val[lastKey];if(lastMsg&&lastMsg.user){_sendBrowserNotif('Global Chat',lastMsg.user+': '+lastMsg.text);}}
+    }
   });
 
   // Listen for incoming DMs
@@ -2178,7 +2473,7 @@ function initChat(role,username,uid){
       totalUnread+=unread;
     });
     var dmb=document.getElementById('dm-badge');
-    if(totalUnread>prevTotal)_playNotifSound();
+    if(totalUnread>prevTotal&&_notifSettings['dm']!==false)_playNotifSound();
     if(dmb){if(totalUnread>0){dmb.textContent=totalUnread>9?'9+':totalUnread;dmb.style.display='inline';}else{dmb.style.display='none';}}
     if(_currentTab==='dms'&&_currentDmUid===null)renderDmList();
   });
@@ -2187,10 +2482,13 @@ function initChat(role,username,uid){
 window.switchChatTab=function(tab){
   var prev=_currentTab;
   _currentTab=tab;
-  var goRight=tab==='dms'; // dms is to the right of global
-  var fromEl=document.getElementById(prev==='global'?'chat-view-global':'chat-view-dms');
-  var toEl=document.getElementById(tab==='global'?'chat-view-global':'chat-view-dms');
+  var order=['global','dms','groups'];
+  var goRight=order.indexOf(tab)>order.indexOf(prev);
+  var viewMap={global:'chat-view-global',dms:'chat-view-dms',groups:'chat-view-groups'};
+  var fromEl=document.getElementById(viewMap[prev]||'chat-view-global');
+  var toEl=document.getElementById(viewMap[tab]||'chat-view-global');
   document.getElementById('chat-view-dm-convo').style.display='none';
+  document.getElementById('chat-view-group-convo').style.display='none';
   if(fromEl!==toEl&&fromEl.style.display!=='none'){
     fromEl.style.animation=(goRight?'slideOutToLeft':'slideOutToRight')+' .18s cubic-bezier(0.4,0,1,1) both';
     setTimeout(function(){
@@ -2202,16 +2500,18 @@ window.switchChatTab=function(tab){
   } else {
     toEl.style.display='flex';
   }
-  var tg=document.getElementById('tab-global'),td=document.getElementById('tab-dms');
-  tg.style.background=tab==='global'?'var(--accent-glow)':'none';
-  tg.style.borderBottomColor=tab==='global'?'var(--accent)':'transparent';
-  tg.style.color=tab==='global'?'var(--accent)':'var(--text-muted)';
-  td.style.background=tab==='dms'?'var(--accent-glow)':'none';
-  td.style.borderBottomColor=tab==='dms'?'var(--accent)':'transparent';
-  td.style.color=tab==='dms'?'var(--accent)':'var(--text-muted)';
-  document.getElementById('chat-panel-title').textContent=tab==='global'?'Global Chat':'Direct Messages';
+  ['global','dms','groups'].forEach(function(t){
+    var btn=document.getElementById('tab-'+t);
+    if(!btn)return;
+    btn.style.background=tab===t?'var(--accent-glow)':'none';
+    btn.style.borderBottomColor=tab===t?'var(--accent)':'transparent';
+    btn.style.color=tab===t?'var(--accent)':'var(--text-muted)';
+  });
+  var titles={global:'Global Chat',dms:'Direct Messages',groups:'Group Chats'};
+  document.getElementById('chat-panel-title').textContent=titles[tab]||'Chat';
   if(tab==='global'){_chatUnread=0;var b=document.getElementById('chat-badge');if(b)b.style.display='none';var msgs=document.getElementById('chat-messages');if(msgs)msgs.scrollTop=msgs.scrollHeight;}
   if(tab==='dms'){_currentDmUid=null;renderDmList();}
+  if(tab==='groups'){_currentGroupId=null;renderGroupList();}
 };
 
 function renderDmList(){
@@ -2224,14 +2524,23 @@ function renderDmList(){
     var row=document.createElement('div');
     row.className='dm-row';
     row.dataset.name=c.name.toLowerCase();
-    row.style.cssText='display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:3px;';
-    row.onmouseover=function(){this.style.background='var(--surface2)';};
-    row.onmouseout=function(){this.style.background='transparent';};
+    row.style.cssText='display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;border-radius:8px;cursor:pointer;transition:background .2s cubic-bezier(0.16,1,0.3,1),transform .25s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;margin-bottom:3px;';
+    row.onmouseover=function(){this.style.background='var(--surface2)';this.style.transform='translateX(4px)';this.style.boxShadow='0 2px 8px var(--accent-glow)';};
+    row.onmouseout=function(){this.style.background='transparent';this.style.transform='';this.style.boxShadow='';};
     row.onclick=function(){openDmConvo(otherUid,c.name);};
+    var dmAvatarWrap=document.createElement('div');
+    dmAvatarWrap.style.cssText='position:relative;flex-shrink:0;width:28px;height:28px;';
     var dmAvatarDiv=document.createElement('div');
-    dmAvatarDiv.style.cssText='width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;';
+    dmAvatarDiv.style.cssText='width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);overflow:hidden;';
     dmAvatarDiv.textContent=(c.name[0]||'?').toUpperCase();
-    row.appendChild(dmAvatarDiv);
+    var onlineDot=document.createElement('div');
+    onlineDot.className='dm-online-dot';
+    onlineDot.dataset.uid=otherUid;
+    onlineDot.style.cssText='position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;background:'+(_onlineUsers[otherUid]?'var(--success)':'var(--surface3)')+';border:1.5px solid var(--surface);transition:background .3s;';
+    onlineDot.title=_onlineUsers[otherUid]?'Online':'Offline';
+    dmAvatarWrap.appendChild(dmAvatarDiv);
+    dmAvatarWrap.appendChild(onlineDot);
+    row.appendChild(dmAvatarWrap);
     var nameSpan=document.createElement('span');
     nameSpan.style.cssText='font-size:12px;font-family:var(--mono);color:var(--text);flex:1;';
     nameSpan.textContent=c.name;
@@ -2324,6 +2633,7 @@ function openDmConvo(otherUid,otherName){
     if(!val){msgs.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet</div>';return;}
     Object.keys(val).forEach(function(k){
       var m=val[k];var isOwn=m.uid===myUid;
+      if(!isOwn&&_blockedUsers&&_blockedUsers[m.uid])return;
       var canDel=isOwn||role==='owner'||(role==='admin');
       var time=new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       var del=canDel?'<button class="chat-msg-del" onclick="askDelDm(\''+k+'\')" title="Delete">✕</button>':'';
@@ -2418,8 +2728,8 @@ function _buildEmojiPicker(pickerId, inputId){
   showCat('Smileys');
 }
 window.toggleEmojiPicker=function(type){
-  var pickerId=(!type||type==='global')?'emoji-picker':'dm-emoji-picker';
-  var inputId=(!type||type==='global')?'chat-input':'dm-input';
+  var pickerId=(!type||type==='global')?'emoji-picker':(type==='group'?'group-emoji-picker':'dm-emoji-picker');
+  var inputId=(!type||type==='global')?'chat-input':(type==='group'?'group-input':'dm-input');
   var picker=document.getElementById(pickerId);
   if(!picker)return;
   if(picker.style.display==='flex'){picker.style.display='none';return;}
@@ -2447,6 +2757,14 @@ window.toggleChatExpand=function(){
     if(tabs)tabs.style.display='none';
     if(btn)btn.innerHTML=collapseIcon;
     updateSidebarDmList();
+    /* Show correct view based on current tab */
+    var viewMap={global:'chat-view-global',dms:'chat-view-dms',groups:'chat-view-groups'};
+    ['chat-view-global','chat-view-dms','chat-view-groups','chat-view-dm-convo','chat-view-group-convo'].forEach(function(id){
+      document.getElementById(id).style.display='none';
+    });
+    var activeView=viewMap[_currentTab]||'chat-view-global';
+    document.getElementById(activeView).style.display='flex';
+    updateSidebar(_currentTab);
   } else {
     panel.classList.remove('expanded');
     if(tabs)tabs.style.display='flex';
@@ -2455,33 +2773,58 @@ window.toggleChatExpand=function(){
   }
 };
 function updateSidebar(tab){
+  /* Clear all active states */
   var sbGlobal=document.getElementById('sb-global');
-  if(sbGlobal)sbGlobal.classList.toggle('active',tab==='global');
-  document.querySelectorAll('.sb-dm-item').forEach(function(i){i.classList.remove('active');});
+  if(sbGlobal)sbGlobal.classList.remove('active');
+  document.querySelectorAll('.sb-dm-item,.sb-group-item').forEach(function(i){i.classList.remove('active');});
+  /* Set correct active */
+  if(tab==='global'&&sbGlobal)sbGlobal.classList.add('active');
 }
 function updateSidebarDmList(){
+  // DMs
   var list=document.getElementById('sb-dm-list');
-  if(!list)return;
-  list.innerHTML='';
-  Object.keys(_dmConvos).forEach(function(uid){
-    var c=_dmConvos[uid];
-    var item=document.createElement('div');
-    item.className='sidebar-item sb-dm-item';
-    item.innerHTML='<div style="width:7px;height:7px;border-radius:50%;background:var(--accent-dim);flex-shrink:0;"></div><span class="sidebar-item-name">'+c.name+'</span>'+(c.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+c.unread+'</span>':'');
-    item.onclick=function(){
-      // In expanded mode go straight to convo, skip DM list
-      if(_chatExpanded){
-        document.getElementById('chat-view-dms').style.display='none';
-        document.getElementById('chat-view-global').style.display='none';
-        openDmConvo(uid,c.name);
-        document.getElementById('chat-view-dm-convo').style.display='flex';
-      } else {
-        switchChatTab('dms');openDmConvo(uid,c.name);
-      }
-      updateSidebar('dm');item.classList.add('active');
-    };
-    list.appendChild(item);
-  });
+  if(list){
+    list.innerHTML='';
+    Object.keys(_dmConvos).forEach(function(uid){
+      var cv=_dmConvos[uid];
+      var item=document.createElement('div');
+      item.className='sidebar-item sb-dm-item';
+      item.innerHTML='<div style="width:7px;height:7px;border-radius:50%;background:var(--accent-dim);flex-shrink:0;"></div><span class="sidebar-item-name">'+cv.name+'</span>'+(cv.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+cv.unread+'</span>':'');
+      item.onclick=function(){
+        if(_chatExpanded){
+          ['chat-view-dms','chat-view-global','chat-view-groups','chat-view-group-convo','chat-view-dm-convo'].forEach(function(id){document.getElementById(id).style.display='none';});
+          openDmConvo(uid,cv.name);
+          document.getElementById('chat-view-dm-convo').style.display='flex';
+        } else {
+          switchChatTab('dms');openDmConvo(uid,cv.name);
+        }
+        updateSidebar('dm');item.classList.add('active');
+      };
+      list.appendChild(item);
+    });
+  }
+  // Groups
+  var glist=document.getElementById('sb-group-list');
+  if(glist){
+    glist.innerHTML='';
+    Object.keys(_groupConvos).forEach(function(gid){
+      var g=_groupConvos[gid];
+      var item=document.createElement('div');
+      item.className='sidebar-item sb-group-item';
+      item.innerHTML='<div style="width:7px;height:7px;border-radius:4px;background:var(--accent-dim);flex-shrink:0;"></div><span class="sidebar-item-name">'+g.name+'</span>'+(g.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+g.unread+'</span>':'');
+      item.onclick=function(){
+        if(_chatExpanded){
+          ['chat-view-dms','chat-view-global','chat-view-groups','chat-view-dm-convo','chat-view-group-convo'].forEach(function(id){document.getElementById(id).style.display='none';});
+          openGroupConvo(gid,g.name);
+          document.getElementById('chat-view-group-convo').style.display='flex';
+        } else {
+          switchChatTab('groups');openGroupConvo(gid,g.name);
+        }
+        updateSidebar('group');item.classList.add('active');
+      };
+      glist.appendChild(item);
+    });
+  }
 }
 window.toggleChat=function(){
   _chatOpen=!_chatOpen;
@@ -2498,7 +2841,10 @@ window.toggleChat=function(){
 };
 window.sendMsg=function(){
   var input=document.getElementById('chat-input');var text=input.value.trim();
-  if(!text||!_chatRef)return;input.value='';
+  if(!text||!_chatRef)return;
+  if(_chatLocked||!_globalChatEnabled){toast('Chat is locked.');return;}
+  if(!checkRateLimit())return;
+  input.value='';
   var role=localStorage.getItem('srv2-role')||'user';
   var user=localStorage.getItem('srv2-username')||'user';
   var uid=localStorage.getItem('srv2-uid')||'';
@@ -2613,8 +2959,609 @@ function _initMpDivider(){
 window.askDel=function(key){_pendingDelKey=key;_pendingDelIsDm=false;document.getElementById('del-overlay').classList.add('show');document.getElementById('del-confirm').classList.add('show');};
 window.askDelDm=function(key){_pendingDelKey=key;_pendingDelIsDm=true;document.getElementById('del-overlay').classList.add('show');document.getElementById('del-confirm').classList.add('show');};
 window.cancelDel=function(){_pendingDelKey=null;_pendingDelIsDm=false;document.getElementById('del-overlay').classList.remove('show');document.getElementById('del-confirm').classList.remove('show');};
-window.confirmDel=function(){if(!_pendingDelKey)return;if(_pendingDelIsDm&&_dmRef){_dmRef.child(_pendingDelKey).remove();}else if(_chatRef){_chatRef.child(_pendingDelKey).remove();}cancelDel();};
+var _pendingDelIsGroup=false;
+window.confirmDel=function(){
+  if(!_pendingDelKey)return;
+  if(_pendingDelIsGroup&&_groupRef){_groupRef.child(_pendingDelKey).remove();}
+  else if(_pendingDelIsDm&&_dmRef){_dmRef.child(_pendingDelKey).remove();}
+  else if(_chatRef){_chatRef.child(_pendingDelKey).remove();}
+  _pendingDelIsGroup=false;
+  cancelDel();
+};
 document.getElementById('chat-input').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+
+
+// ═══════════════════════════════════════════════════════
+// GROUP CHATS
+// ═══════════════════════════════════════════════════════
+var _currentGroupId=null,_currentGroupName=null,_groupRef=null;
+var _groupMembers=[]; // pending members for new group
+var _groupConvos={}; // groupId -> {name, unread}
+var _isGroupCreator=false;
+
+function initGroups(role,username,uid){
+  // Listen for groups this user is in
+  rtdb.ref('group_members/'+uid).on('value',function(snap){
+    var val=snap.val();
+    _groupConvos={};
+    if(!val){renderGroupList();return;}
+    var ids=Object.keys(val);
+    var loaded=0;
+    ids.forEach(function(gid){
+      rtdb.ref('groups/'+gid).once('value').then(function(gsnap){
+        if(gsnap.exists()){
+          var d=gsnap.val();
+          _groupConvos[gid]={name:d.name||'Group',unread:val[gid].unread||0,creator:d.creator||''};
+        }
+        loaded++;
+        if(loaded===ids.length)renderGroupList();
+      });
+    });
+  });
+}
+
+function renderGroupList(){
+  var list=document.getElementById('group-list');
+  if(!list)return;
+  var keys=Object.keys(_groupConvos);
+  if(keys.length===0){
+    list.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;padding:1rem;">No groups yet. Press + to create one!</div>';
+    return;
+  }
+  list.innerHTML='';
+  keys.forEach(function(gid){
+    var g=_groupConvos[gid];
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;border-radius:8px;cursor:pointer;transition:background .2s cubic-bezier(0.16,1,0.3,1),transform .25s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;margin-bottom:3px;';
+    row.onmouseover=function(){this.style.background='var(--surface2)';this.style.transform='translateX(4px)';this.style.boxShadow='0 2px 8px var(--accent-glow)';};
+    row.onmouseout=function(){this.style.background='transparent';this.style.transform='';this.style.boxShadow='';};
+    row.onclick=function(){openGroupConvo(gid,g.name);};
+    var icon='<div style="width:28px;height:28px;border-radius:6px;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>';
+    var nameSpan='<span style="font-size:12px;font-family:var(--mono);color:var(--text);flex:1;">'+g.name+'</span>';
+    var badge=g.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--mono);font-weight:700;">'+g.unread+'</span>':'';
+    row.innerHTML=icon+nameSpan+badge;
+    list.appendChild(row);
+  });
+  // Update badge
+  var totalUnread=Object.values(_groupConvos).reduce(function(a,g){return a+(g.unread||0);},0);
+  var gb=document.getElementById('group-badge');
+  if(gb){if(totalUnread>0){gb.textContent=totalUnread>9?'9+':totalUnread;gb.style.display='inline';}else{gb.style.display='none';}}
+}
+
+function openGroupConvo(gid,name){
+  _currentGroupId=gid;_currentGroupName=name;
+  var myUid=localStorage.getItem('srv2-uid');
+  // Clear unread
+  rtdb.ref('group_members/'+myUid+'/'+gid+'/unread').set(0);
+  if(_groupConvos[gid])_groupConvos[gid].unread=0;
+  // Show convo view
+  document.getElementById('chat-view-groups').style.display='none';
+  document.getElementById('chat-view-group-convo').style.display='flex';
+  document.getElementById('group-convo-name').textContent=name;
+  document.getElementById('chat-panel-title').textContent=name;
+  document.getElementById('group-info-panel').style.display='none';
+  // Check if creator
+  rtdb.ref('groups/'+gid).once('value').then(function(snap){
+    if(!snap.exists())return;
+    var d=snap.val();
+    _isGroupCreator=d.creator===myUid;
+    // Load members display
+    var members=d.members||{};
+    var mDisplay=document.getElementById('group-members-display');
+    if(mDisplay){
+      mDisplay.innerHTML='';
+      Object.keys(members).forEach(function(muid){
+        var chip=document.createElement('div');
+        chip.style.cssText='display:flex;align-items:center;gap:.3rem;padding:3px 8px;background:var(--surface3);border:1px solid var(--border);border-radius:20px;font-size:10px;font-family:var(--mono);color:var(--text);';
+        chip.textContent=members[muid].username||muid;
+        // Owner/admin can remove members, creator can remove anyone
+        var myRole=localStorage.getItem('srv2-role')||'user';
+        if((_isGroupCreator||myRole==='owner'||myRole==='admin')&&muid!==myUid){
+          var removeBtn=document.createElement('button');
+          removeBtn.textContent='×';
+          removeBtn.style.cssText='background:none;border:none;cursor:pointer;color:var(--danger);font-size:12px;padding:0 2px;line-height:1;';
+          removeBtn.onclick=function(e){e.stopPropagation();removeMemberFromGroup(gid,muid,members[muid].username);};
+          chip.appendChild(removeBtn);
+        }
+        mDisplay.appendChild(chip);
+      });
+    }
+  });
+  // Listen to messages
+  if(_groupRef)_groupRef.off();
+  var myRole=localStorage.getItem('srv2-role')||'user';
+  var myName=localStorage.getItem('srv2-username')||'';
+  _groupRef=rtdb.ref('group_messages/'+gid);
+  _groupRef.limitToLast(50).on('value',function(snap){
+    var msgs=document.getElementById('group-messages');
+    msgs.innerHTML='';
+    var val=snap.val();
+    if(!val){msgs.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet</div>';return;}
+    Object.keys(val).forEach(function(k){
+      var m=val[k];var isOwn=m.uid===myUid;
+      var canDel=isOwn||myRole==='owner'||(myRole==='admin'&&m.role==='user');
+      var time=new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+      var del=canDel?'<button class="chat-msg-del" onclick="askDelGroup(\"'+k+'\")" title="Delete">✕</button>':'';
+      var div=document.createElement('div');div.className='chat-msg'+(isOwn?' own':'');
+      div.innerHTML='<div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-role '+(m.role||'user')+'">'+(m.role||'user')+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+      msgs.appendChild(div);
+    });
+    msgs.scrollTop=msgs.scrollHeight;
+  });
+  document.getElementById('group-input').focus();
+}
+
+window.backToGroupList=function(){
+  if(_groupRef){_groupRef.off();_groupRef=null;}
+  _currentGroupId=null;
+  document.getElementById('chat-view-group-convo').style.display='none';
+  document.getElementById('chat-view-groups').style.display='flex';
+  document.getElementById('chat-panel-title').textContent='Group Chats';
+  renderGroupList();
+};
+
+window.sendGroupMsg=function(){
+  var input=document.getElementById('group-input');var text=input.value.trim();
+  if(!text||!_currentGroupId)return;input.value='';
+  var myUid=localStorage.getItem('srv2-uid');
+  var myName=localStorage.getItem('srv2-username')||'user';
+  var myRole=localStorage.getItem('srv2-role')||'user';
+  var msgRef=rtdb.ref('group_messages/'+_currentGroupId).push({user:myName,uid:myUid,role:myRole,text:text,ts:Date.now()});
+  // Increment unread for all other members
+  rtdb.ref('groups/'+_currentGroupId+'/members').once('value').then(function(snap){
+    if(!snap.exists())return;
+    var members=snap.val();
+    Object.keys(members).forEach(function(muid){
+      if(muid!==myUid){
+        rtdb.ref('group_members/'+muid+'/'+_currentGroupId+'/unread').transaction(function(v){return(v||0)+1;});
+      }
+    });
+  });
+};
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey&&document.activeElement&&document.activeElement.id==='group-input'){
+    e.preventDefault();sendGroupMsg();
+  }
+});
+
+// ── GROUP CREATE ──
+var _pendingGroupMembers={}; // uid -> username
+
+window.toggleGroupCreate=function(){
+  var row=document.getElementById('group-create-row');
+  var open=row.style.maxHeight&&row.style.maxHeight!=='0px'&&row.style.maxHeight!=='0';
+  if(open){
+    row.style.maxHeight='0';
+    row.style.padding='0 .5rem';
+    row.style.borderBottomWidth='0px';
+  } else {
+    _pendingGroupMembers={};
+    document.getElementById('group-name-input').value='';
+    document.getElementById('group-username-input').value='';
+    document.getElementById('group-create-error').style.display='none';
+    renderPendingMembers();
+    loadGroupContacts();
+    row.style.maxHeight='500px';
+    row.style.padding='.5rem';
+    row.style.borderBottomWidth='1px';
+    setTimeout(function(){document.getElementById('group-name-input').focus();},50);
+  }
+};
+
+function loadGroupContacts(){
+  var myUid=localStorage.getItem('srv2-uid');
+  var container=document.getElementById('group-contacts-list');
+  container.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);padding:.4rem;">Loading contacts...</div>';
+  // Get DM contacts
+  rtdb.ref('dms/'+myUid).once('value').then(function(snap){
+    var val=snap.val();
+    if(!val||Object.keys(val).length===0){
+      container.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);padding:.4rem;">No contacts yet — type a username below.</div>';
+      return;
+    }
+    container.innerHTML='';
+    Object.keys(val).forEach(function(uid){
+      var name=val[uid].name||uid;
+      var item=document.createElement('div');
+      item.style.cssText='display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem;cursor:pointer;transition:background .15s;border-radius:5px;';
+      item.onmouseover=function(){this.style.background='var(--surface3)';};
+      item.onmouseout=function(){if(!_pendingGroupMembers[uid])this.style.background='transparent';else this.style.background='var(--accent-glow)';};
+      var check='<div id="gc-check-'+uid+'" style="width:14px;height:14px;border-radius:3px;border:1px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;"></div>';
+      item.innerHTML=check+'<span style="font-size:11px;font-family:var(--mono);color:var(--text);">'+name+'</span>';
+      item.onclick=function(){toggleGroupMember(uid,name,item);};
+      container.appendChild(item);
+    });
+  });
+}
+
+function toggleGroupMember(uid,name,item){
+  if(_pendingGroupMembers[uid]){
+    delete _pendingGroupMembers[uid];
+    item.style.background='transparent';
+    var check=document.getElementById('gc-check-'+uid);
+    if(check){check.textContent='';check.style.background='';check.style.borderColor='var(--border2)';}
+  } else {
+    if(Object.keys(_pendingGroupMembers).length>=9){
+      var err=document.getElementById('group-create-error');
+      err.textContent='Max 10 members (including you)';err.style.display='block';
+      return;
+    }
+    _pendingGroupMembers[uid]=name;
+    item.style.background='var(--accent-glow)';
+    var check=document.getElementById('gc-check-'+uid);
+    if(check){check.textContent='✓';check.style.background='var(--accent)';check.style.color='#000';check.style.borderColor='var(--accent)';}
+  }
+  renderPendingMembers();
+}
+
+function renderPendingMembers(){
+  var container=document.getElementById('group-member-list');
+  container.innerHTML='';
+  Object.keys(_pendingGroupMembers).forEach(function(uid){
+    var chip=document.createElement('div');
+    chip.style.cssText='display:flex;align-items:center;gap:.25rem;padding:2px 8px;background:var(--accent-glow);border:1px solid var(--accent-dim);border-radius:20px;font-size:10px;font-family:var(--mono);color:var(--accent);';
+    chip.innerHTML=_pendingGroupMembers[uid]+'<button onclick="removePendingMember(\"'+uid+'\")" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:11px;padding:0 1px;line-height:1;">×</button>';
+    container.appendChild(chip);
+  });
+}
+
+window.removePendingMember=function(uid){
+  delete _pendingGroupMembers[uid];
+  renderPendingMembers();
+  // Uncheck in contacts list
+  var check=document.getElementById('gc-check-'+uid);
+  if(check){check.textContent='';check.style.background='';check.style.borderColor='var(--border2)';}
+  var item=check?check.parentElement:null;
+  if(item)item.style.background='transparent';
+};
+
+window.groupAddUsername=function(){
+  var input=document.getElementById('group-username-input');
+  var username=input.value.trim().toLowerCase();
+  var err=document.getElementById('group-create-error');
+  err.style.display='none';
+  if(!username)return;
+  if(Object.keys(_pendingGroupMembers).length>=9){err.textContent='Max 10 members (including you)';err.style.display='block';return;}
+  // Find user in Firestore
+  db.collection('users').where('username','==',username).limit(1).get().then(function(snap){
+    if(snap.empty){err.textContent='User "'+username+'" not found';err.style.display='block';return;}
+    var doc=snap.docs[0];
+    var myUid=localStorage.getItem('srv2-uid');
+    if(doc.id===myUid){err.textContent="That's you!";err.style.display='block';return;}
+    if(_pendingGroupMembers[doc.id]){err.textContent='Already added';err.style.display='block';return;}
+    _pendingGroupMembers[doc.id]=doc.data().username;
+    renderPendingMembers();
+    input.value='';
+  }).catch(function(){err.textContent='Error finding user';err.style.display='block';});
+};
+
+window.createGroup=function(){
+  var name=document.getElementById('group-name-input').value.trim();
+  var err=document.getElementById('group-create-error');
+  err.style.display='none';
+  if(!name){err.textContent='Enter a group name';err.style.display='block';return;}
+  if(Object.keys(_pendingGroupMembers).length===0){err.textContent='Add at least 1 member';err.style.display='block';return;}
+  var myUid=localStorage.getItem('srv2-uid');
+  var myName=localStorage.getItem('srv2-username')||'';
+  var myRole=localStorage.getItem('srv2-role')||'user';
+  // Build members object
+  var members={};
+  members[myUid]={username:myName,role:myRole};
+  Object.keys(_pendingGroupMembers).forEach(function(uid){
+    members[uid]={username:_pendingGroupMembers[uid]};
+  });
+  // Create group in RTDB
+  var gRef=rtdb.ref('groups').push({
+    name:name,creator:myUid,createdAt:Date.now(),members:members
+  });
+  var gid=gRef.key;
+  // Add group to each member's group_members list
+  Object.keys(members).forEach(function(uid){
+    rtdb.ref('group_members/'+uid+'/'+gid).set({name:name,unread:0});
+  });
+  // System message
+  rtdb.ref('group_messages/'+gid).push({
+    user:'System',uid:'system',role:'system',
+    text:myName+' created the group',ts:Date.now()
+  });
+  // Close create panel
+  var row=document.getElementById('group-create-row');
+  if(row){row.style.maxHeight='0';row.style.padding='0 .5rem';row.style.borderBottomWidth='0px';}
+  toast('✅ Group "'+name+'" created!');
+  setTimeout(function(){openGroupConvo(gid,name);},300);
+};
+
+window.openGroupInfo=function(){
+  var panel=document.getElementById('group-info-panel');
+  var open=panel.style.display==='flex';
+  if(open){
+    panel.style.animation='groupCreateOut .18s ease both';
+    setTimeout(function(){panel.style.display='none';panel.style.animation='';},180);
+  } else {
+    panel.style.display='flex';
+    panel.style.animation='groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both';
+  }
+};
+
+window.addMemberToGroup=function(){
+  if(!_currentGroupId)return;
+  var input=document.getElementById('group-add-member-input');
+  var username=input.value.trim().toLowerCase();
+  if(!username)return;
+  var myName=localStorage.getItem('srv2-username')||'';
+  // Check member count first
+  rtdb.ref('groups/'+_currentGroupId+'/members').once('value').then(function(snap){
+    var members=snap.val()||{};
+    if(Object.keys(members).length>=10){toast('Max 10 members reached!');return;}
+    db.collection('users').where('username','==',username).limit(1).get().then(function(qsnap){
+      if(qsnap.empty){toast('User "'+username+'" not found');return;}
+      var doc=qsnap.docs[0];
+      if(members[doc.id]){toast(username+' is already in the group');return;}
+      // Add member
+      rtdb.ref('groups/'+_currentGroupId+'/members/'+doc.id).set({username:doc.data().username,role:doc.data().role||'user'});
+      rtdb.ref('group_members/'+doc.id+'/'+_currentGroupId).set({name:_currentGroupName,unread:0});
+      // System message
+      rtdb.ref('group_messages/'+_currentGroupId).push({
+        user:'System',uid:'system',role:'system',
+        text:myName+' added '+username,ts:Date.now()
+      });
+      input.value='';
+      toast('✅ Added '+username+'!');
+      openGroupConvo(_currentGroupId,_currentGroupName);
+    }).catch(function(){toast('Error finding user');});
+  });
+};
+
+window.leaveGroup=function(){
+  if(!_currentGroupId)return;
+  if(!confirm('Leave this group?'))return;
+  var myUid=localStorage.getItem('srv2-uid');
+  var myName=localStorage.getItem('srv2-username')||'';
+  // Add system message
+  rtdb.ref('group_messages/'+_currentGroupId).push({
+    user:'System',uid:'system',role:'system',
+    text:myName+' left the group',ts:Date.now()
+  });
+  // Remove from group members
+  rtdb.ref('groups/'+_currentGroupId+'/members/'+myUid).remove();
+  rtdb.ref('group_members/'+myUid+'/'+_currentGroupId).remove();
+  if(_groupRef){_groupRef.off();_groupRef=null;}
+  toast('Left group');
+  backToGroupList();
+};
+
+function removeMemberFromGroup(gid,uid,username){
+  if(!confirm('Remove '+username+' from group?'))return;
+  var myName=localStorage.getItem('srv2-username')||'';
+  rtdb.ref('group_messages/'+gid).push({
+    user:'System',uid:'system',role:'system',
+    text:myName+' removed '+username,ts:Date.now()
+  });
+  rtdb.ref('groups/'+gid+'/members/'+uid).remove();
+  rtdb.ref('group_members/'+uid+'/'+gid).remove();
+  toast('Removed '+username);
+  // Refresh members display
+  openGroupConvo(gid,_currentGroupName);
+}
+
+window.askDelGroup=function(key){
+  _pendingDelKey=key;_pendingDelIsDm=false;_pendingDelIsGroup=true;
+  document.getElementById('del-overlay').classList.add('show');
+  document.getElementById('del-confirm').classList.add('show');
+};
+
+
+// ═══════════════════════════════════════════════════════
+// CHAT RATE LIMITING + CHAT LOCK
+// ═══════════════════════════════════════════════════════
+var _msgTimestamps=[]; // rolling window of msg timestamps
+var _chatLocked=false; // local chat locked state
+var _chatLockedUntil=0;
+var _globalChatEnabled=true; // owner can disable global chat
+
+function initChatLock(){
+  // Listen for global chat enabled/disabled
+  db.collection('settings').doc('chat').onSnapshot(function(snap){
+    if(!snap.exists){_globalChatEnabled=true;updateChatLockUI();return;}
+    var d=snap.data();
+    _globalChatEnabled=d.enabled!==false;
+    updateChatLockUI();
+  });
+  // Check if user is chat-locked
+  var myUid=localStorage.getItem('srv2-uid');
+  if(myUid){
+    db.collection('users').doc(myUid).onSnapshot(function(snap){
+      if(!snap.exists)return;
+      var d=snap.data();
+      if(d.chatLockedUntil&&d.chatLockedUntil>Date.now()){
+        _chatLockedUntil=d.chatLockedUntil;
+        _chatLocked=true;
+      } else if(d.chatLockedUntil&&d.chatLockedUntil<=Date.now()){
+        // Lock expired - clear it
+        db.collection('users').doc(myUid).update({chatLockedUntil:firebase.firestore.FieldValue.delete()});
+        _chatLocked=false;_chatLockedUntil=0;
+      }
+      updateChatLockUI();
+    });
+  }
+}
+
+function updateChatLockUI(){
+  var input=document.getElementById('chat-input');
+  var sendBtn=document.querySelector('.chat-send');
+  var locked=_chatLocked||!_globalChatEnabled;
+  if(input){
+    input.disabled=locked;
+    input.placeholder=!_globalChatEnabled?'Chat disabled by owner':
+      (_chatLocked?'Chat locked until '+new Date(_chatLockedUntil).toLocaleTimeString():'Message...');
+    input.style.opacity=locked?'0.5':'1';
+  }
+}
+
+function checkRateLimit(){
+  var now=Date.now();
+  // Keep only timestamps from last 10 seconds
+  _msgTimestamps=_msgTimestamps.filter(function(t){return now-t<10000;});
+  _msgTimestamps.push(now);
+  var MAX_MSGS=5; // max 5 messages per 10 seconds
+  if(_msgTimestamps.length>MAX_MSGS){
+    // Lock user for 1 hour
+    var lockUntil=now+(60*60*1000);
+    var myUid=localStorage.getItem('srv2-uid');
+    var myName=localStorage.getItem('srv2-username')||'unknown';
+    _chatLocked=true;
+    _chatLockedUntil=lockUntil;
+    // Save to Firestore
+    db.collection('users').doc(myUid).update({chatLockedUntil:lockUntil});
+    // Notify owner via RTDB
+    rtdb.ref('notifications/spam/'+myUid).set({
+      username:myName,
+      uid:myUid,
+      ts:Date.now(),
+      msg:'Spamming chat - auto locked for 1 hour'
+    });
+    updateChatLockUI();
+    toast('⚠️ You have been locked from chat for 1 hour due to spam.',4000);
+    return false; // block the message
+  }
+  return true; // allow
+}
+
+
+// ═══════════════════════════════════════════════════════
+// NOTIFICATION SETTINGS
+// ═══════════════════════════════════════════════════════
+var _notifSettings={global:true,dm:true,group:true};
+var _blockedUsers={}; // uid -> true
+var _mutedDms={}; // uid -> true
+var _mutedGroups={}; // gid -> true
+var _browserNotifEnabled=false;
+
+function initNotifSettings(){
+  // Load from localStorage
+  try{
+    var saved=localStorage.getItem('srv2-notif-settings');
+    if(saved)_notifSettings=JSON.parse(saved);
+    var blocked=localStorage.getItem('srv2-blocked');
+    if(blocked)_blockedUsers=JSON.parse(blocked);
+    var mutedDms=localStorage.getItem('srv2-muted-dms');
+    if(mutedDms)_mutedDms=JSON.parse(mutedDms);
+    var mutedGroups=localStorage.getItem('srv2-muted-groups');
+    if(mutedGroups)_mutedGroups=JSON.parse(mutedGroups);
+  }catch(e){}
+  // Sync toggle UI
+  ['global','dm','group'].forEach(function(k){
+    var btn=document.getElementById('tog-notif-'+k);
+    if(btn){
+      btn.textContent=_notifSettings[k]!==false?'ON':'OFF';
+      btn.style.background=_notifSettings[k]!==false?'var(--accent)':'var(--surface3)';
+      btn.style.color=_notifSettings[k]!==false?'#000':'var(--text-muted)';
+    }
+  });
+  var browserBtn=document.getElementById('tog-notif-browser');
+  if(browserBtn&&_browserNotifEnabled){
+    browserBtn.textContent='ON';browserBtn.style.background='var(--accent)';browserBtn.style.color='#000';
+  }
+}
+
+window.toggleNotifSetting=function(type){
+  _notifSettings[type]=_notifSettings[type]===false?true:false;
+  localStorage.setItem('srv2-notif-settings',JSON.stringify(_notifSettings));
+  var btn=document.getElementById('tog-notif-'+type);
+  if(btn){
+    btn.textContent=_notifSettings[type]?'ON':'OFF';
+    btn.style.background=_notifSettings[type]?'var(--accent)':'var(--surface3)';
+    btn.style.color=_notifSettings[type]?'#000':'var(--text-muted)';
+  }
+  toast('Chat notifications '+(type)+': '+(_notifSettings[type]?'ON':'OFF'));
+};
+
+window.toggleBrowserNotif=function(){
+  if(!('Notification' in window)){toast('Browser notifications not supported');return;}
+  if(Notification.permission==='denied'){toast('Notifications blocked in browser settings');return;}
+  if(Notification.permission==='default'){
+    Notification.requestPermission().then(function(p){
+      if(p==='granted'){_browserNotifEnabled=true;localStorage.setItem('srv2-browser-notif','1');_updateBrowserNotifBtn();}
+    });
+  } else {
+    _browserNotifEnabled=!_browserNotifEnabled;
+    localStorage.setItem('srv2-browser-notif',_browserNotifEnabled?'1':'0');
+    _updateBrowserNotifBtn();
+  }
+};
+function _updateBrowserNotifBtn(){
+  var btn=document.getElementById('tog-notif-browser');
+  if(btn){btn.textContent=_browserNotifEnabled?'ON':'OFF';btn.style.background=_browserNotifEnabled?'var(--accent)':'var(--surface3)';btn.style.color=_browserNotifEnabled?'#000':'var(--text-muted)';}
+  toast('Browser notifications: '+(_browserNotifEnabled?'ON':'OFF'));
+}
+
+function _sendBrowserNotif(title,body){
+  if(!_browserNotifEnabled||Notification.permission!=='granted')return;
+  if(document.hasFocus())return; // only when tab not focused
+  new Notification(title,{body:body,icon:'https://ssl.gstatic.com/classroom/favicon.png'});
+}
+
+// Enhanced notification sound check
+function _playNotifIfEnabled(type){
+  if(_notifSettings[type]===false)return;
+  _playNotifSound();
+}
+
+// ── DM SETTINGS ──
+var _dmSettingsOpen=false;
+window.toggleDmSettings=function(){
+  var panel=document.getElementById('dm-settings-panel');
+  _dmSettingsOpen=!_dmSettingsOpen;
+  if(_dmSettingsOpen){
+    panel.style.display='flex';
+    panel.style.animation='groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both';
+    // Sync mute/block state
+    var muteBtn=document.getElementById('tog-dm-mute');
+    var blockBtn=document.getElementById('tog-dm-block');
+    var muted=_currentDmUid&&_mutedDms[_currentDmUid];
+    var blocked=_currentDmUid&&_blockedUsers[_currentDmUid];
+    if(muteBtn){muteBtn.textContent=muted?'ON':'OFF';muteBtn.style.background=muted?'var(--accent)':'var(--surface3)';muteBtn.style.color=muted?'#000':'var(--text-muted)';}
+    if(blockBtn)blockBtn.textContent=blocked?'Unblock':'Block';
+  } else {
+    panel.style.animation='groupCreateOut .18s ease both';
+    setTimeout(function(){panel.style.display='none';panel.style.animation='';},180);
+  }
+};
+
+window.toggleDmMute=function(){
+  if(!_currentDmUid)return;
+  _mutedDms[_currentDmUid]=!_mutedDms[_currentDmUid];
+  localStorage.setItem('srv2-muted-dms',JSON.stringify(_mutedDms));
+  var btn=document.getElementById('tog-dm-mute');
+  var muted=_mutedDms[_currentDmUid];
+  if(btn){btn.textContent=muted?'ON':'OFF';btn.style.background=muted?'var(--accent)':'var(--surface3)';btn.style.color=muted?'#000':'var(--text-muted)';}
+  toast(muted?'🔕 DM muted':'🔔 DM unmuted');
+};
+
+window.toggleDmBlock=function(){
+  if(!_currentDmUid)return;
+  _blockedUsers[_currentDmUid]=!_blockedUsers[_currentDmUid];
+  localStorage.setItem('srv2-blocked',JSON.stringify(_blockedUsers));
+  var btn=document.getElementById('tog-dm-block');
+  var blocked=_blockedUsers[_currentDmUid];
+  if(btn)btn.textContent=blocked?'Unblock':'Block';
+  toast(blocked?'🚫 User blocked - messages hidden':'✅ User unblocked');
+  // Re-render DM messages to hide/show blocked content
+  if(_dmRef)_dmRef.off();
+  openDmConvo(_currentDmUid,_currentDmName);
+};
+
+// ── GROUP NOTIFICATION MUTE ──
+window.toggleGroupMute=function(){
+  if(!_currentGroupId)return;
+  _mutedGroups[_currentGroupId]=!_mutedGroups[_currentGroupId];
+  localStorage.setItem('srv2-muted-groups',JSON.stringify(_mutedGroups));
+  var btn=document.getElementById('tog-group-mute');
+  var muted=_mutedGroups[_currentGroupId];
+  if(btn){btn.textContent=muted?'ON':'OFF';btn.style.background=muted?'var(--accent)':'var(--surface3)';btn.style.color=muted?'#000':'var(--text-muted)';}
+  toast(muted?'🔕 Group muted':'🔔 Group unmuted');
+};
 
 // ═══════════════════════════════════════════════════════
 // CLOAK
