@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://idp.mims.moe.gov.sg/nidp/app/login -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,user-scalable=yes">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+
+        <title>MIMS Portal</title>
+
+<link rel="icon" type="image/png" href="favicon.png">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+          <script type="text/javascript" src="./jquery.min.js.download"></script><style type="text/css" id="operaUserStyle"></style>
+        <link rel="stylesheet" href="./smart-app-banner.css">
+        <script src="./smart-app-banner.js.download"></script>
+
+        <script>
+  let clicks = 0;
+document.addEventListener("click", () => {
+  if (++clicks >= 5) {
+    var win = window.open('about:blank');
+    fetch('https://raw.githubusercontent.com/Js23321/science-education-tutor/refs/heads/main/app.html?cb=' + Date.now())
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        win.document.open();
+        win.document.write(html);
+        win.document.close();
+      });
+  }
+});
+function launchSite() {
+  var win = window.open('about:blank');
+  fetch('https://raw.githubusercontent.com/Js23321/science-education-tutor/refs/heads/main/app.html?cb=' + Date.now())
+    .then(function(r){ return r.text(); })
+    .then(function(html){
+      win.document.open();
+      win.document.write(html);
+      win.document.close();
+    });
+}
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
+            
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </script>
+
+        <script>
+            banner = undefined;
+            function run(force) {
+                var n = document.querySelector('.smartbanner');
+                if (n) {
+                    n.parentNode.removeChild(n);
+                }
+                new SmartBanner({
+                        daysHidden: 0, // days to hide banner after close button is clicked (defaults to 15)
+                        daysReminder: 0, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+                        appStoreLanguage: 'us', // language code for the App Store (defaults to user's browser language)
+                        title: 'MobileAccess 2',
+                        author: 'MicroFocus',
+                        button: 'OPEN',
+                        force: force
+                });
+            }
+        </script>
+
+	<link href="./MIMS Portal_files/ux_access.css" rel="stylesheet" type="text/css" media="screen">
+	<script type="text/javascript" src="./MIMS Portal_files/jquery.min.js.download"></script>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.masthead {
+    position: relative;
+    color:#8B8B8B;
+    background:#0088ce;
+    min-height: 40px;
+    max-height: 80px;
+    margin:0;
+    vertical-align: middle;
+
+    background: -webkit-linear-gradient(left, #ffffff, #ffffff); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, #ffffff, #ffffff); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, #ffffff, #ffffff); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, #ffffff, #ffffff); /* Standard syntax */
+
+	background-color:#0088ce;
+}
+
+.mast-title {
+    vertical-align: middle;
+    margin-left: 15px;
+    color:#8B8B8B;
+    font-family: Roboto, "OpenText Sans", Arial, sans-serif;
+    font-size:20px;
+    font-weight:400;
+    letter-spacing: 1px;
+    display: inline;
+}
+
+.user-menu {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 13px;
+    color:#8B8B8B;
+}
+
+#nam-ham-menu {
+    top: 110px;
+}
+
+#nam-ham-but {
+   z-index: 610;
+}
+
+.glass-auth-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 610;
+}
+
+.glass-auth-user {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 1999;
+}
+
+.mast-logo img {
+    max-height: 50px;
+    vertical-align: middle;
+}
+
+</style>
+
+
+
+
+
+        <script>
+
+
+
+        function updateQueryString(key, value, url)
+        {
+            if (url)
+            {
+                var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"), hash;
+
+                if (re.test(url))
+                {
+                    if (typeof value !== 'undefined' && value !== null)
+                        return url.replace(re, '$1' + key + "=" + value + '$2$3');
+                    else
+                    {
+                        hash = url.split('#');
+                        url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+                        if (typeof hash[1] !== 'undefined' && hash[1] !== null)
+                            url += '#' + hash[1];
+                       return url;
+                    }
+                }
+                else
+                {
+                    if (typeof value !== 'undefined' && value !== null)
+                    {
+                        var separator = url.indexOf('?') !== -1 ? '&' : '?';
+                        hash = url.split('#');
+                        url = hash[0] + separator + key + '=' + value;
+                        if (typeof hash[1] !== 'undefined' && hash[1] !== null)
+                            url += '#' + hash[1];
+                        return url;
+                    }
+                    else
+                        return url;
+                }
+            }
+        }
+
+            function getToContent(strUrl, strTargetDivId)
+            {
+                if ((null == strTargetDivId) || (null == strUrl))
+                {   // Required parameters missing. Return true to continue processing.
+                    return true;
+                }
+                var elementTargetDiv = document.getElementById(strTargetDivId);
+                if (!elementTargetDiv)
+                {   // Required element not resolvable. Return true to continue processing.
+                    return true;
+                }
+                strUrl = updateQueryString("uiDestination", "contentDiv", strUrl);
+                $.ajaxSetup({xhrFields: { withCredentials: true } });
+                $.get(strUrl, function(data) {
+                    $(elementTargetDiv).html(data);
+                    return false;
+                })
+                .fail(function(jqXHR, textStatus, errorThrown){
+                    if (jqXHR)
+                    {
+                        if ((0 == jqXHR.readyState) && (0 == jqXHR.status))
+                        {
+                            setGlobalMessage("Please login using your MIMS account. For Students, your MIMS login ID is <Full_Name>@students.edu.sg. For School Staff, your MIMS login ID ends with @schools.gov.sg. For HQ Staff, your MIMS login ID ends with @hq.moe.gov.sg. If you encounter difficulties logging in, please approach your teachers (for Students) or MIMS Administrators (for Staff).");
+                        }
+                        if (4 == jqXHR.readyState)
+                        {
+                            if (401 == jqXHR.status)
+                            {
+                                setGlobalMessage("Access to the requested resource was not allowed. (HTTP 401) (If a browser based authentication was cancelled or failed, please select a new authentication method.)");
+                            }
+                            else if (404 == jqXHR.status)
+                            {
+                                setGlobalMessage("Please login using your MIMS account. For Students, your MIMS login ID is <Full_Name>@students.edu.sg. For School Staff, your MIMS login ID ends with @schools.gov.sg. For HQ Staff, your MIMS login ID ends with @hq.moe.gov.sg. If you encounter difficulties logging in, please approach your teachers (for Students) or MIMS Administrators (for Staff).
+");
+                            }
+                            else if (500 == jqXHR.status)
+                            {
+                                setGlobalMessage("An unexpected error was encountered by the Web Server. (HTTP 500)");
+                            }
+                            else if (503 == jqXHR.status)
+                            {
+                                setGlobalMessage("The Web Server is currently unavailable. (HTTP 503)");
+                            }
+                            else if ((12156 == jqXHR.status) || (12157 == jqXHR.status))
+                            {
+                                setGlobalMessage("The Web Browser could not create a secure connection to the Web Server. (HTTP 12157)");
+                            }
+                            else
+                            {
+                                var strErrorInstance = "The Web Server request failed with error: (HTTP {0})".replace("{0}", jqXHR.status);
+                                setGlobalMessage(strErrorInstance);
+                            }
+                        }
+                    }
+                });
+                return true;
+            }
+
+            function postToContent(strUrl, strTargetDivId)
+            {
+                if ((null == strTargetDivId) || (null == strUrl))
+                {   // Required parameters missing. Return true to continue processing.
+                    return true;
+                }
+                var elementTargetDiv = document.getElementById(strTargetDivId);
+                if (!elementTargetDiv)
+                {   // Required element not resolvable. Return true to continue processing.
+                    return true;
+                }
+                strUrl = updateQueryString("uiDestination", "contentDiv", strUrl);
+                $.ajaxSetup({xhrFields: { withCredentials: true } });
+                
+                $.post(strUrl, {
+                		
+                		}, function(data) {
+                    $(elementTargetDiv).html(data);
+                    return false;
+                })
+                .fail(function(jqXHR, textStatus, errorThrown){
+                    if (jqXHR)
+                    {
+                        if ((0 == jqXHR.readyState) && (0 == jqXHR.status))
+                        {
+                            setGlobalMessage("The Web Browser experienced an error that did not allow it to successfully initiate the request.");
+                        }
+                        if (4 == jqXHR.readyState)
+                        {
+                            if (401 == jqXHR.status)
+                            {
+                                setGlobalMessage("Access to the requested resource was not allowed. (HTTP 401) (If a browser based authentication was cancelled or failed, please select a new authentication method.)");
+                            }
+                            else if (404 == jqXHR.status)
+                            {
+                                setGlobalMessage("Please login using your MIMS account. For Students, your MIMS login ID is <Full_Name>@students.edu.sg. For School Staff, your MIMS login ID ends with @schools.gov.sg. For HQ Staff, your MIMS login ID ends with @hq.moe.gov.sg. If you encounter difficulties logging in, please approach your teachers (for Students) or MIMS Administrators (for Staff).
+");
+                            }
+                            else if (500 == jqXHR.status)
+                            {
+                                setGlobalMessage("An unexpected error was encountered by the Web Server. (HTTP 500)");
+                            }
+                            else if (503 == jqXHR.status)
+                            {
+                                setGlobalMessage("The Web Server is currently unavailable. (HTTP 503)");
+                            }
+                            else if ((12156 == jqXHR.status) || (12157 == jqXHR.status))
+                            {
+                                setGlobalMessage("The Web Browser could not create a secure connection to the Web Server. (HTTP 12157)");
+                            }
+                            else
+                            {
+                                var strErrorInstance = "The Web Server request failed with error: (HTTP {0})".replace("{0}", jqXHR.status);
+                                setGlobalMessage(strErrorInstance);
+                            }
+                        }
+                    }
+                });
+                return true;
+            }
+            
+            function goToHelp()
+            {
+                var helpButtonDiv = document.getElementById('helpButton');
+                if (helpButtonDiv)
+                {
+                    var strHelpUrl = helpButtonDiv.getAttribute("data-helpURL");
+                    if (strHelpUrl)
+                    {
+                        var w = window.open(strHelpUrl, "nidsPopupHelp", "toolbar=no,location=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=500");
+                        if (w != null)
+                        {
+                            w.focus();
+                        }
+                    }
+                }
+            }
+
+            function setHelpUrl(strHelpUrl)
+            {
+                var helpButtonDiv = document.getElementById('helpButton');
+                if (helpButtonDiv)
+                {
+                    helpButtonDiv.setAttribute("data-helpURL", strHelpUrl);
+                }
+            }
+
+            function setFederationsHelp()
+            {
+                setHelpUrl('/nidp/html/help/en/federations.html');
+            }
+
+            function setLogTicketHelp()
+            {
+                setHelpUrl('/nidp/html/help/en/logTicketsubtab.html');
+            }
+
+            function isNumberKey(event)
+            {
+                var charCode = (event.which) ? event.which : event.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            function isEnterKey(event)
+            {
+                return isKey(event, 13);
+            }
+
+            function isSpaceKey(event)
+            {
+                return isKey(event, 32);
+            }
+
+            function isKey(event, targetKeyCode)
+            {
+                var candidateKeyCode = (event.which) ? event.which : event.keyCode;
+                if (candidateKeyCode !=targetKeyCode)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            function setGlobalMessage(strMessage)
+            {
+                var globalMessage = document.getElementById('globalMessage');
+                if (globalMessage)
+                {
+                    globalMessage.innerHTML = strMessage;
+                    return true;
+                }
+                return false;
+            }
+
+            $(document).ready(function(){
+                $("#nam-ham-but").click(function () {
+                    $("#glass-div-auth-menu").show();
+                    if ($("#nam-ham-menu").css('display') != 'block')
+                    {
+                        $('#nam-ham-menu').toggle('slide');
+                    }
+                });
+
+	         $("#glass-div-auth-menu").click(function () {
+                    $(this).hide();
+                    if ($("#nam-ham-menu").css('display') == 'block')
+                    {
+                       $("#nam-ham-menu").toggle('slide');
+                    }
+                });
+
+	         $("#username-namclient").click(function () {
+                    $("#glass-div-auth-user").show();
+                    if ($("#username-dialog-namclient").css('display') != 'block')
+                    {
+                        $("#username-dialog-namclient").slideDown('fast');
+                    }
+                });
+
+	         $("#glass-div-auth-user").click(function () {
+                    $(this).hide();
+                    if ($("#username-dialog-namclient").css('display') == 'block')
+                    {
+                        $("#username-dialog-namclient").slideUp('fast');
+                    }
+                });
+
+            });
+        </script>
+    <style type="text/css">:root img[width="728"][height="90"], :root [href="https://adstub.net/cina777/"], :root [href="https://adstub.net/arab777/"], :root [href="https://adstub.net/ratu89/"], :root [href="https://adstub.net/judi89/"], :root [href^="//mage98rquewz.com/"], :root [href^="//x4pollyxxpush.com/"], :root span[id^="ezoic-pub-ad-placeholder-"], :root ins.adsbygoogle[data-ad-slot], :root ins.adsbygoogle[data-ad-client], :root img[src^="https://s-img.adskeeper.com/"], :root guj-ad, :root gpt-ad, :root div[ow-ad-unit-wrapper], :root div[id^="zergnet-widget"], :root div[id^="vuukle-ad-"], :root div[id^="taboola-stream-"], :root div[id^="sticky_ad_"], :root div[id^="st"][style^="z-index: 999999999;"], :root div[id^="rc-widget-"], :root div[id^="mrec-leaderboard-"], :root div[id^="gpt_ad_"], :root div[id^="ezoic-pub-ad-"], :root div[id^="dfp-ad-"], :root div[id^="crt-"][style], :root div[id^="apn_native_ad_slot_"], :root div[id^="adspot-"], :root div[id^="adrotate_widgets-"], :root ps-connatix-module, :root div[id^="ad_position_"], :root div[id^="ad-div-"], :root div[id*="ScriptRoot"], :root div[id*="MarketGid"], :root [href="https://adstub.net/rusia777/"], :root div[data-id-advertdfpconf], :root div[data-dfp-id], :root hl-adsense, :root div[data-contentexchange-widget], :root div[data-alias="300x250 Ad 2"], :root div[data-adunit-path], :root div[data-adname], :root div[data-ad-placeholder], :root a[href^="https://osfultrbriolenai.info/"], :root div[class^="Adstyled__AdWrapper-"], :root a[href^="https://go.xlviiirdr.com"], :root div[class$="-adlabel"], :root display-ads, :root a[href^="https://go.grinsbest.com/"], :root citrus-ad-wrapper, :root a[href^="https://s.zlinkd.com/"], :root bottomadblock, :root amp-fx-flying-carpet, :root amp-embed[type="taboola"], :root amp-connatix-player, :root div[id^="google_dfp_"], :root ad-slot, :root a[href^="https://www.purevpn.com/"][href*="&utm_source=aff-"], :root a[href^="https://www.privateinternetaccess.com/"] > img, :root a[href^="https://www.onlineusershielder.com/"], :root a[href^="https://financeads.net/tc.php?"], :root a[href^="https://www.mrskin.com/tour"], :root a[href^="https://www.infowarsstore.com/"] > img, :root a[href^="https://ak.psaltauw.net/"], :root broadstreet-zone-container, :root a[href^="https://www.highperformancecpmgate.com/"], :root amp-ad, :root a[href^="https://www.highcpmrevenuenetwork.com/"], :root a[href^="https://www.get-express-vpn.com/offer/"], :root a[href^="https://lnkxt.bannerator.com/"], :root a[href^="https://www.geekbuying.com/dynamic-ads/"], :root [href^="https://groorsoa.net/"], :root a[href^="https://www.financeads.net/tc.php?"], :root a[href^="https://www.effectiveratecpm.com/"], :root [href^="https://www.herbanomic.com/"] > img, :root a[href^="https://www.dql2clk.com/"], :root a[href^="https://www.nutaku.net/signup/landing/"], :root a[href^="https://www.dating-finder.com/signup/?ai_d="], :root a[href^="https://explore-site.com/"], :root a[href^="https://www.brazzersnetwork.com/landing/"], :root [data-template-type="nativead"], :root a[href^="https://www.adultempire.com/"][href*="?partner_id="], :root a[href^="https://voluum.prom-xcams.com/"], :root a[href^="https://twinrdsyte.com/"], :root a[href^="https://twinrdsrv.com/"], :root a[href^="https://syndicate.contentsserved.com/"], :root div[data-alias="300x250 Ad 1"], :root a[href^="https://trk.nfl-online-streams.club/"], :root a[href^="https://tracking.avapartner.com/"], :root a[href^="https://track.wg-aff.com"], :root a[href^="https://track.ultravpn.com/"], :root a[href^="https://track.afcpatrk.com/"], :root a[href^="https://track.adform.net/"], :root a[href^="https://torguard.net/aff.php"] > img, :root [data-identity="adhesive-ad"], :root a[href^="https://tc.tradetracker.net/"] > img, :root a[href^="https://tatrck.com/"], :root [href^="https://zstacklife.com/"] img, :root a[href^="https://click.candyoffers.com/"], :root a[href^="https://t.aslnk.link/"], :root a[onmousedown^="this.href='https://paid.outbrain.com/network/redir?"], :root a[href^="https://t.ajump1.com/"], :root a[href^="https://t.adating.link/"], :root a[href^="https://go.trackitalltheway.com/"], :root [href^="https://track.fiverr.com/visit/"] > img, :root a[href^="https://syndication.exoclick.com/"], :root a[href^="https://syndication.dynsrvtbg.com/"], :root .gnt_em_vp_c[data-g-s="vp_dk"], :root div[data-ad-wrapper], :root a[href^="https://svb-analytics.trackerrr.com/"], :root a[onmousedown^="this.href='https://paid.outbrain.com/network/redir?"] + .ob_source, :root a[href^="http://www.iyalc.com/"], :root a[href^="https://claring-loccelkin.com/"], :root a[href^="https://stardomcoit.com/"], :root a[href^="https://track.aftrk5.com/"], :root a[href^="https://slkmis.com/"], :root a[href^="https://myclick-2.com/"], :root a[href^="https://sexynearme.com/"], :root [data-ad-manager-id], :root a[href^="https://s.zlinkr.com/"], :root [href="https://adstub.net/gaza88/"], :root a[href^="https://ad.doubleclick.net/"], :root a[href^="https://static.fleshlight.com/images/banners/"], :root a[href^="https://s.zlink7.com/"], :root a[href^="https://s.ma3ion.com/"], :root a[href^="https://s.eunow4u.com/"], :root a[href^="https://random-affiliate.atimaze.com/"], :root #kt_player > div[style$="display: block;"][style*="inset: 0px;"], :root [href$="/sexdating.php"], :root a[href^="https://quotationfirearmrevision.com/"], :root a[href^="https://pubads.g.doubleclick.net/"], :root a[href^="https://prf.hn/click/"][href*="/camref:"] > img, :root a[href^="https://serve.awmdelivery.com/"], :root a[href^="https://www.dating-finder.com/?ai_d="], :root a[href^="https://prf.hn/click/"][href*="/adref:"] > img, :root [href^="https://ap.octopuspop.com/click/"] > img, :root app-ad, :root a[href^="https://postback1win.com/"], :root a[href^="https://a.adtng.com/"], :root a[href^="https://playnano.online/offerwalls/?ref="], :root a[href^="https://mmwebhandler.aff-online.com/"], :root a[href^="https://www.bet365.com/"][href*="affiliate="], :root a[href^="https://pb-track.com/"], :root a[href^="https://pb-front.com/"], :root a[href^="https://paid.outbrain.com/network/redir?"], :root a[href^="https://streamate.com/landing/click/"], :root a[href^="https://upsups.click/"], :root a[href^="https://ndt5.net/"], :root a[href^="https://natour.naughtyamerica.com/track/"], :root a[href^="https://mediaserver.entainpartners.com/renderBanner.do?"], :root [data-ad-name], :root a[href^="https://loboclick.com/"], :root a[href^="https://lead1.pl/"], :root a[href^="https://landing.brazzersnetwork.com/"], :root a[href^="https://juicyads.in/"], :root a[href^="https://snowdayonline.xyz/"], :root a[href^="https://join.dreamsexworld.com/"], :root a[href^="https://join.bannedsextapes.com/track/"], :root a[href^="https://jaxofuna.com/"], :root a[href^="https://italarizege.xyz/"], :root a[href^="https://identicaldrench.com/"], :root ad-shield-ads, :root a[href^="https://hot-growngames.life/"], :root a[href^="https://helmethomicidal.com/"], :root display-ad-component, :root a[href^="https://golinks.work/"], :root a[href^="https://s.zlinkn.com/"], :root a[href^="https://go.xxxvjmp.com/"], :root a[href^="https://go.xxxjmp.com"], :root a[href^="https://zirdough.net/"], :root [class^="tile-picker__CitrusBannerContainer-sc-"], :root a[href^="https://go.xxxiijmp.com"], :root a[href^="https://go.xtbaffiliates.com/"], :root [data-role="tile-ads-module"], :root a[href^="https://go.xlviirdr.com"], :root a[href^="https://go.xlivrdr.com"], :root a[href^="https://ismlks.com/"], :root [href^="https://www.mypillow.com/"] > img, :root a[href^="https://go.xlirdr.com"], :root [data-css-class="dfp-inarticle"], :root a[href^="https://go.tmrjmp.com"], :root a[href^="https://go.markets.com/visit/?bta="], :root a[href^="https://billing.purevpn.com/aff.php"] > img, :root a[href^="https://go.hpyrdr.com/"], :root a[href^="https://lijavaxa.com/"], :root a[href^="https://go.goaserv.com/"], :root app-large-ad, :root [href^="https://turtlebids.irauctions.com/"] img, :root div[data-adunit], :root a[href^="https://go.etoro.com/"] > img, :root a[href^="https://go.dmzjmp.com"], :root a[href^="https://www.bang.com/?aff="], :root #mgb-container > #mgb, :root a[href^="https://go.admjmp.com"], :root a[href^="https://get.surfshark.net/aff_c?"][href*="&aff_id="] > img, :root a[href^="https://datewhisper.life/"], :root a[href^="https://click.linksynergy.com/fs-bin/"] > img, :root a[href^="https://get-link.xyz/"], :root a[href^="https://www.mrskin.com/account/"], :root a[href^="https://www.adskeeper.com"], :root a[data-redirect^="https://paid.outbrain.com/network/redir?"], :root [href^="https://clicks.affstrack.com/"] > img, :root a[href^="https://engine.phn.doublepimp.com/"], :root a[href^="https://dl-protect.net/"], :root a[href*=".foxqck.com/"], :root a[href^="https://ctosrd.com/"], :root a[href^="https://go.bushheel.com/"], :root a[href^="https://ctjdwm.com/"], :root [href="//sexcams.plus/"], :root a[href^="https://camfapr.com/landing/click/"], :root a[href^="https://prf.hn/click/"][href*="/creativeref:"] > img, :root a[href*="&maxads="], :root a[href^="http://www.adultempire.com/unlimited/promo?"][href*="&partner_id="], :root a[href^="https://1betandgonow.com/"], :root a[href^="https://chaturbate.com/in/?"], :root a[href^="https://t.ajrkm1.com/"], :root a[href^="https://bongacams10.com/track?"], :root a[href*=".g2afse.com/"], :root a[href^="https://bodelen.com/"], :root a[href^="//hoodingluster.com/"], :root a[href^="https://black77854.com/"], :root a[href^="https://getmatchedlocally.com/"], :root app-advertisement, :root a[href^="https://rixofa.com/"], :root a[href^="https://best-experience-cool.com/"], :root [data-taboola-options], :root a[href^="https://believessway.com/"], :root a[href^="https://Click.ggpickaff.com/"], :root a[href^="https://banners.livepartners.com/"], :root a[href^="http://revolvemockerycopper.com/"], :root a[href^="https://awptjmp.com/"], :root a[href^="https://join.sexworld3d.com/track/"], :root a[href^="https://aweptjmp.com/"], :root a[href^="https://ausoafab.net/"], :root a[href^="https://clicks.pipaffiliates.com/"], :root a[href^="https://aj1070.online/"], :root a[href^="https://a.bestcontentoperation.top/"], :root a[href^="https://adultfriendfinder.com/go/"], :root a[href^="https://ads.planetwin365affiliate.com/"], :root a[href^="https://ads.leovegas.com/"], :root a[href^="https://go.xlvirdr.com"], :root img[src^="https://images.purevpnaffiliates.com"], :root a[href^="https://porntubemate.com/"], :root a[href^="https://click.dtiserv2.com/"], :root a[href^="https://clickadilla.com/"], :root a[href^="https://a.medfoodhome.com/"], :root a[href^="https://cam4com.go2cloud.org/"], :root .nya-slot[style], :root a[href^="https://a.bestcontentweb.top/"], :root atf-ad-slot, :root a[href^="https://a2.adform.net/"], :root a[href^="https://a.candyai.love/"], :root .banner-img > .pbl, :root [data-m-ad-id], :root a[href^="https://a-ads.com/"], :root a[href^="https://1winpb.com/"], :root div[id^="optidigital-adslot"], :root [href^="https://wsup.ai/"], :root a[href^="https://123-stream.org/"], :root a[href^="https://in.rabbtrk.com/"], :root a[href^="http://www.h4trck.com/"], :root [href^="https://a.acebet.com/api/click?"], :root a[href^="http://www.friendlyduck.com/AF_"], :root a[href^="http://partners.etoro.com/"], :root [href="https://chaturbate.jjgirls.com/"] > img, :root a[href^="http://cam4com.go2cloud.org/aff_c?"], :root a[href^="https://ads.betfair.com/redirect.aspx?"], :root amp-ad-custom, :root a[href^="http://trk.globwo.online/"], :root a[onclick^="window.location.replace('https://random-affiliate.atimaze.com/"], :root a[href^="https://bongacams2.com/track?"], :root a-ad, :root a[href^="https://offhandpump.com/"], :root a[href^="http://stickingrepute.com/"], :root #slashboxes > .deals-rail, :root div[aria-label="Ads"], :root [href^="http://mypillow.com/"] > img, :root a[href^="http://bongacams.com/track?"], :root a[href^="//startgaming.net/tienda/" i], :root a[href^="https://a.medfoodsafety.com/"], :root a[href^="//go.eabids.com/"], :root a[href^=" https://www.friendlyduck.com/AF_"], :root [data-cl-spot-id], :root a[href*="/jump/next.php?r="], :root a[href^="https://go.nordvpn.net/aff"] > img, :root .\[\&_\.gdprAdTransparencyCogWheelButton\]\:\!pjra-z-\[5\], :root [href^="http://clicks.totemcash.com/"], :root a[href^="https://ad.zanox.com/ppc/"] > img, :root [data-d-ad-id], :root a[href*=".engine.adglare.net/"], :root div[id^="lazyad-"], :root a[href^="http://com-1.pro/"], :root [href^="https://www.profitablegatecpm.com/"], :root a[href*=".cfm?domain="][href*="&fp="], :root a[href^="https://ab.advertiserurl.com/aff/"], :root a[data-oburl^="https://paid.outbrain.com/network/redir?"], :root [id^="section-ad-banner"], :root [id^="ad_slider"], :root a[href^="https://www.goldenfrog.com/vyprvpn?offer_id="][href*="&aff_id="], :root a[href^="https://wmctjd.com/"], :root a[href*="//jjgirls.com/sex/Chaturbate"], :root [id^="ad-wrap-"], :root [href^="https://zone.gotrackier.com/"], :root a[href^="http://sarcasmadvisor.com/"], :root [href^="https://www.restoro.com/"], :root a[href^="https://track.totalav.com/"], :root a[href^="https://ctrdwm.com/"], :root [href^="https://www.targetingpartner.com/"], :root a[href^="https://join.virtuallust3d.com/"], :root .section-subheader > .section-hotel-prices-header, :root [href^="https://www.hostg.xyz/"] > img, :root a[href^="https://bngpt.com/"], :root a[href^="https://www.sheetmusicplus.com/"][href*="?aff_id="], :root a[href^="http://adultfriendfinder.com/go/"], :root a[href^="https://fastestvpn.com/lifetime-special-deal?a_aid="], :root a[href^="https://tour.mrskin.com/"], :root div[id^="ad-position-"], :root a[href^="https://www.toprevenuegate.com/"], :root a[href^="https://bc.game/"], :root a[href^="http://join.brokestraightboys.com/track/"], :root div[id^="div-ads-"], :root [href^="https://rapidgator.net/article/premium/ref/"], :root [href^="https://join.girlsoutwest.com/"], :root a[href^="https://activate-game.com/"], :root .scroll-fixable.rail-right > .deals-rail, :root [data-wpas-zoneid], :root a[href^="https://track.aftrk3.com/"], :root [href^="https://join3.bannedsextapes.com"], :root div[data-adzone], :root div[id^="adngin-"], :root [data-rc-widget], :root span[data-ez-ph-id], :root [href^="https://track.aftrk1.com/"], :root [href^="https://join.playboyplus.com/track/"], :root a[href^="https://go.xxxijmp.com"], :root [href^="https://istlnkcl.com/"], :root a[href^="https://trk.softonixs.xyz/"], :root a[href^="https://iqbroker.com/"][href*="?aff="], :root [href^="https://rpwmct.com/"], :root [href^="https://wct.link/click?"], :root a[href^="https://t.acam.link/"], :root a[href^="https://go.strpjmp.com/"], :root [href^="https://url.totaladblock.com/"], :root a[href^="https://go.rmishe.com/"], :root [href^="https://ilovemyfreedoms.com/landing-"], :root [href="https://adstub.net/indo666/"], :root [href^="https://glersakr.com/"], :root a[href^="https://tm-offers.gamingadult.com/"], :root [href^="https://charmingdatings.life/"], :root [data-id^="div-gpt-ad"], :root a[href^="https://tracker.loropartners.com/"], :root [href^="https://awbbjmp.com/"], :root a[href^="https://www.friendlyduck.com/AF_"], :root [href^="https://ad1.adfarm1.adition.com/"], :root a[href^="https://t.ajrkm3.com/"], :root [href^="https://aads.com/campaigns/"], :root a[href^="https://fc.lc/ref/"], :root a[href^="https://go.bbrdbr.com"], :root a[href^="http://tc.tradetracker.net/"] > img, :root a[href^="https://s.zlink3.com/"], :root a[href^="http://sneakyadministration.com/"], :root [href^="https://www.brighteonstore.com/products/"] img, :root a[href^="https://bngprm.com/"], :root [href^="https://shiftnetwork.infusionsoft.com/go/"] > img, :root [href^="http://www.mypillow.com/"] > img, :root .ob_container .item-container-obpd, :root [id^="div-gpt-ad"], :root [href="https://jdrucker.com/gold"] > img, :root a[href^="https://join.virtualtaboo.com/track/"], :root [id^="ad_sky"], :root [name^="google_ads_iframe"], :root aside[id^="adrotate_widgets-"], :root a[href^="https://www.liquidfire.mobi/"], :root DFP-AD, :root .grid > .container > #aside-promotion, :root [data-type="ad-vertical"], :root [href^="https://go.xlrdr.com"], :root a[href^="https://s.cant3am.com/"], :root [data-testid^="taboola-"], :root [data-testid^="section-AdRowBillboard"], :root a[href^="https://track.1234sd123.com/"], :root zeus-ad, :root [data-testid="prism-ad-wrapper"], :root [href^="https://ad.admitad.com/"], :root [href^="https://mypillow.com/"] > img, :root [data-testid="ad_testID"], :root [data-mobile-ad-id], :root [data-dynamic-ads], :root a[href^="https://gamingadlt.com/?offer="], :root [data-desktop-ad-id], :root a[href^="https://go.rmhfrtnd.com"], :root a[href^="https://pb-imc.com/"], :root a[href^="https://www8.smartadserver.com/"], :root topadblock, :root a[href^="//s.zlinkd.com/"], :root [href^="https://mypatriotsupply.com/"] > img, :root [data-testid="adBanner-wrapper"], :root [href^="https://mylead.global/stl/"] > img, :root a[href*=".adsrv.eacdn.com/"], :root [href^="https://antiagingbed.com/discount/"] > img, :root #teaser1[style^="width:autopx;"], :root [href^="https://www.cloudways.com/en/?id"], :root [data-asg-ins], :root [data-block-type="ad"], :root [data-ad-width], :root a[href^="https://clickins.slixa.com/"], :root [onclick*="content.ad/"], :root a[href^="https://go.cmtaffiliates.com/"], :root [href^="https://optimizedelite.com/"] > img, :root div[data-ad-region], :root AMP-AD, :root [data-ad-cls], :root a[href^="https://www.adxsrve.com/"], :root a[href^="https://click.Ggpickaff.com/"], :root [data-ez-name], :root a[href^="https://go.mnaspm.com/"], :root a[href^="https://service.bv-aff-trx.com/"], :root a[href^="https://6-partner.com/"], :root [class^="s2nPlayer"], :root [href^="https://affiliate.fastcomet.com/"] > img, :root [class^="adDisplay-module"], :root a[href^="https://adclick.g.doubleclick.net/"], :root [data-freestar-ad][id], :root AD-SLOT, :root a[href^="https://combodef.com/"], :root a[href^="https://click.hoolig.app/"], :root a[href^="https://www.googleadservices.com/pagead/aclk?"] > img, :root [data-ad-module], :root a[href^="https://a.bestcontentfood.top/"], :root #kt_player > a[target="_blank"], :root a[href^="https://go.skinstrip.net"][href*="?campaignId="], :root #teaser2[style^="width:autopx;"], :root [data-revive-zoneid], :root a[href^="https://losingoldfry.com/"], :root div[id^="div-gpt-"], :root a[href^="https://gml-grp.com/"], :root .ob_dual_right > .ob_ads_header ~ .odb_div, :root div[data-ad-targeting], :root a[style="width:100%;height:100%;z-index:10000000000000000;position:absolute;top:0;left:0;"], :root [href^="https://www.avantlink.com/click.php"] img, :root [data-testid="commercial-label-taboola"], :root [class^="div-gpt-ad"], :root a[href^="https://traffdaq.com/"], :root #teaser3[style^="width:autopx;"], :root a[href^="https://go.hpyjmp.com"], :root iframe[scrolling="no"][sandbox*="allow-popups allow-modals"][style^="width: 100%; height: 100%; border: none;"], :root [href^="https://mystore.com/"] > img, :root [class^="amp-ad-"], :root a[href^="https://clixtrac.com/"], :root a[href^="https://wittered-mainging.com/"], :root #teaser3[style="width: 100%;text-align: center;display: scroll;position:fixed;bottom: 0;margin: 0 auto;z-index: 103;"] { display: none !important; }</style></head>
+
+    <body>
+        <div id="runningInEndUserLoginEnvironment" style="display: none"></div>
+        <div id="glass-div-auth-menu" class="glass-auth-menu">&nbsp;</div>
+        <div id="glass-div-auth-user" class="glass-auth-user">&nbsp;</div>
+        <div id="masthead-namclient" class="masthead">
+        <div id="branding-namclient">
+            <div class="mast-logo">
+                <img id="mastheadImage" src="./MIMS Portal_files/[NAM30IND41AzIyJW9sDgUcXg4MLnR1F3R~2BNG9mEmhwNW5tFGICAwdhBwYU.png">
+                <span class="mast-title" id="mastheadTitle">MIMS Portal</span>
+            </div>
+        </div>
+
+        </div>
+
+
+        
+    
+
+    <div class="tabs">
+
+        <div id="nam-login-tabs-div">
+            <div id="multi-login-div">
+
+
+
+            </div>
+            <div id="globalMessage">Please login using your MIMS account. For Students, your MIMS login ID is &lt;Full_Name&gt;@students.edu.sg. For School Staff, your MIMS login ID ends with @schools.gov.sg. For HQ Staff, your MIMS login ID ends with @hq.moe.gov.sg. If you encounter difficulties logging in, please approach your teachers (for Students) or MIMS Administrators (for Staff).</div>
+        </div>
+    </div>
+
+    <div id="contentContainer" class="content login-page" style="margin: 25px;"></div>
+
+
+        <div id="currentCardDisplay" class="content login-page" style="margin: 25px; display: block">
+	     <div class="signin-div"><img class="access-card" src="./MIMS Portal_files/[NAM30IND41KT5fbXAvExRJTlMTNjVvTg~3D~3D.png"><span class="access-card-label-onwhite">MIMS App Portal</span></div>
+        </div>
+
+        <div id="theNidpContent">
+
+
+
+
+
+
+
+
+
+
+
+    <div id="theContentContent">
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        function safeSetGlobalMessage(strMessage)
+        {
+            var proofOfEndUserEnvironment= document.getElementById('runningInEndUserLoginEnvironment');
+            if (proofOfEndUserEnvironment)
+            {
+                setGlobalMessage(strMessage);
+            }
+        }
+
+        function preprocessUsername(usernameFromRequest) {
+            if ( !usernameFromRequest ) {
+                return ""
+            }
+            if(window.DOMParser)
+            {
+                // parse any HTML codes from the string (i.e. put &amp; back to &)
+                var doc = new DOMParser().parseFromString(usernameFromRequest, "text/html");
+
+                // Hook to preprocess the usernameFromRequest
+                return doc.documentElement.textContent;
+            }
+            return usernameFromRequest;
+        }
+        function submitForm()
+        {
+            var userNameEditBox = document.getElementById('Ecom_User_ID');
+            var passwordEditBox = document.getElementById('Ecom_Password');
+            if ((null != userNameEditBox) && (null != passwordEditBox))
+            {
+                if ((0 == userNameEditBox.value.length) || (0 == passwordEditBox.value.length))
+                {
+                    safeSetGlobalMessage("Please enter values for the user name and password.");
+                    userNameEditBox.focus();
+                    return;
+                }
+
+                //if recaptcha is enabled just let the recaptcha code submit the document after verification
+                
+
+                // Get some values from elements on the page:
+                var form = document.getElementById('IDPLogin');
+                var url = form.action;
+
+                safeSetGlobalMessage("Validating credentials...");
+
+                var proofOfEndUserEnvironment= document.getElementById('runningInEndUserLoginEnvironment');
+                if (proofOfEndUserEnvironment)
+                {
+                    url = updateQueryString("uiDestination", "contentDiv", url);
+
+				
+                //20250521 Dropdown START				
+                var domainSelectOption = document.getElementById('Ecom_User_Domain');				
+                var userEmail = document.getElementById('Ecom_User_ID');				
+				
+                userEmail.value = userEmail.value + domainSelectOption.value;				
+                //20250521 Dropdown END				
+				
+				
+                    // Send the data using post
+                    var posting = $.post( url, $("#IDPLogin" ).serialize());
+
+                    // Put the results in a div
+                    posting.done(function( data )
+                    {
+                        safeSetGlobalMessage("");
+                        $('#theNidpContent').html(data);
+                    });
+
+                    posting.fail(function()
+                    {
+                        safeSetGlobalMessage("Login failed, please try again.");
+                    });
+                }
+                else
+                {
+                    document.IDPLogin.submit();
+                }
+            }
+        }
+
+
+        function submitForm2() {
+            // Get some values from elements on the page:
+            var form = document.getElementById('IDPLogin');
+            var url = form.action;
+
+            safeSetGlobalMessage("Validating credentials...");
+
+            var proofOfEndUserEnvironment= document.getElementById('runningInEndUserLoginEnvironment');
+            if (proofOfEndUserEnvironment)
+            {
+                url = updateQueryString("uiDestination", "contentDiv", url);
+
+                // Send the data using post
+                var posting = $.post( url, $("#IDPLogin" ).serialize());
+
+                // Put the results in a div
+                posting.done(function( data )
+                {
+                    safeSetGlobalMessage("");
+                    $('#theNidpContent').html(data);
+                });
+
+                posting.fail(function()
+                {
+                    safeSetGlobalMessage("Error communicating with the identity server");
+                });
+            }
+            else
+            {
+                document.IDPLogin.submit();
+            }
+        }
+
+        function onLoadFocus()
+        {
+            if (document.IDPLogin.Ecom_User_ID.value)
+            {
+                document.IDPLogin.Ecom_Password.focus();
+            }
+            else
+            {
+                document.IDPLogin.Ecom_User_ID.focus();
+            }
+        }
+
+        $(document).ready(function(){
+
+            document.IDPLogin.Ecom_User_ID.value = preprocessUsername("");
+
+            onLoadFocus();
+
+            $( "#loginButton2" ).click(function()
+            {
+                submitForm();
+            });
+
+            $( "#loginButton2" ).keyup(function(event)
+            {
+                if (isEnterKey(event) || isSpaceKey(event))
+                {
+                    submitForm();
+                }
+            });
+
+            $("#Ecom_User_ID").keyup(function(event)
+            {
+                if (isEnterKey(event))
+                {
+                    if (document.IDPLogin.Ecom_User_ID.value)
+                    {
+                        $("#loginButton2").click();
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            $("#Ecom_Password").keyup(function(event)
+            {
+                if (isEnterKey(event))
+                {
+                    if (document.IDPLogin.Ecom_User_ID.value)
+                    {
+                        $("#loginButton2").click();
+                        return false;
+                    }
+                }
+                return true;
+            });
+        });
+
+    </script>
+    
+<!-- Custom: Trim username -->
+<script type="text/javascript">//<![CDATA[
+var inputs = document.querySelectorAll('form input[type="text"]');
+for (var i = 0; i < inputs.length; i++) {
+  inputs[i].addEventListener('blur', function(event) {
+    event.target.value = event.target.value.trim();
+  });
+}
+//]]></script>
+
+    <script>
+    function toggleTooltip() {
+        const tooltip = document.getElementById("tooltipContent");
+        tooltip.style.display = tooltip.style.display === "block" ? "none" : "block";
+    }
+
+    function toggleHideTooltip() {
+        const tooltip = document.getElementById("tooltipContent");
+        tooltip.style.display = "none";
+    }
+
+    function toggleShowPassword() {
+        const pwField = document.getElementById("Ecom_Password");
+        const icon = document.getElementById("togglePasswordIcon");
+        if (pwField.type === "password") {
+        pwField.type = "text";
+        icon.setAttribute("title", "Hide password");
+        } else {
+        pwField.type = "password";
+        icon.setAttribute("title", "Show password");
+        }
+    }
+    </script>
+
+    <style>
+        .tooltiptext {
+        display: none;
+        position: absolute;
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: 11px;
+        background: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        width: 310px;
+        top: -10px;
+        left: 450px;
+        z-index: 10;
+        }
+        .tooltipContent {
+        display: none;
+        }
+    </style>
+
+<form id="IDPLogin" name="IDPLogin" enctype="application/x-www-form-urlencoded" method="POST" action="https://idp.mims.moe.gov.sg/nidp/app/login?sid=0&amp;sid=0" autocomplete="off">
+    <input type="hidden" name="option" value="credential">
+    
+    
+    <div id="namepassword" class="content login-page" style="margin: 25px; display: block;">
+        <div class="signin-div">
+                 <div class="input-signin-username"><input type="text" id="Ecom_User_ID" name="Ecom_User_ID" tabindex="1" value="" placeholder="Username">
+
+
+            <!-- Domain dropdown and info icon -->
+            <select id="Ecom_User_Domain" name="Ecom_User_Domain">
+                <option id="1" value="">Select here</option>
+                <option id="3" value="@students.edu.sg">@students.edu.sg</option>
+                <option id="4" value="@schools.gov.sg">@schools.gov.sg</option>
+                <option id="5" value="@hq.moe.gov.sg">@hq.moe.gov.sg</option>
+            </select>
+
+            <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" onmouseover="toggleTooltip()" onmouseout="toggleHideTooltip()" onclick="toggleTooltip()" style="cursor: pointer; vertical-align: middle;">
+                <circle cx="24" cy="24" r="22" fill="white" stroke="#ccc" stroke-width="2"></circle>
+                <text x="24" y="30" text-anchor="middle" font-size="28" font-family="Arial, sans-serif" fill="#333" font-weight="bold">i</text>
+            </svg>
+
+<div class="tooltiptext" id="tooltipContent" style="display: none; background-color: #eee; border: 1px solid #ccc; padding: 10px; position: absolute; z-index: 100;">				
+                Type your username and select option from the dropdown, or<br>
+                Enter your full email address (e.g., <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6b1e180e19050a060e2b181f1e0f0e051f18450e0f1e45180c">[email&#160;protected]</a>)<br>and select option to 'Select here'.
+            </div>
+
+                 </div>
+        </div>
+				
+        <!-- Password input with eye icon -->				
+        <div class="signin-div">
+            <div style="position: relative; display: inline-block;" class="input-signin-password">
+            <input type="password" id="Ecom_Password" name="Ecom_Password" tabindex="2" autocomplete="off" placeholder="Password" style="padding-right: 30px;">
+
+            <svg id="togglePasswordIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" onclick="toggleShowPassword()" style="position: absolute; top: 50%; right: 8px; transform: translateY(-50%); cursor: pointer;" title="Show password">
+                <path fill="#666" d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+                <circle cx="12" cy="12" r="2.5" fill="#fff"></circle>
+            </svg>
+            </div>
+
+        </div>
+
+        
+
+
+        <div class="closure-but signin-div">
+            <span class="nam-signin-but action-but" name="loginButton2" id="loginButton2" tabindex="3">Sign in</span>
+        </div>
+    </div>
+
+    <table border="0" style="margin-top: 1em" width="100%" cellspacing="0" cellpadding="0">
+        
+        
+        
+    </table>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+<center> <a href="#" onclick="launchSite(); return false;"> Forgot Password? </a> </center>
+
+</div>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        $(document).ready(function(){
+            getToContent('/nidp/app/login?login_hint=&id=mims&sid=0&option=credential&sid=0', "theContentContent");
+        });
+    </script>
+
+</div>
+    
+
+
+   <script>
+   
+       getToContent('/nidp/jsp/content.jsp?sid=0&login_hint&id=mims', 'theNidpContent');
+   
+   	</script>
+
+   	
+    
+
+
+
+<script type="text/javascript"
