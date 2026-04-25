@@ -566,7 +566,8 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
 .chat-messages{flex:1;overflow-y:auto;padding:.65rem;display:flex;flex-direction:column;gap:.45rem;}
 .chat-messages::-webkit-scrollbar{width:3px;}
 .chat-messages::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px;}
-.chat-msg{display:flex;flex-direction:column;gap:2px;animation:msgIn .2s ease;}
+.chat-msg{display:flex;flex-direction:row;gap:7px;animation:msgIn .2s ease;align-items:flex-start;}
+.chat-msg.own{flex-direction:row-reverse;}
 @keyframes msgIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 .chat-msg-header{display:flex;align-items:center;gap:5px;}
 .chat-msg-user{font-size:10px;font-weight:700;color:var(--text);font-family:var(--mono);}
@@ -575,6 +576,13 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
 .chat-msg-role.admin{background:var(--accent-glow);color:var(--accent);}
 .chat-msg-role.user{background:var(--surface3);color:var(--text-muted);}
 .chat-msg-role.system{background:transparent;color:var(--text-dim);font-style:italic;}
+.chat-system-divider{display:flex;align-items:center;gap:.4rem;padding:.3rem .5rem;margin:.2rem 0;}
+.chat-system-divider::before,.chat-system-divider::after{content:'';flex:1;min-width:16px;height:1px;background:var(--border2);}
+.chat-system-divider span{font-size:9px;font-family:var(--mono);color:var(--text-muted);white-space:normal;font-style:italic;text-align:center;max-width:160px;line-height:1.4;word-break:break-word;}
+.chat-msg-avatar{width:22px;height:22px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;display:none!important;}
+.chat-msg-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.chat-msg.own .chat-msg-avatar{order:2;}
+#chat-panel.expanded .chat-msg-avatar{display:flex!important;}
 .chat-msg-time{font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-left:auto;}
 .chat-msg-del{background:none;border:none;cursor:pointer;padding:0 2px;opacity:0;transition:opacity .15s;color:var(--danger);font-size:10px;}
 .chat-msg:hover .chat-msg-del{opacity:1;}
@@ -784,6 +792,7 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
       <div style="display:flex;gap:.4rem;">
         <input id="pp-new-password" type="password" placeholder="New password..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
         <button onclick="changeOwnPassword()" style="padding:6px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Save</button>
+      <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);padding:.3rem 0;line-height:1.5;">Takes effect on your next login.</div>
       </div>
     </div>
     <button onclick="closeProfilePopup()" style="width:100%;margin-top:.75rem;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s;">Close</button>
@@ -841,7 +850,7 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
         <button onclick="toggleDmAdd()" class="chat-send" title="New DM" style="flex-shrink:0;"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--send-icon,#000);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
       </div>
       <!-- New DM input (hidden by default) -->
-      <div id="dm-add-row" style="display:none;padding:.4rem .5rem;border-bottom:1px solid var(--border);gap:.4rem;align-items:center;">
+      <div id="dm-add-row" style="max-height:0;overflow:hidden;padding:0 .5rem;border-bottom:0px solid var(--border);gap:.4rem;align-items:center;transition:max-height .3s cubic-bezier(0.16,1,0.3,1),padding .25s,border-bottom-width .25s;display:flex;">
         <input id="dm-add-input" class="chat-input" placeholder="Enter username..." maxlength="30" style="flex:1;">
         <button onclick="dmStartConvo()" class="chat-send" style="flex-shrink:0;font-size:10px;font-family:var(--mono);">Go</button>
       </div>
@@ -860,7 +869,7 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
         <button onclick="toggleDmSettings()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:13px;transition:color .15s,transform .2s;" onmouseover="this.style.color='var(--accent)';this.style.transform='rotate(45deg)'" onmouseout="this.style.color='var(--text-muted)';this.style.transform=''">⚙️</button>
       </div>
       <!-- DM Settings Panel -->
-      <div id="dm-settings-panel" style="display:none;padding:.5rem;border-bottom:1px solid var(--border);background:var(--surface2);flex-direction:column;gap:.35rem;animation:groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both;">
+      <div id="dm-settings-panel" style="max-height:0;overflow:hidden;padding:0 .5rem;border-bottom:0px solid var(--border);background:var(--surface2);flex-direction:column;gap:.35rem;transition:max-height .3s cubic-bezier(0.16,1,0.3,1),padding .25s,border-bottom-width .25s;">
         <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;">DM Settings</div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Mute notifications</span>
@@ -884,7 +893,7 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
       </div>
       <!-- Create group panel -->
       <div id="group-create-row" style="max-height:0;overflow:hidden;padding:0 .5rem;border-bottom:0px solid var(--border);flex-direction:column;gap:.4rem;transition:max-height .35s cubic-bezier(0.16,1,0.3,1),padding .3s cubic-bezier(0.16,1,0.3,1),border-bottom-width .3s;">
-        <input id="group-name-input" class="chat-input" placeholder="Group name..." maxlength="30" style="width:100%;height:28px;">
+        <input id="group-name-input" class="chat-input" placeholder="Group name (max 20)..." maxlength="20" style="width:100%;height:28px;">
         <div id="group-member-list" style="display:flex;flex-wrap:wrap;gap:.3rem;min-height:24px;padding:.2rem 0;"></div>
         <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);">Add members (tap to select from contacts):</div>
         <div id="group-contacts-list" style="max-height:80px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;"></div>
@@ -906,12 +915,27 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
     <div id="chat-view-group-convo" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
       <div style="padding:.5rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem;flex-shrink:0;">
         <button onclick="backToGroupList()" style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center;color:var(--text-muted);"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg></button>
-        <div id="group-convo-avatar" style="width:24px;height:24px;border-radius:6px;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>
-        <span id="group-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);flex:1;"></span>
+        <div id="group-convo-avatar" onclick="toggleGroupPhotoMenu(event)" title="Change group photo" style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;overflow:hidden;transition:opacity .15s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">#</div>
+        <input type="file" id="group-photo-input" accept="image/*" style="display:none;" onchange="uploadGroupPhoto(this)">
+        <div id="group-photo-menu" style="display:none;position:absolute;top:46px;left:.5rem;z-index:200;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:.6rem;width:210px;box-shadow:0 8px 24px rgba(0,0,0,.6);">
+          <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">Change Group Photo</div>
+          <label style="display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem;border-radius:7px;cursor:pointer;background:var(--surface2);margin-bottom:.4rem;" onmouseover="this.style.background='var(--surface3)'" onmouseout="this.style.background='var(--surface2)'">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Upload image</span>
+            <input type="file" accept="image/*" style="display:none;" onchange="uploadGroupPhoto(this)">
+          </label>
+          <div style="display:flex;gap:.3rem;">
+            <input id="group-photo-url-input" class="chat-input" placeholder="Or paste URL..." style="flex:1;height:26px;font-size:10px;">
+            <button onclick="saveGroupPhotoUrl()" style="padding:3px 8px;background:var(--accent);color:#000;border:none;border-radius:6px;font-size:9px;font-family:var(--mono);font-weight:700;cursor:pointer;">Set</button>
+          </div>
+          <button onclick="document.getElementById('group-photo-menu').style.display='none'" style="width:100%;margin-top:.4rem;padding:4px;background:none;border:none;font-size:10px;font-family:var(--mono);color:var(--text-muted);cursor:pointer;">Cancel</button>
+        </div>
+<span id="group-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);flex:1;cursor:pointer;transition:color .15s;" title="Click to rename" onclick="startGroupRename()" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''"></span>
+        <input id="group-name-edit" style="display:none;flex:1;background:var(--surface2);border:1px solid var(--accent-dim);border-radius:6px;padding:3px 8px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:700;outline:none;" maxlength="20">
         <button onclick="openGroupInfo()" style="background:none;border:none;cursor:pointer;padding:2px;color:var(--text-muted);font-size:10px;font-family:var(--mono);" title="Group info">⚙️</button>
       </div>
       <!-- Group info panel (hidden) -->
-      <div id="group-info-panel" style="display:none;padding:.5rem;border-bottom:1px solid var(--border);background:var(--surface2);flex-direction:column;gap:.4rem;">
+      <div id="group-info-panel" style="max-height:0;overflow:hidden;padding:0 .5rem;border-bottom:0px solid var(--border);background:var(--surface2);flex-direction:column;gap:.4rem;transition:max-height .35s cubic-bezier(0.16,1,0.3,1),padding .3s,border-bottom-width .3s;">
         <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;">Settings</div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
           <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Mute notifications</span>
@@ -1364,15 +1388,34 @@ function _hideLoadingScreen(){
 }
 function hideGame(){
   document.getElementById('section-game').classList.remove('active');
-  // Fully destroy and recreate iframe to kill any WASM/service workers from Eaglercraft
   var old=document.getElementById('game-frame');
   var parent=old.parentNode;
-  var newFrame=document.createElement('iframe');
-  newFrame.id='game-frame';
-  newFrame.allowFullscreen=true;
-  newFrame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups allow-modals');
-  newFrame.style.cssText='flex:1;width:100%;border:none;background:#000;display:block;';
-  parent.replaceChild(newFrame,old);
+
+  // Kill the game iframe — navigate to blank first to stop all audio
+  try{old.removeAttribute('sandbox');}catch(e){}
+  try{old.src='about:blank';}catch(e){}
+
+  // Also destroy any preloaded iframes (they might have audio running)
+  Object.keys(_preloadedFrames).forEach(function(id){
+    var f=_preloadedFrames[id];
+    if(f){
+      try{f.removeAttribute('sandbox');}catch(e){}
+      try{f.src='about:blank';}catch(e){}
+      try{f.parentNode.removeChild(f);}catch(e){}
+    }
+  });
+  _preloadedFrames={};
+
+  // Replace game iframe after blank navigation takes effect
+  setTimeout(function(){
+    var newFrame=document.createElement('iframe');
+    newFrame.id='game-frame';
+    newFrame.allowFullscreen=true;
+    newFrame.setAttribute('sandbox','allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups allow-modals');
+    newFrame.style.cssText='flex:1;width:100%;border:none;background:#000;display:block;';
+    if(old.parentNode)old.parentNode.replaceChild(newFrame,old);
+    else parent.appendChild(newFrame);
+  },300);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1626,28 +1669,10 @@ function saveSettingsToFirestore(){
 // ═══════════════════════════════════════════════════════
 var _preloadedFrames={};
 function _preloadGames(){
-  /* 1. Preload all game thumbnail images instantly */
+  /* Preload game thumbnail images only — no iframe preloading */
+  /* Iframe preloading removed because Unity games (GD) start audio in background */
   GAMES.forEach(function(g){
     if(g.img){var img=new Image();img.src=g.img;}
-  });
-
-  /* 2. Preload popular game iframes in hidden divs */
-  /* Popular game iframe preloading removed - caused background audio issues */
-
-  /* 3. Hover preload for non-popular games */
-  document.addEventListener('mouseover',function(e){
-    var card=e.target.closest('.lesson-card[data-game-id]');
-    if(!card)return;
-    var id=card.dataset.gameId;
-    if(_preloadedFrames[id])return;
-    var g=GAMES.find(function(x){return x.id===id;});
-    if(!g)return;
-    var f=document.createElement('iframe');
-    f.src=g.url;
-    f.style.cssText='position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:none;pointer-events:none;';
-    f.setAttribute('tabindex','-1');
-    document.body.appendChild(f);
-    _preloadedFrames[id]=f;
   });
 }
 
@@ -1662,10 +1687,11 @@ function initPresence(uid,username){
   var connectedRef=rtdb.ref('.info/connected');
   connectedRef.on('value',function(snap){
     if(snap.val()===false)return;
-    // When disconnected, remove presence
     presenceRef.onDisconnect().remove();
     presenceRef.set({username:username,online:true,ts:Date.now()});
   });
+  // Watch own photo for instant update
+  _watchPhotoChanges(uid);
   // Listen to all presence
   rtdb.ref('presence').on('value',function(snap){
     _onlineUsers={};
@@ -1713,6 +1739,8 @@ function _setupHomeInner(role,uname,uid){
   initPresence(uid,uname);
   document.getElementById('nav-avatar').textContent=uname[0].toUpperCase();
   _applyNavAvatar(uid,uname);
+  // Pre-cache own photo so it shows in chat immediately
+  _getPhotoForUser(uid,uname,function(p){if(p)_photoCache[uid]=p;});
   document.getElementById('hero-name').textContent=uname.charAt(0).toUpperCase()+uname.slice(1);
 
   // show role buttons
@@ -2076,29 +2104,37 @@ window.toggleGlobalChat=function(){
 
 window.loadChatLockedUsers=function(){
   var list=document.getElementById('chat-locked-list');
-  list.style.display=list.style.display==='none'?'block':'none';
-  if(list.style.display==='none')return;
+  var isHidden=list.style.display==='none'||list.style.display==='';
+  if(!isHidden){
+    list.style.animation='groupCreateOut .18s ease both';
+    setTimeout(function(){list.style.display='none';list.style.animation='';},180);
+    return;
+  }
+  list.style.display='block';
+  list.style.animation='groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both';
   list.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);padding:.3rem;">Loading...</div>';
   db.collection('users').where('chatLockedUntil','>',Date.now()).get().then(function(snap){
     if(snap.empty){list.innerHTML='<div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);padding:.3rem;">No locked users</div>';return;}
     var html='';
-    snap.docs.forEach(function(doc){
+    snap.docs.forEach(function(doc,ri){
       var d=doc.data();
       var until=new Date(d.chatLockedUntil).toLocaleTimeString();
-      html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:.35rem .5rem;background:var(--surface2);border-radius:6px;margin-bottom:.3rem;">'
+      var delay=(ri*0.06).toFixed(2);
+      html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:.35rem .5rem;background:var(--surface2);border-radius:6px;margin-bottom:.3rem;animation:staggerIn .25s cubic-bezier(0.16,1,0.3,1) '+delay+'s both;">'
         +'<span style="font-size:10px;font-family:var(--mono);color:var(--text);">'+d.username+' — until '+until+'</span>'
-        +'<button onclick="unlockChatUser(\"'+doc.id+'\",\"'+d.username+'\")" style="padding:2px 8px;background:var(--success);color:#000;border:none;border-radius:5px;font-size:9px;font-family:var(--mono);cursor:pointer;font-weight:700;">Unlock</button>'
+        +'<button onclick="unlockChatUser(this)" data-uid="'+doc.id+'" data-uname="'+d.username+'" style="padding:2px 8px;background:var(--success);color:#000;border:none;border-radius:5px;font-size:9px;font-family:var(--mono);cursor:pointer;font-weight:700;">Unlock</button>'
         +'</div>';
     });
     list.innerHTML=html;
   });
 };
 
-window.unlockChatUser=function(uid,uname){
+window.unlockChatUser=function(btn){
+  var uid=btn.dataset.uid;var uname=btn.dataset.uname;
   db.collection('users').doc(uid).update({chatLockedUntil:firebase.firestore.FieldValue.delete()}).then(function(){
     toast('✅ '+uname+' unlocked from chat');
     loadChatLockedUsers();
-  });
+  }).catch(function(e){toast('Error: '+e.message);});
 };
 
 window.clearGlobalChat=function(){
@@ -2143,6 +2179,9 @@ window.openOwnerUserProfile=function(uid){
     html+=infoRow('Username', u.username||'—');
     html+=infoRow('Password', u.password||'<span style="color:var(--text-muted)">Not stored</span>');
     html+=infoRow('Status', isLocked?'<span style="color:var(--danger)">🔒 Locked</span>':'<span style="color:var(--success)">✅ Active</span>');
+    var isChatLockedInfo=u.chatLockedUntil&&u.chatLockedUntil>Date.now();
+    var chatLockStr=isChatLockedInfo?'<span style="color:var(--warn)">🔇 Locked until '+new Date(u.chatLockedUntil).toLocaleTimeString()+'</span>':'<span style="color:var(--success)">✅ Open</span>';
+    html+=infoRow('Chat', chatLockStr);
     html+=infoRow('Created', created);
     html+=infoRow('UID', '<span style="font-size:9px;">'+uid.substring(0,16)+'...</span>');
     if(!isOwner){
@@ -2150,11 +2189,14 @@ window.openOwnerUserProfile=function(uid){
       html+='<div style="margin-top:.65rem;display:flex;flex-direction:column;gap:.4rem;">';
       html+='<div style="display:flex;gap:.4rem;"><input id="edit-uname-'+uid+'" placeholder="New username..." value="'+(u.username||'')+'" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:5px 8px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;"><button class="pill pill-accent" data-uid="'+uid+'" data-action="edit-username">Save</button></div>';
       html+='<div style="display:flex;gap:.4rem;"><input id="edit-pass-'+uid+'" type="password" placeholder="New password..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:5px 8px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;"><button class="pill pill-accent" data-uid="'+uid+'" data-action="edit-password">Save</button></div>';
+      var isChatLocked=u.chatLockedUntil&&u.chatLockedUntil>Date.now();
       html+='<div style="display:flex;gap:.4rem;flex-wrap:wrap;">';
       if(isLocked)html+='<button class="pill pill-success" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="unlock">Unlock</button>';
       else html+='<button class="pill pill-warn" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="stop">Stop</button>';
       if(u.role==='user')html+='<button class="pill pill-accent" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="promote">Promote</button>';
       else if(u.role==='admin')html+='<button class="pill pill-warn" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="demote">Demote</button>';
+      if(isChatLocked)html+='<button class="pill pill-success" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="unlock-chat">Unlock Chat</button>';
+      else html+='<button class="pill pill-warn" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="lock-chat">Lock Chat</button>';
       html+='<button class="pill pill-danger" data-uid="'+uid+'" data-uname="'+(u.username||'')+'" data-action="delete">Delete</button>';
       html+='</div></div>';
     }
@@ -2167,6 +2209,19 @@ window.openOwnerUserProfile=function(uid){
         if(action==='stop')db.collection('users').doc(buid).update({locked:true}).then(function(){toast('🛑 '+uname+' stopped.');openOwnerUserProfile(buid);});
         if(action==='promote')db.collection('users').doc(buid).update({role:'admin'}).then(function(){toast('⬆️ '+uname+' promoted.');openOwnerUserProfile(buid);});
         if(action==='demote')db.collection('users').doc(buid).update({role:'user'}).then(function(){toast('⬇️ '+uname+' demoted.');openOwnerUserProfile(buid);});
+        if(action==='lock-chat'){
+          var lockUntil=Date.now()+(60*60*1000);
+          db.collection('users').doc(buid).update({chatLockedUntil:lockUntil}).then(function(){
+            toast('🔇 '+uname+' locked from chat for 1 hour.');
+            openOwnerUserProfile(buid);
+          });
+        }
+        if(action==='unlock-chat'){
+          db.collection('users').doc(buid).update({chatLockedUntil:firebase.firestore.FieldValue.delete()}).then(function(){
+            toast('✅ '+uname+' unlocked from chat.');
+            openOwnerUserProfile(buid);
+          });
+        }
         if(action==='delete'){if(!confirm('Delete "'+uname+'"?'))return;db.collection('users').doc(buid).delete().then(function(){toast('🗑️ '+uname+' deleted.');loadOwnerUserList();});}
         if(action==='edit-username'){var newU=(document.getElementById('edit-uname-'+buid)||{}).value;if(!newU||!newU.trim()){toast('Enter a username.');return;}auth.currentUser.getIdToken(true).then(function(){var setUsername=firebase.functions().httpsCallable('setUserUsername');setUsername({uid:buid,username:newU.trim()}).then(function(){toast('✅ Username updated instantly!');openOwnerUserProfile(buid);}).catch(function(e){toast('Error: '+e.message);});}).catch(function(){toast('Session expired, please log out and back in.');});}
         if(action==='edit-password'){var newP=(document.getElementById('edit-pass-'+buid)||{}).value;if(!newP||newP.length<6){toast('Min 6 characters.');return;}db.collection('users').doc(buid).update({password:newP,passwordReset:newP}).then(function(){toast('✅ Password updated! Takes effect on next login.');openOwnerUserProfile(buid);}).catch(function(e){toast('Error: '+e.message);});}
@@ -2242,7 +2297,7 @@ window.saveProfilePhoto=function(){
   var url=(document.getElementById('pp-photo-input').value||'').trim();
   if(url){
     localStorage.setItem('srv2-photo-'+uid,url);
-  _photoCache[uid]=url;
+  _photoCache[uid]={url:url,ts:Date.now()};
     document.getElementById('pp-avatar-img').src=url;
     document.getElementById('pp-avatar-img').style.display='block';
     document.getElementById('pp-avatar-letter').style.display='none';
@@ -2255,7 +2310,15 @@ window.saveProfilePhoto=function(){
     db.collection('users').doc(uid).update({photoURL:''}).catch(function(){});
   }
   _applyNavAvatar(uid,uname);
-  document.getElementById('pp-photo-wrap').style.display='none';
+  // Instantly update cache so new messages show new photo
+  _photoCache[uid]={url:url||'',ts:Date.now()};
+  // Also update any visible avatars already in chat
+  document.querySelectorAll('.chat-msg-avatar[data-uid="'+uid+'"]').forEach(function(av){
+    if(url)av.innerHTML='<img src="'+url+'">';
+    else av.textContent=(uname[0]||'?').toUpperCase();
+  });
+  var _myName=localStorage.getItem('srv2-username')||'';
+  rtdb.ref('chat/messages').push({user:'System',uid:'system',role:'system',text:_myName+' changed their profile picture',ts:Date.now()});
   toast('Profile photo updated!');
 };
 function _applyNavAvatar(uid,uname){
@@ -2273,13 +2336,35 @@ function _applyNavAvatar(uid,uname){
 }
 // Get photo URL from Firestore cache or fetch it
 var _photoCache={};
+var _PHOTO_TTL=5*60*1000;
 function _getPhotoForUser(uid,uname,cb){
-  if(_photoCache[uid]!==undefined){cb(_photoCache[uid]);return;}
+  var cached=_photoCache[uid];
+  if(cached&&Date.now()-cached.ts<_PHOTO_TTL){cb(cached.url);return;}
   db.collection('users').doc(uid).get().then(function(snap){
     var url=(snap.exists&&snap.data().photoURL)||'';
-    _photoCache[uid]=url;
+    _photoCache[uid]={url:url,ts:Date.now()};
     cb(url);
-  }).catch(function(){_photoCache[uid]='';cb('');});
+  }).catch(function(){_photoCache[uid]={url:'',ts:Date.now()};cb('');});
+}
+function _watchPhotoChanges(uid){
+  if(_photoCache['_watch_'+uid])return; // already watching
+  _photoCache['_watch_'+uid]=true;
+  db.collection('users').doc(uid).onSnapshot(function(snap){
+    if(!snap.exists)return;
+    var newUrl=(snap.data().photoURL)||'';
+    var cached=_photoCache[uid];
+    if(cached&&cached.url===newUrl)return;
+    _photoCache[uid]={url:newUrl,ts:Date.now()};
+    document.querySelectorAll('.chat-msg-avatar[data-uid="'+uid+'"]').forEach(function(av){
+      if(newUrl)av.innerHTML='<img src="'+newUrl+'">';
+      else av.textContent=(snap.data().username||'?')[0].toUpperCase();
+    });
+    var dmDots=document.querySelectorAll('.dm-online-dot[data-uid="'+uid+'"]');
+    dmDots.forEach(function(dot){
+      var av=dot.parentElement&&dot.parentElement.querySelector('div');
+      if(av&&newUrl)av.innerHTML='<img src="'+newUrl+'" style="width:100%;height:100%;object-fit:cover;">';
+    });
+  });
 }
 function _avatarHTML(photo,uname,size){
   size=size||'24px';
@@ -2432,12 +2517,20 @@ function initChat(role,username,uid){
     if(!val){msgs.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet 👋</div>';return;}
     Object.keys(val).forEach(function(k){
       var m=val[k];var isOwn=m.uid===uid;
+      if(m.role==='system'||m.uid==='system'){
+        var sdiv=document.createElement('div');sdiv.className='chat-system-divider';
+        sdiv.innerHTML='<span>'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>';
+        msgs.appendChild(sdiv);return;
+      }
       var canDel=role==='owner'||(role==='admin'&&m.role==='user')||m.uid===uid;
       var time=new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       var del=canDel?'<button class="chat-msg-del" onclick="askDel(\''+k+'\')" title="Delete">✕</button>':'';
       var div=document.createElement('div');div.className='chat-msg'+(isOwn?' own':'');
-      div.innerHTML='<div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-role '+m.role+'">'+m.role+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+      var _photo=(_photoCache[m.uid]&&_photoCache[m.uid].url)||'';
+      var _avatarHtml='<div class="chat-msg-avatar">'+ (_photo?'<img src="'+_photo+'">':(m.user[0]||'?').toUpperCase()) +'</div>';
+      div.innerHTML=_avatarHtml+'<div style="flex:1;min-width:0;"><div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-role '+m.role+'">'+m.role+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div></div>';
       msgs.appendChild(div);
+      if(!_photo&&m.uid)_getPhotoForUser(m.uid,m.user,function(p){if(p){var av=div.querySelector('.chat-msg-avatar');if(av)av.innerHTML='<img src="'+p+'">';}});
     });
     msgs.scrollTop=msgs.scrollHeight;
     if(!_chatOpen||_currentTab!=='global'){_chatUnread++;var b=document.getElementById('chat-badge');if(b){b.textContent=_chatUnread>9?'9+':_chatUnread;b.style.display='flex';}
@@ -2534,8 +2627,10 @@ function renderDmList(){
     nameSpan.textContent=c.name;
     row.appendChild(nameSpan);
     if(c.unread>0){var badge=document.createElement('span');badge.style.cssText='background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--mono);font-weight:700;';badge.textContent=c.unread;row.appendChild(badge);}
-    // Async load photo for this DM user
+    // Load + watch photo for this DM user
     _getPhotoForUser(otherUid,c.name,function(photo){if(photo){dmAvatarDiv.innerHTML='<img src="'+photo+'" style="width:100%;height:100%;object-fit:cover;">';}});
+    _watchPhotoChanges(otherUid);
+    _watchPhotoChanges(otherUid);
     list.appendChild(row);
   });
 }
@@ -2549,16 +2644,14 @@ window.dmSearchInput=function(val){
 window.toggleDmAdd=function(){
   var row=document.getElementById('dm-add-row');
   var err=document.getElementById('dm-add-error');
-  var open=row.style.display==='flex';
+  var open=row.style.maxHeight&&row.style.maxHeight!=='0px'&&row.style.maxHeight!=='0';
   if(open){
-    row.classList.remove('dm-add-open');
-    row.classList.add('dm-add-close');
-    setTimeout(function(){row.style.display='none';row.classList.remove('dm-add-close');},150);
+    row.style.maxHeight='0';row.style.padding='0 .5rem';row.style.borderBottomWidth='0px';
+    document.getElementById('dm-add-input').value='';
+    if(err)err.style.display='none';
   } else {
-    err.style.display='none';
-    row.style.display='flex';
-    row.classList.remove('dm-add-close');
-    row.classList.add('dm-add-open');
+    if(err)err.style.display='none';
+    row.style.maxHeight='80px';row.style.padding='.4rem .5rem';row.style.borderBottomWidth='1px';
     setTimeout(function(){document.getElementById('dm-add-input').focus();},50);
   }
 };
@@ -2626,8 +2719,12 @@ function openDmConvo(otherUid,otherName){
       var time=new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       var del=canDel?'<button class="chat-msg-del" onclick="askDelDm(\''+k+'\')" title="Delete">✕</button>':'';
       var div=document.createElement('div');div.className='chat-msg'+(isOwn?' own':'');
-      div.innerHTML='<div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+      var _dphoto=isOwn?((_photoCache[myUid]&&_photoCache[myUid].url)||''):((_photoCache[m.uid]&&_photoCache[m.uid].url)||'');
+      var _dname=isOwn?(localStorage.getItem('srv2-username')||''):m.user;
+      var _davatar='<div class="chat-msg-avatar" data-uid="'+(m.uid||'')+'">'+(_dphoto?'<img src="'+_dphoto+'">':((_dname[0]||'?').toUpperCase()))+'</div>';
+      div.innerHTML=_davatar+'<div style="flex:1;min-width:0;"><div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div></div>';
       msgs.appendChild(div);
+      if(!_dphoto&&m.uid&&!isOwn)_getPhotoForUser(m.uid,m.user,function(p){if(p){var av=div.querySelector('.chat-msg-avatar');if(av)av.innerHTML='<img src="'+p+'">';}});
     });
     msgs.scrollTop=msgs.scrollHeight;
   });
@@ -2645,13 +2742,14 @@ window.backToDmList=function(){
 
 window.sendDm=function(){
   var input=document.getElementById('dm-input');var text=input.value.trim();
-  if(!text||!_currentDmUid)return;input.value='';
+  if(!text||!_currentDmUid)return;
+  if(_chatLocked){toast('You are locked from chat.');return;}
+  if(!checkRateLimit())return;
+  input.value='';
   var myUid=localStorage.getItem('srv2-uid');
   var myName=localStorage.getItem('srv2-username');
   var dmKey=[myUid,_currentDmUid].sort().join('_');
-  // Send message
   rtdb.ref('dm_messages/'+dmKey).push({user:myName,uid:myUid,text:text,ts:Date.now()});
-  // Increment unread for receiver
   rtdb.ref('dms/'+_currentDmUid+'/'+myUid+'/unread').transaction(function(v){return(v||0)+1;});
   rtdb.ref('dms/'+_currentDmUid+'/'+myUid+'/name').set(myName);
 };
@@ -2725,6 +2823,10 @@ window.toggleEmojiPicker=function(type){
   picker.style.display='flex';
 };
 document.addEventListener('click',function(e){
+  var gpMenu=document.getElementById('group-photo-menu');
+  if(gpMenu&&gpMenu.style.display==='block'&&!gpMenu.contains(e.target)&&!e.target.closest('#group-convo-avatar')){
+    gpMenu.style.display='none';
+  }
   ['emoji-picker','dm-emoji-picker'].forEach(function(id){
     var picker=document.getElementById(id);
     if(picker&&picker.style.display==='flex'&&!picker.contains(e.target)&&!e.target.closest('.emoji-btn')){picker.style.display='none';}
@@ -2979,7 +3081,7 @@ function initGroups(role,username,uid){
       rtdb.ref('groups/'+gid).once('value').then(function(gsnap){
         if(gsnap.exists()){
           var d=gsnap.val();
-          _groupConvos[gid]={name:d.name||'Group',unread:val[gid].unread||0,creator:d.creator||''};
+          _groupConvos[gid]={name:d.name||'Group',unread:val[gid].unread||0,creator:d.creator||'',photo:d.photo||''};
         }
         loaded++;
         if(loaded===ids.length)renderGroupList();
@@ -3004,7 +3106,8 @@ function renderGroupList(){
     row.onmouseover=function(){this.style.background='var(--surface2)';this.style.transform='translateX(4px)';this.style.boxShadow='0 2px 8px var(--accent-glow)';};
     row.onmouseout=function(){this.style.background='transparent';this.style.transform='';this.style.boxShadow='';};
     row.onclick=function(){openGroupConvo(gid,g.name);};
-    var icon='<div style="width:28px;height:28px;border-radius:6px;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>';
+    var _gp=(_groupConvos[gid]&&_groupConvos[gid].photo)||'';
+    var icon=_gp?'<div style="width:28px;height:28px;border-radius:50%;flex-shrink:0;overflow:hidden;border:1px solid var(--accent-dim);"><img src="'+_gp+'" style="width:100%;height:100%;object-fit:cover;"></div>':'<div style="width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>';
     var nameSpan='<span style="font-size:12px;font-family:var(--mono);color:var(--text);flex:1;">'+g.name+'</span>';
     var badge=g.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--mono);font-weight:700;">'+g.unread+'</span>':'';
     row.innerHTML=icon+nameSpan+badge;
@@ -3028,6 +3131,16 @@ function openGroupConvo(gid,name){
   document.getElementById('group-convo-name').textContent=name;
   document.getElementById('chat-panel-title').textContent=name;
   document.getElementById('group-info-panel').style.display='none';
+  // Load group photo
+  rtdb.ref('groups/'+gid+'/photo').once('value').then(function(snap){_updateGroupAvatar(snap.val()||'');});
+  // Sync group mute button
+  var gmuteBtn=document.getElementById('tog-group-mute');
+  if(gmuteBtn){
+    var gmuted=_mutedGroups&&_mutedGroups[gid];
+    gmuteBtn.textContent=gmuted?'ON':'OFF';
+    gmuteBtn.style.background=gmuted?'var(--accent)':'var(--surface3)';
+    gmuteBtn.style.color=gmuted?'#000':'var(--text-muted)';
+  }
   // Check if creator
   rtdb.ref('groups/'+gid).once('value').then(function(snap){
     if(!snap.exists())return;
@@ -3059,20 +3172,42 @@ function openGroupConvo(gid,name){
   if(_groupRef)_groupRef.off();
   var myRole=localStorage.getItem('srv2-role')||'user';
   var myName=localStorage.getItem('srv2-username')||'';
+  var _prevGroupMsgCount=0;
   _groupRef=rtdb.ref('group_messages/'+gid);
   _groupRef.limitToLast(50).on('value',function(snap){
+    var newCount=snap.numChildren();
+    if(_prevGroupMsgCount>0&&newCount>_prevGroupMsgCount){
+      var val2=snap.val();var keys2=val2?Object.keys(val2):[];
+      var last=val2&&keys2.length?val2[keys2[keys2.length-1]]:null;
+      if(last&&last.uid!==myUid&&!(_mutedGroups&&_mutedGroups[gid])){
+        _playNotifIfEnabled('group');
+        _sendBrowserNotif(_currentGroupName||'Group',last.user+': '+last.text);
+      }
+    }
+    _prevGroupMsgCount=newCount;
     var msgs=document.getElementById('group-messages');
     msgs.innerHTML='';
     var val=snap.val();
     if(!val){msgs.innerHTML='<div style="font-size:11px;font-family:var(--mono);color:var(--text-muted);text-align:center;margin:auto;padding:1rem;">No messages yet</div>';return;}
     Object.keys(val).forEach(function(k){
       var m=val[k];var isOwn=m.uid===myUid;
+      // System message — render as centered divider
+      if(m.role==='system'||m.uid==='system'){
+        var sdiv=document.createElement('div');
+        sdiv.className='chat-system-divider';
+        sdiv.innerHTML='<span>'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</span>';
+        msgs.appendChild(sdiv);
+        return;
+      }
       var canDel=isOwn||myRole==='owner'||(myRole==='admin'&&m.role==='user');
       var time=new Date(m.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       var del=canDel?'<button class="chat-msg-del" onclick="askDelGroup(\"'+k+'\")" title="Delete">✕</button>':'';
       var div=document.createElement('div');div.className='chat-msg'+(isOwn?' own':'');
-      div.innerHTML='<div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-role '+(m.role||'user')+'">'+(m.role||'user')+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+      var _gphoto=(_photoCache[m.uid]&&_photoCache[m.uid].url)||'';
+      var _gavatar='<div class="chat-msg-avatar" data-uid="'+(m.uid||'')+'">'+(_gphoto?'<img src="'+_gphoto+'">':(m.user[0]||'?').toUpperCase())+'</div>';
+      div.innerHTML=_gavatar+'<div style="flex:1;min-width:0;"><div class="chat-msg-header"><span class="chat-msg-user">'+m.user+'</span><span class="chat-msg-role '+(m.role||'user')+'">'+(m.role||'user')+'</span><span class="chat-msg-time">'+time+'</span>'+del+'</div><div class="chat-msg-text">'+m.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div></div>';
       msgs.appendChild(div);
+      if(!_gphoto&&m.uid)_getPhotoForUser(m.uid,m.user,function(p){if(p){var av=div.querySelector('.chat-msg-avatar');if(av)av.innerHTML='<img src="'+p+'">';}});
     });
     msgs.scrollTop=msgs.scrollHeight;
   });
@@ -3090,7 +3225,10 @@ window.backToGroupList=function(){
 
 window.sendGroupMsg=function(){
   var input=document.getElementById('group-input');var text=input.value.trim();
-  if(!text||!_currentGroupId)return;input.value='';
+  if(!text||!_currentGroupId)return;
+  if(_chatLocked){toast('You are locked from chat.');return;}
+  if(!checkRateLimit())return;
+  input.value='';
   var myUid=localStorage.getItem('srv2-uid');
   var myName=localStorage.getItem('srv2-username')||'user';
   var myRole=localStorage.getItem('srv2-role')||'user';
@@ -3105,6 +3243,10 @@ window.sendGroupMsg=function(){
       }
     });
   });
+  // Local notification sound (check if muted)
+  if(!_mutedGroups||!_mutedGroups[_currentGroupId]){
+    _playNotifIfEnabled('group');
+  }
 };
 
 document.addEventListener('keydown',function(e){
@@ -3260,15 +3402,91 @@ window.createGroup=function(){
   setTimeout(function(){openGroupConvo(gid,name);},300);
 };
 
+window.startGroupRename=function(){
+  var nameEl=document.getElementById('group-convo-name');
+  var editEl=document.getElementById('group-name-edit');
+  if(!nameEl||!editEl||!_currentGroupId)return;
+  editEl.value=_currentGroupName||'';
+  nameEl.style.display='none';editEl.style.display='block';
+  editEl.focus();editEl.select();
+  function save(){
+    var newName=editEl.value.trim();
+    if(!newName||newName===_currentGroupName){cancel();return;}
+    var myName=localStorage.getItem('srv2-username')||'';
+    var oldName=_currentGroupName;
+    rtdb.ref('groups/'+_currentGroupId+'/name').set(newName);
+    rtdb.ref('groups/'+_currentGroupId+'/members').once('value').then(function(snap){
+      Object.keys(snap.val()||{}).forEach(function(uid){rtdb.ref('group_members/'+uid+'/'+_currentGroupId+'/name').set(newName);});
+    });
+    rtdb.ref('group_messages/'+_currentGroupId).push({user:'System',uid:'system',role:'system',text:myName+' renamed the group from "'+oldName+'" to "'+newName+'"',ts:Date.now()});
+    _currentGroupName=newName;nameEl.textContent=newName;
+    document.getElementById('chat-panel-title').textContent=newName;
+    if(_groupConvos[_currentGroupId])_groupConvos[_currentGroupId].name=newName;
+    cancel();toast('Group renamed!');
+  }
+  function cancel(){editEl.style.display='none';nameEl.style.display='';}
+  editEl.onblur=cancel;
+  editEl.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();save();}if(e.key==='Escape')cancel();};
+};
+window.toggleGroupPhotoMenu=function(e){
+  if(e)e.stopPropagation();
+  var menu=document.getElementById('group-photo-menu');
+  if(!menu)return;
+  menu.style.display=menu.style.display==='block'?'none':'block';
+};
+window.saveGroupPhotoUrl=function(){
+  var url=(document.getElementById('group-photo-url-input').value||'').trim();
+  if(!url||!_currentGroupId){toast('Enter a URL first');return;}
+  rtdb.ref('groups/'+_currentGroupId+'/photo').set(url);
+  _updateGroupAvatar(url);
+  if(_groupConvos[_currentGroupId])_groupConvos[_currentGroupId].photo=url;
+  var mn=localStorage.getItem('srv2-username')||'';
+  rtdb.ref('group_messages/'+_currentGroupId).push({user:'System',uid:'system',role:'system',text:mn+' changed the group photo',ts:Date.now()});
+  renderGroupList();
+  document.getElementById('group-photo-url-input').value='';
+  document.getElementById('group-photo-menu').style.display='none';
+  toast('Group photo updated!');
+};
+
+window.uploadGroupPhoto=function(input){
+  if(!input.files||!input.files[0]||!_currentGroupId)return;
+  var file=input.files[0];
+  var uid=localStorage.getItem('srv2-uid')||'anon';
+  var ref=storage.ref('groups/'+_currentGroupId+'/photo_'+Date.now());
+  ref.put(file).then(function(snap){return snap.ref.getDownloadURL();}).then(function(url){
+    rtdb.ref('groups/'+_currentGroupId+'/photo').set(url);
+    _updateGroupAvatar(url);
+    if(_groupConvos[_currentGroupId])_groupConvos[_currentGroupId].photo=url;
+    var _myN=localStorage.getItem('srv2-username')||'';
+    rtdb.ref('group_messages/'+_currentGroupId).push({user:'System',uid:'system',role:'system',text:_myN+' changed the group photo',ts:Date.now()});
+    renderGroupList();
+    toast('✅ Group photo updated!');
+  }).catch(function(){toast('Upload failed');});
+  input.value='';
+};
+
+function _updateGroupAvatar(url){
+  var av=document.getElementById('group-convo-avatar');
+  if(!av)return;
+  if(url){av.innerHTML='<img src="'+url+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';av.style.fontSize='0';}
+  else{av.textContent='#';av.style.fontSize='';}
+}
+
 window.openGroupInfo=function(){
   var panel=document.getElementById('group-info-panel');
-  var open=panel.style.display==='flex';
+  var open=panel.style.maxHeight&&panel.style.maxHeight!=='0px'&&panel.style.maxHeight!=='0'&&panel.style.maxHeight!=='';
   if(open){
-    panel.style.animation='groupCreateOut .18s ease both';
-    setTimeout(function(){panel.style.display='none';panel.style.animation='';},180);
+    panel.style.maxHeight='0';panel.style.padding='0 .5rem';panel.style.borderBottomWidth='0px';
   } else {
-    panel.style.display='flex';
-    panel.style.animation='groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both';
+    panel.style.maxHeight='400px';panel.style.padding='.5rem';panel.style.borderBottomWidth='1px';
+    // Sync group mute button
+    var gmuteBtn=document.getElementById('tog-group-mute');
+    if(gmuteBtn){
+      var gmuted=_mutedGroups&&_mutedGroups[_currentGroupId];
+      gmuteBtn.textContent=gmuted?'ON':'OFF';
+      gmuteBtn.style.background=gmuted?'var(--accent)':'var(--surface3)';
+      gmuteBtn.style.color=gmuted?'#000':'var(--text-muted)';
+    }
   }
 };
 
@@ -3324,7 +3542,7 @@ function removeMemberFromGroup(gid,uid,username){
   var myName=localStorage.getItem('srv2-username')||'';
   rtdb.ref('group_messages/'+gid).push({
     user:'System',uid:'system',role:'system',
-    text:myName+' removed '+username,ts:Date.now()
+    text:myName+' removed '+username+' from the group',ts:Date.now()
   });
   rtdb.ref('groups/'+gid+'/members/'+uid).remove();
   rtdb.ref('group_members/'+uid+'/'+gid).remove();
@@ -3363,12 +3581,18 @@ function initChatLock(){
       if(!snap.exists)return;
       var d=snap.data();
       if(d.chatLockedUntil&&d.chatLockedUntil>Date.now()){
+        // Still locked
         _chatLockedUntil=d.chatLockedUntil;
         _chatLocked=true;
-      } else if(d.chatLockedUntil&&d.chatLockedUntil<=Date.now()){
-        // Lock expired - clear it
-        db.collection('users').doc(myUid).update({chatLockedUntil:firebase.firestore.FieldValue.delete()});
-        _chatLocked=false;_chatLockedUntil=0;
+      } else {
+        // Field missing (owner unlocked) OR expired — unlock
+        if(d.chatLockedUntil&&d.chatLockedUntil<=Date.now()){
+          // Expired — clean up field
+          db.collection('users').doc(myUid).update({chatLockedUntil:firebase.firestore.FieldValue.delete()});
+        }
+        _chatLocked=false;
+        _chatLockedUntil=0;
+        _msgTimestamps=[]; // reset rate limit window on unlock
       }
       updateChatLockUI();
     });
@@ -3392,7 +3616,7 @@ function checkRateLimit(){
   // Keep only timestamps from last 10 seconds
   _msgTimestamps=_msgTimestamps.filter(function(t){return now-t<10000;});
   _msgTimestamps.push(now);
-  var MAX_MSGS=5; // max 5 messages per 10 seconds
+  var MAX_MSGS=10; // max 10 messages per 10 seconds
   if(_msgTimestamps.length>MAX_MSGS){
     // Lock user for 1 hour
     var lockUntil=now+(60*60*1000);
@@ -3411,6 +3635,8 @@ function checkRateLimit(){
     });
     updateChatLockUI();
     toast('⚠️ You have been locked from chat for 1 hour due to spam.',4000);
+    // Post system message in global chat
+    rtdb.ref('chat/messages').push({user:'System',uid:'system',role:'system',text:myName+' has been locked from chat for spamming',ts:Date.now()});
     return false; // block the message
   }
   return true; // allow
@@ -3502,8 +3728,7 @@ window.toggleDmSettings=function(){
   var panel=document.getElementById('dm-settings-panel');
   _dmSettingsOpen=!_dmSettingsOpen;
   if(_dmSettingsOpen){
-    panel.style.display='flex';
-    panel.style.animation='groupCreateIn .25s cubic-bezier(0.16,1,0.3,1) both';
+    panel.style.maxHeight='120px';panel.style.padding='.5rem';panel.style.borderBottomWidth='1px';
     // Sync mute/block state
     var muteBtn=document.getElementById('tog-dm-mute');
     var blockBtn=document.getElementById('tog-dm-block');
@@ -3512,8 +3737,7 @@ window.toggleDmSettings=function(){
     if(muteBtn){muteBtn.textContent=muted?'ON':'OFF';muteBtn.style.background=muted?'var(--accent)':'var(--surface3)';muteBtn.style.color=muted?'#000':'var(--text-muted)';}
     if(blockBtn)blockBtn.textContent=blocked?'Unblock':'Block';
   } else {
-    panel.style.animation='groupCreateOut .18s ease both';
-    setTimeout(function(){panel.style.display='none';panel.style.animation='';},180);
+    panel.style.maxHeight='0';panel.style.padding='0 .5rem';panel.style.borderBottomWidth='0px';
   }
 };
 
@@ -3724,6 +3948,7 @@ function initMusic(){
     if(!_audio){
       _audio=new Audio();
       _globalAudio=_audio;
+      window._siteAudio=_audio; // mark as ours so hideGame doesn't kill it
       _globalMusicStarted=true;
       _audio.volume=_savedVol/100;
       _audio.addEventListener('ended',function(){_idx=(_idx+1)%SONGS.length;_play();});
