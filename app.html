@@ -579,6 +579,7 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
 .chat-system-divider{display:flex;align-items:center;gap:.4rem;padding:.3rem .5rem;margin:.2rem 0;}
 .chat-system-divider::before,.chat-system-divider::after{content:'';flex:1;min-width:16px;height:1px;background:var(--border2);}
 .chat-system-divider span{font-size:9px;font-family:var(--mono);color:var(--text-muted);white-space:normal;font-style:italic;text-align:center;max-width:160px;line-height:1.4;word-break:break-word;}
+#chat-panel.expanded .chat-system-divider span{max-width:none;white-space:nowrap;}
 .chat-msg-avatar{width:22px;height:22px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;display:none!important;}
 .chat-msg-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 .chat-msg.own .chat-msg-avatar{order:2;}
@@ -608,9 +609,9 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
 #chat-panel.expanded #chat-sidebar{display:flex!important;}
 #chat-sidebar{display:none;width:220px;border-right:1px solid var(--border);flex-direction:column;flex-shrink:0;background:var(--surface);}
 .sidebar-title{font-size:10px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;padding:.75rem 1rem .4rem;}
-.sidebar-item{display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;cursor:pointer;transition:background .2s cubic-bezier(0.16,1,0.3,1),padding-left .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;border-radius:0;}
-.sidebar-item:hover{background:var(--surface2);padding-left:1.3rem;}
-.sidebar-item.active{background:var(--accent-glow);border-left:2px solid var(--accent);padding-left:1.3rem;box-shadow:inset 0 0 12px var(--accent-glow);}
+.sidebar-item{display:flex;align-items:center;gap:.55rem;padding:.4rem .75rem;cursor:pointer;transition:background .2s cubic-bezier(0.16,1,0.3,1),padding-left .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;border-radius:0;}
+.sidebar-item:hover{background:var(--surface2);padding-left:1rem;}
+.sidebar-item.active{background:var(--accent-glow);border-left:2px solid var(--accent);padding-left:1rem;box-shadow:inset 0 0 12px var(--accent-glow);}
 .sidebar-item-name{font-size:12px;font-family:var(--mono);color:var(--text);}
 .sidebar-dot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;}
 #chat-panel.expanded .chat-views-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;}
@@ -783,19 +784,17 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
       </div>
       <div style="display:flex;gap:.4rem;">
         <input id="pp-photo-input" placeholder="Or paste image URL..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
-        <button onclick="saveProfilePhoto()" style="padding:6px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Save</button>
+        <button onclick="saveProfilePhoto()" style="padding:6px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;transition:opacity .15s,transform .15s cubic-bezier(0.34,1.56,0.64,1),box-shadow .15s;" onmouseover="this.style.opacity='.85';this.style.transform='scale(1.05)';this.style.boxShadow='0 0 12px var(--accent-dim)'" onmouseout="this.style.opacity='1';this.style.transform='';this.style.boxShadow=''">Save</button>
       </div>
     </div>
     <!-- Change Password -->
     <div style="margin-bottom:.75rem;">
       <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem;">Change Password</div>
-      <div style="display:flex;gap:.4rem;">
-        <input id="pp-new-password" type="password" placeholder="New password..." style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--text);font-family:var(--mono);font-size:10px;outline:none;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
-        <button onclick="changeOwnPassword()" style="padding:6px 10px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;">Save</button>
-      <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);padding:.3rem 0;line-height:1.5;">Takes effect on your next login.</div>
-      </div>
+      <input id="pp-new-password" type="password" placeholder="New password (min 6 chars)..." style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;margin-bottom:.4rem;display:block;transition:border-color .15s;" onfocus="this.style.borderColor='var(--accent-dim)'" onblur="this.style.borderColor='var(--border)'">
+      <button onclick="changeOwnPassword()" style="width:100%;padding:8px;background:var(--accent);color:#000;border:none;border-radius:7px;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;margin-bottom:.3rem;display:block;transition:opacity .15s,transform .15s cubic-bezier(0.34,1.56,0.64,1),box-shadow .15s;" onmouseover="this.style.opacity='.85';this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 16px var(--accent-dim)'" onmouseout="this.style.opacity='1';this.style.transform='';this.style.boxShadow=''">Save Password</button>
+      <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);line-height:1.5;">⚠️ Takes effect on your next login.</div>
     </div>
-    <button onclick="closeProfilePopup()" style="width:100%;margin-top:.75rem;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s;">Close</button>
+    <button onclick="closeProfilePopup()" style="width:100%;margin-top:.75rem;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .15s;" onmouseover="this.style.background='var(--surface3)';this.style.borderColor='var(--border2)';this.style.color='var(--text)'" onmouseout="this.style.background='var(--surface2)';this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">Close</button>
   </div>
 
   <div id="chat-panel" style="position:fixed;top:62px;right:1rem;z-index:3000;width:300px;height:480px;max-height:calc(100vh - 80px);background:var(--surface);border:1px solid var(--border2);border-radius:14px;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.7);overflow:hidden;">
@@ -871,8 +870,8 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
       <!-- DM Settings Panel -->
       <div id="dm-settings-panel" style="max-height:0;overflow:hidden;padding:0 .5rem;border-bottom:0px solid var(--border);background:var(--surface2);flex-direction:column;gap:.35rem;transition:max-height .3s cubic-bezier(0.16,1,0.3,1),padding .25s,border-bottom-width .25s;">
         <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;">DM Settings</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Mute notifications</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.3rem;">
+          <div><span style="font-size:11px;font-family:var(--mono);color:var(--text);">Mute this chat</span><div id="dm-global-mute-note" style="font-size:9px;font-family:var(--mono);color:var(--warn);display:none;">All DMs muted in settings</div></div>
           <button class="toggle-btn" id="tog-dm-mute" onclick="toggleDmMute()" style="font-size:9px;padding:3px 10px;">OFF</button>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -917,19 +916,7 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
         <button onclick="backToGroupList()" style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center;color:var(--text-muted);"><svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg></button>
         <div id="group-convo-avatar" onclick="toggleGroupPhotoMenu(event)" title="Change group photo" style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;cursor:pointer;overflow:hidden;transition:opacity .15s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">#</div>
         <input type="file" id="group-photo-input" accept="image/*" style="display:none;" onchange="uploadGroupPhoto(this)">
-        <div id="group-photo-menu" style="display:none;position:absolute;top:46px;left:.5rem;z-index:200;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:.6rem;width:210px;box-shadow:0 8px 24px rgba(0,0,0,.6);">
-          <div style="font-size:9px;font-family:var(--mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem;">Change Group Photo</div>
-          <label style="display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem;border-radius:7px;cursor:pointer;background:var(--surface2);margin-bottom:.4rem;" onmouseover="this.style.background='var(--surface3)'" onmouseout="this.style.background='var(--surface2)'">
-            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            <span style="font-size:11px;font-family:var(--mono);color:var(--text);">Upload image</span>
-            <input type="file" accept="image/*" style="display:none;" onchange="uploadGroupPhoto(this)">
-          </label>
-          <div style="display:flex;gap:.3rem;">
-            <input id="group-photo-url-input" class="chat-input" placeholder="Or paste URL..." style="flex:1;height:26px;font-size:10px;">
-            <button onclick="saveGroupPhotoUrl()" style="padding:3px 8px;background:var(--accent);color:#000;border:none;border-radius:6px;font-size:9px;font-family:var(--mono);font-weight:700;cursor:pointer;">Set</button>
-          </div>
-          <button onclick="document.getElementById('group-photo-menu').style.display='none'" style="width:100%;margin-top:.4rem;padding:4px;background:none;border:none;font-size:10px;font-family:var(--mono);color:var(--text-muted);cursor:pointer;">Cancel</button>
-        </div>
+
 <span id="group-convo-name" style="font-size:12px;font-weight:700;color:var(--text);font-family:var(--mono);flex:1;cursor:pointer;transition:color .15s;" title="Click to rename" onclick="startGroupRename()" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''"></span>
         <input id="group-name-edit" style="display:none;flex:1;background:var(--surface2);border:1px solid var(--accent-dim);border-radius:6px;padding:3px 8px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:700;outline:none;" maxlength="20">
         <button onclick="openGroupInfo()" style="background:none;border:none;cursor:pointer;padding:2px;color:var(--text-muted);font-size:10px;font-family:var(--mono);" title="Group info">⚙️</button>
@@ -958,6 +945,22 @@ button[onclick="openGroupInfo()"]:hover{color:var(--accent)!important;transform:
       </div>
     </div>
     </div><!-- end chat-views-wrap -->
+  </div>
+  <!-- Group Photo Modal (outside chat-panel so it's not clipped) -->
+  <div id="group-photo-overlay" onclick="toggleGroupPhotoMenu()" style="display:none;position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);"></div>
+  <div id="group-photo-menu" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;margin:auto;z-index:5001;background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:1.25rem;width:280px;height:fit-content;max-height:90vh;box-shadow:0 24px 60px rgba(0,0,0,.8),0 0 40px var(--accent-glow);">
+    <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:1rem;">Change Group Photo</div>
+    <label style="display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-radius:8px;cursor:pointer;background:var(--surface2);border:1px solid var(--border);margin-bottom:.75rem;transition:border-color .15s;" onmouseover="this.style.borderColor='var(--accent-dim)'" onmouseout="this.style.borderColor='var(--border)'">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;flex-shrink:0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span style="font-size:12px;font-family:var(--mono);color:var(--accent);">Upload image</span>
+      <input type="file" accept="image/*" style="display:none;" onchange="uploadGroupPhoto(this);toggleGroupPhotoMenu();">
+    </label>
+    <div style="font-size:10px;font-family:var(--mono);color:var(--text-muted);margin-bottom:.4rem;">Or paste image URL:</div>
+    <div style="display:flex;gap:.4rem;margin-bottom:.75rem;">
+      <input id="group-photo-url-input" class="chat-input" placeholder="https://..." style="flex:1;height:32px;font-size:11px;">
+      <button onclick="saveGroupPhotoUrl()" style="padding:6px 12px;background:var(--accent);color:#000;border:none;border-radius:7px;font-size:11px;font-family:var(--mono);font-weight:700;cursor:pointer;">Set</button>
+    </div>
+    <button onclick="toggleGroupPhotoMenu()" style="width:100%;padding:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-size:11px;font-family:var(--mono);cursor:pointer;">Cancel</button>
   </div>
 
   <!-- MUSIC PLAYER -->
@@ -1740,7 +1743,7 @@ function _setupHomeInner(role,uname,uid){
   document.getElementById('nav-avatar').textContent=uname[0].toUpperCase();
   _applyNavAvatar(uid,uname);
   // Pre-cache own photo so it shows in chat immediately
-  _getPhotoForUser(uid,uname,function(p){if(p)_photoCache[uid]=p;});
+  _getPhotoForUser(uid,uname,function(p){if(p){_photoCache[uid]={url:p,ts:Date.now()};localStorage.setItem('srv2-photo-'+uid,p);_applyNavAvatar(uid,uname);}});
   document.getElementById('hero-name').textContent=uname.charAt(0).toUpperCase()+uname.slice(1);
 
   // show role buttons
@@ -2291,6 +2294,25 @@ window.togglePhotoInput=function(){
   var wrap=document.getElementById('pp-photo-wrap');
   wrap.style.display=wrap.style.display==='none'?'block':'none';
 };
+window.uploadProfilePhoto=function(input){
+  var file=input.files&&input.files[0];
+  if(!file)return;
+  var uid=localStorage.getItem('srv2-uid')||'anon';
+  var status=document.getElementById('pp-upload-status');
+  if(status)status.textContent='Uploading...';
+  var ref=storage.ref('avatars/'+uid+'/'+Date.now()+'_'+file.name);
+  ref.put(file).then(function(snap){return snap.ref.getDownloadURL();}).then(function(url){
+    document.getElementById('pp-photo-input').value=url;
+    if(status)status.textContent='Done!';
+    setTimeout(function(){if(status)status.textContent='';},2000);
+    // Auto-save
+    saveProfilePhoto();
+  }).catch(function(e){
+    if(status)status.textContent='Failed';
+    toast('Upload failed - check Firebase Storage rules');console.error('Storage error:',e);
+  });
+  input.value='';
+};
 window.saveProfilePhoto=function(){
   var uid=localStorage.getItem('srv2-uid')||'';
   var uname=localStorage.getItem('srv2-username')||'';
@@ -2318,11 +2340,11 @@ window.saveProfilePhoto=function(){
     else av.textContent=(uname[0]||'?').toUpperCase();
   });
   var _myName=localStorage.getItem('srv2-username')||'';
-  rtdb.ref('chat/messages').push({user:'System',uid:'system',role:'system',text:_myName+' changed their profile picture',ts:Date.now()});
   toast('Profile photo updated!');
 };
 function _applyNavAvatar(uid,uname){
-  var photo=localStorage.getItem('srv2-photo-'+uid)||'';
+  var cachedPhoto=_photoCache[uid];
+  var photo=(cachedPhoto&&cachedPhoto.url)||localStorage.getItem('srv2-photo-'+uid)||'';
   var navAvatar=document.getElementById('nav-avatar');
   if(!navAvatar)return;
   if(photo){
@@ -2373,6 +2395,16 @@ function _avatarHTML(photo,uname,size){
   }
   return '<div style="width:'+size+';height:'+size+';border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;">'+(uname[0]||'?').toUpperCase()+'</div>';
 }
+window.changeOwnPassword=function(){
+  var newPass=document.getElementById('pp-new-password').value;
+  if(!newPass||newPass.length<6){toast('Password must be at least 6 characters.');return;}
+  var uid=localStorage.getItem('srv2-uid');
+  if(!uid)return;
+  db.collection('users').doc(uid).update({password:newPass,passwordReset:newPass}).then(function(){
+    toast('Password saved! It will update on your next login.');
+    document.getElementById('pp-new-password').value='';
+  }).catch(function(e){toast('Error: '+e.message);});
+};
 window.closeProfilePopup=function(){
   var pp=document.getElementById('profile-popup');
   var ov=document.getElementById('profile-overlay');
@@ -2610,9 +2642,9 @@ function renderDmList(){
     row.onmouseout=function(){this.style.background='transparent';this.style.transform='';this.style.boxShadow='';};
     row.onclick=function(){openDmConvo(otherUid,c.name);};
     var dmAvatarWrap=document.createElement('div');
-    dmAvatarWrap.style.cssText='position:relative;flex-shrink:0;width:28px;height:28px;';
+    dmAvatarWrap.style.cssText='position:relative;flex-shrink:0;width:36px;height:36px;';
     var dmAvatarDiv=document.createElement('div');
-    dmAvatarDiv.style.cssText='width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);overflow:hidden;';
+    dmAvatarDiv.style.cssText='width:36px;height:36px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);overflow:hidden;';
     dmAvatarDiv.textContent=(c.name[0]||'?').toUpperCase();
     var onlineDot=document.createElement('div');
     onlineDot.className='dm-online-dot';
@@ -2694,6 +2726,9 @@ function openDmConvo(otherUid,otherName){
   document.getElementById('chat-view-dm-convo').style.display='flex';
   document.getElementById('dm-convo-name').textContent=otherName;
   document.getElementById('chat-panel-title').textContent=otherName;
+  // Reset DM settings panel when opening new convo
+  var dmsp=document.getElementById('dm-settings-panel');
+  if(dmsp){dmsp.style.maxHeight='0';dmsp.style.padding='0 .5rem';dmsp.style.borderBottomWidth='0px';}_dmSettingsOpen=false;
   // Load other user's avatar in header
   var dmAvatar=document.getElementById('dm-convo-avatar');
   if(dmAvatar){
@@ -2823,10 +2858,7 @@ window.toggleEmojiPicker=function(type){
   picker.style.display='flex';
 };
 document.addEventListener('click',function(e){
-  var gpMenu=document.getElementById('group-photo-menu');
-  if(gpMenu&&gpMenu.style.display==='block'&&!gpMenu.contains(e.target)&&!e.target.closest('#group-convo-avatar')){
-    gpMenu.style.display='none';
-  }
+  // group photo modal handled by overlay click
   ['emoji-picker','dm-emoji-picker'].forEach(function(id){
     var picker=document.getElementById(id);
     if(picker&&picker.style.display==='flex'&&!picker.contains(e.target)&&!e.target.closest('.emoji-btn')){picker.style.display='none';}
@@ -2879,7 +2911,14 @@ function updateSidebarDmList(){
       var cv=_dmConvos[uid];
       var item=document.createElement('div');
       item.className='sidebar-item sb-dm-item';
-      item.innerHTML='<div style="width:7px;height:7px;border-radius:50%;background:var(--accent-dim);flex-shrink:0;"></div><span class="sidebar-item-name">'+cv.name+'</span>'+(cv.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+cv.unread+'</span>':'');
+      var _sbPhoto=(_photoCache[uid]&&_photoCache[uid].url)||'';
+      var _sbAvatar='<div style="position:relative;flex-shrink:0;width:30px;height:30px;">'
+        +'<div style="width:30px;height:30px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);overflow:hidden;">'
+        +(_sbPhoto?'<img src="'+_sbPhoto+'" style="width:100%;height:100%;object-fit:cover;">':cv.name[0].toUpperCase())
+        +'</div>'
+        +'<div style="position:absolute;bottom:0;right:0;width:9px;height:9px;border-radius:50%;background:'+(_onlineUsers[uid]?'var(--success)':'var(--surface3)')+';border:1.5px solid var(--surface);transition:background .3s;" class="dm-online-dot" data-uid="'+uid+'"></div>'
+        +'</div>';
+      item.innerHTML=_sbAvatar+'<span class="sidebar-item-name">'+cv.name+'</span>'+(cv.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+cv.unread+'</span>':'');
       item.onclick=function(){
         if(_chatExpanded){
           ['chat-view-dms','chat-view-global','chat-view-groups','chat-view-group-convo','chat-view-dm-convo'].forEach(function(id){document.getElementById(id).style.display='none';});
@@ -2901,7 +2940,11 @@ function updateSidebarDmList(){
       var g=_groupConvos[gid];
       var item=document.createElement('div');
       item.className='sidebar-item sb-group-item';
-      item.innerHTML='<div style="width:7px;height:7px;border-radius:4px;background:var(--accent-dim);flex-shrink:0;"></div><span class="sidebar-item-name">'+g.name+'</span>'+(g.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+g.unread+'</span>':'');
+      var _sgPhoto=(g&&g.photo)||'';
+      var _sgAvatar='<div style="width:30px;height:30px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;overflow:hidden;">'
+        +(_sgPhoto?'<img src="'+_sgPhoto+'" style="width:100%;height:100%;object-fit:cover;">':'#')
+        +'</div>';
+      item.innerHTML=_sgAvatar+'<span class="sidebar-item-name">'+g.name+'</span>'+(g.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:0 5px;font-size:9px;margin-left:auto;">'+g.unread+'</span>':'');
       item.onclick=function(){
         if(_chatExpanded){
           ['chat-view-dms','chat-view-global','chat-view-groups','chat-view-dm-convo','chat-view-group-convo'].forEach(function(id){document.getElementById(id).style.display='none';});
@@ -3107,7 +3150,7 @@ function renderGroupList(){
     row.onmouseout=function(){this.style.background='transparent';this.style.transform='';this.style.boxShadow='';};
     row.onclick=function(){openGroupConvo(gid,g.name);};
     var _gp=(_groupConvos[gid]&&_groupConvos[gid].photo)||'';
-    var icon=_gp?'<div style="width:28px;height:28px;border-radius:50%;flex-shrink:0;overflow:hidden;border:1px solid var(--accent-dim);"><img src="'+_gp+'" style="width:100%;height:100%;object-fit:cover;"></div>':'<div style="width:28px;height:28px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>';
+    var icon=_gp?'<div style="width:36px;height:36px;border-radius:50%;flex-shrink:0;overflow:hidden;border:1px solid var(--accent-dim);"><img src="'+_gp+'" style="width:100%;height:100%;object-fit:cover;"></div>':'<div style="width:36px;height:36px;border-radius:50%;background:var(--accent-glow);border:1px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--accent);flex-shrink:0;">#</div>';
     var nameSpan='<span style="font-size:12px;font-family:var(--mono);color:var(--text);flex:1;">'+g.name+'</span>';
     var badge=g.unread>0?'<span style="background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:9px;font-family:var(--mono);font-weight:700;">'+g.unread+'</span>':'';
     row.innerHTML=icon+nameSpan+badge;
@@ -3130,7 +3173,10 @@ function openGroupConvo(gid,name){
   document.getElementById('chat-view-group-convo').style.display='flex';
   document.getElementById('group-convo-name').textContent=name;
   document.getElementById('chat-panel-title').textContent=name;
-  document.getElementById('group-info-panel').style.display='none';
+  // Always close info panel when opening a convo
+  _groupInfoOpen=false;
+  var _gip=document.getElementById('group-info-panel');
+  if(_gip){_gip.style.maxHeight='0';_gip.style.padding='0 .5rem';_gip.style.borderBottomWidth='0px';}
   // Load group photo
   rtdb.ref('groups/'+gid+'/photo').once('value').then(function(snap){_updateGroupAvatar(snap.val()||'');});
   // Sync group mute button
@@ -3217,6 +3263,9 @@ function openGroupConvo(gid,name){
 window.backToGroupList=function(){
   if(_groupRef){_groupRef.off();_groupRef=null;}
   _currentGroupId=null;
+  _groupInfoOpen=false;
+  var panel=document.getElementById('group-info-panel');
+  if(panel){panel.style.maxHeight='0';panel.style.padding='0 .5rem';panel.style.borderBottomWidth='0px';}
   document.getElementById('chat-view-group-convo').style.display='none';
   document.getElementById('chat-view-groups').style.display='flex';
   document.getElementById('chat-panel-title').textContent='Group Chats';
@@ -3431,8 +3480,18 @@ window.startGroupRename=function(){
 window.toggleGroupPhotoMenu=function(e){
   if(e)e.stopPropagation();
   var menu=document.getElementById('group-photo-menu');
+  var overlay=document.getElementById('group-photo-overlay');
   if(!menu)return;
-  menu.style.display=menu.style.display==='block'?'none':'block';
+  var open=menu.style.display==='block';
+  if(open){
+    menu.style.animation='panelOut .18s cubic-bezier(0.4,0,1,1) both';
+    setTimeout(function(){menu.style.display='none';menu.style.animation='';},180);
+    if(overlay)overlay.style.display='none';
+  } else {
+    menu.style.display='block';
+    menu.style.animation='panelIn .28s cubic-bezier(0.16,1,0.3,1) both';
+    if(overlay)overlay.style.display='block';
+  }
 };
 window.saveGroupPhotoUrl=function(){
   var url=(document.getElementById('group-photo-url-input').value||'').trim();
@@ -3472,20 +3531,24 @@ function _updateGroupAvatar(url){
   else{av.textContent='#';av.style.fontSize='';}
 }
 
+var _groupInfoOpen=false;
 window.openGroupInfo=function(){
   var panel=document.getElementById('group-info-panel');
-  var open=panel.style.maxHeight&&panel.style.maxHeight!=='0px'&&panel.style.maxHeight!=='0'&&panel.style.maxHeight!=='';
-  if(open){
+  _groupInfoOpen=!_groupInfoOpen;
+  if(!_groupInfoOpen){
     panel.style.maxHeight='0';panel.style.padding='0 .5rem';panel.style.borderBottomWidth='0px';
   } else {
     panel.style.maxHeight='400px';panel.style.padding='.5rem';panel.style.borderBottomWidth='1px';
-    // Sync group mute button
     var gmuteBtn=document.getElementById('tog-group-mute');
     if(gmuteBtn){
       var gmuted=_mutedGroups&&_mutedGroups[_currentGroupId];
       gmuteBtn.textContent=gmuted?'ON':'OFF';
       gmuteBtn.style.background=gmuted?'var(--accent)':'var(--surface3)';
       gmuteBtn.style.color=gmuted?'#000':'var(--text-muted)';
+      var allGroupsMuted=_notifSettings&&_notifSettings['group']===false;
+      gmuteBtn.disabled=allGroupsMuted;
+      gmuteBtn.style.opacity=allGroupsMuted?'0.5':'1';
+      gmuteBtn.title=allGroupsMuted?'All groups muted in Settings':'';
     }
   }
 };
@@ -3726,18 +3789,25 @@ function _playNotifIfEnabled(type){
 var _dmSettingsOpen=false;
 window.toggleDmSettings=function(){
   var panel=document.getElementById('dm-settings-panel');
-  _dmSettingsOpen=!_dmSettingsOpen;
-  if(_dmSettingsOpen){
-    panel.style.maxHeight='120px';panel.style.padding='.5rem';panel.style.borderBottomWidth='1px';
-    // Sync mute/block state
+  var isOpen=panel.style.maxHeight&&panel.style.maxHeight!=='0px'&&panel.style.maxHeight!=='0'&&panel.style.maxHeight!=='';
+  if(isOpen){
+    panel.style.maxHeight='0';panel.style.padding='0 .5rem';panel.style.borderBottomWidth='0px';
+    _dmSettingsOpen=false;
+  } else {
+    panel.style.maxHeight='150px';panel.style.padding='.5rem';panel.style.borderBottomWidth='1px';
+    _dmSettingsOpen=true;
     var muteBtn=document.getElementById('tog-dm-mute');
     var blockBtn=document.getElementById('tog-dm-block');
     var muted=_currentDmUid&&_mutedDms[_currentDmUid];
     var blocked=_currentDmUid&&_blockedUsers[_currentDmUid];
     if(muteBtn){muteBtn.textContent=muted?'ON':'OFF';muteBtn.style.background=muted?'var(--accent)':'var(--surface3)';muteBtn.style.color=muted?'#000':'var(--text-muted)';}
     if(blockBtn)blockBtn.textContent=blocked?'Unblock':'Block';
-  } else {
-    panel.style.maxHeight='0';panel.style.padding='0 .5rem';panel.style.borderBottomWidth='0px';
+    // Show warning if all DMs are globally muted in settings
+    var globalNote=document.getElementById('dm-global-mute-note');
+    var allDmsMuted=_notifSettings&&_notifSettings['dm']===false;
+    if(globalNote)globalNote.style.display=allDmsMuted?'block':'none';
+    if(muteBtn&&allDmsMuted){muteBtn.disabled=true;muteBtn.style.opacity='0.5';muteBtn.title='All DMs muted in Settings';}
+    else if(muteBtn){muteBtn.disabled=false;muteBtn.style.opacity='1';muteBtn.title='';}
   }
 };
 
